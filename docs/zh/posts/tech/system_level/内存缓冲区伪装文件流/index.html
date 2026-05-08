@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" dir="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -84,16 +84,16 @@ fclose(stream);  // 关闭时自动添加终止符（若空间允许）
   
 ">
 <meta name="author" content="kyle">
-<link rel="canonical" href="https://Kyle-Derrick.github.io/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/">
+<link rel="canonical" href="http://localhost:1313/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.baa6702377e4a1dbd81c0185ee93a873e09c7c739e38939dc6e7aa99b28bc2e8.css" integrity="sha256-uqZwI3fkodvYHAGF7pOoc&#43;CcfHOeOJOdxueqmbKLwug=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://Kyle-Derrick.github.io/img/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://Kyle-Derrick.github.io/img/favicon-16x16.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="https://Kyle-Derrick.github.io/img/favicon-32x32.ico">
-<link rel="apple-touch-icon" href="https://Kyle-Derrick.github.io/img/apple-touch-icon.png">
-<link rel="mask-icon" href="https://Kyle-Derrick.github.io/img/favicon.ico">
+<link rel="icon" href="http://localhost:1313/img/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/img/favicon-16x16.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/img/favicon-32x32.ico">
+<link rel="apple-touch-icon" href="http://localhost:1313/img/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/img/favicon.ico">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="zh" href="https://Kyle-Derrick.github.io/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/">
 <noscript>
     <style>
         #theme-toggle,
@@ -130,7 +130,7 @@ fclose(stream);  // 关闭时自动添加终止符（若空间允许）
         }
 
     </style>
-</noscript><meta property="og:url" content="https://Kyle-Derrick.github.io/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/">
+</noscript><meta property="og:url" content="http://localhost:1313/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/">
   <meta property="og:site_name" content="Kyle&#39;s Notebook">
   <meta property="og:title" content="如何将内存缓冲区伪装成文件流">
   <meta property="og:description" content="1. fmemopen（Linux POSIX 标准） 功能：将内存缓冲区伪装成文件流（FILE*），支持标准文件 I/O 操作（如 fprintf、fscanf） 核心机制： 参数：buf（预分配内存指针）、size（缓冲区大小）、mode（读写模式，如 “r&#43;&#34;）。 若 buf=NULL，则自动分配动态内存（需手动释放）。 应用场景： 避免磁盘 I/O：处理内存中的数据（如解析网络报文）。 兼容文件 API：第三方库仅支持 FILE* 参数时，将内存数据转为文件流。 代码示例： 1 2 3 4 5 ```c char buffer[64]; FILE *stream = fmemopen(buffer, sizeof(buffer), &#34;w&#43;&#34;); fprintf(stream, &#34;Hello, world!&#34;); fclose(stream); // 关闭时自动添加终止符（若空间允许） 2. MemoryModule（Windows 第三方库） 功能：直接从内存加载 DLL（无需落盘），返回模块句柄供调用。 核心机制： 解析内存中的 PE 文件格式，模拟系统加载器行为（重定位、导入表修复）。 支持通过 MemoryGetProcAddress 获取函数指针。 应用场景： 加密 DLL 运行时解密：避免恶意软件扫描磁盘文件。 网络分发插件：远程下载 DLL 后直接内存加载。 对比与限制 特性 fmemopen (Linux) MemoryModule (Windows) 标准性 POSIX 标准（非全平台支持） 第三方库（非系统原生） 内存管理 需预分配缓冲区或动态分配 自动处理内存分配与重定位 安全性 缓冲区溢出风险 需自行校验内存来源合法性 ">
@@ -230,25 +230,25 @@ fclose(stream);  // 关闭时自动添加终止符（若空间允许）
       "@type": "ListItem",
       "position":  1 ,
       "name": "文章",
-      "item": "https://Kyle-Derrick.github.io/zh/posts/"
+      "item": "http://localhost:1313/zh/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "技术类",
-      "item": "https://Kyle-Derrick.github.io/zh/posts/tech/"
+      "item": "http://localhost:1313/zh/posts/tech/"
     }, 
     {
       "@type": "ListItem",
       "position":  3 ,
       "name": "系统层面相关",
-      "item": "https://Kyle-Derrick.github.io/zh/posts/tech/system_level/"
+      "item": "http://localhost:1313/zh/posts/tech/system_level/"
     }, 
     {
       "@type": "ListItem",
       "position":  4 ,
       "name": "如何将内存缓冲区伪装成文件流",
-      "item": "https://Kyle-Derrick.github.io/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/"
+      "item": "http://localhost:1313/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/"
     }
   ]
 }
@@ -274,14 +274,14 @@ fclose(stream);  // 关闭时自动添加终止符（若空间允许）
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://Kyle-Derrick.github.io/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/"
+    "@id": "http://localhost:1313/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "Kyle's Notebook",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://Kyle-Derrick.github.io/img/favicon.ico"
+      "url": "http://localhost:1313/img/favicon.ico"
     }
   }
 }
@@ -302,7 +302,7 @@ fclose(stream);  // 关闭时自动添加终止符（若空间允许）
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://Kyle-Derrick.github.io/zh/" accesskey="h" title="Kyle&#39;s Notebook (Alt + H)">Kyle&#39;s Notebook</a>
+            <a href="http://localhost:1313/zh/" accesskey="h" title="Kyle&#39;s Notebook (Alt + H)">Kyle&#39;s Notebook</a>
             <div class="logo-switches"><div class="theme-selector" id="theme-selector">
     <button class="theme-toggle-btn" id="color-theme-toggle" aria-label="切换主题颜色">
         <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -413,32 +413,32 @@ fclose(stream);  // 关闭时自动添加终止符（若空间允许）
         </div>
         <ul id="menu">
             <li>
-                <a href="https://Kyle-Derrick.github.io/zh/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                <a href="http://localhost:1313/zh/search" title="搜索 (Alt &#43; /)" accesskey=/>
                     <span>搜索</span>
                 </a>
             </li>
             <li>
-                <a href="https://Kyle-Derrick.github.io/zh/" title="主页">
+                <a href="http://localhost:1313/zh/" title="主页">
                     <span>主页</span>
                 </a>
             </li>
             <li>
-                <a href="https://Kyle-Derrick.github.io/zh/posts" title="文章">
+                <a href="http://localhost:1313/zh/posts" title="文章">
                     <span>文章</span>
                 </a>
             </li>
             <li>
-                <a href="https://Kyle-Derrick.github.io/zh/archives" title="时间轴">
+                <a href="http://localhost:1313/zh/archives" title="时间轴">
                     <span>时间轴</span>
                 </a>
             </li>
             <li>
-                <a href="https://Kyle-Derrick.github.io/zh/tags" title="标签">
+                <a href="http://localhost:1313/zh/tags" title="标签">
                     <span>标签</span>
                 </a>
             </li>
             <li>
-                <a href="https://Kyle-Derrick.github.io/zh/about" title="关于">
+                <a href="http://localhost:1313/zh/about" title="关于">
                     <span>关于</span>
                 </a>
             </li>
@@ -544,7 +544,14 @@ fclose(stream);  // 关闭时自动添加终止符（若空间允许）
                 </svg></span><a href="/zh/posts/tech/open_source_component/" class="tree-folder-name">开源组件</a></div>
         <ul class="tree-list tree-children"><li class="tree-item tree-folder" data-level="3">
         <div class="tree-folder-header">
-            <span class="tree-toggle"><span class="tree-icon-spacer"></span></span><a href="/zh/posts/tech/open_source_component/java_web_base/" class="tree-folder-name">Java Web 基本框架相关</a></div>
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/open_source_component/java_web_base/" class="tree-folder-name">Java Web 基本框架相关</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/open_source_component/java_web_base/dubbo%E6%BA%90%E7%A0%81%E7%9B%B8%E5%85%B3%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/" class="tree-link" title="Dubbo源码相关部分记录">Dubbo源码相关部分记录</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/open_source_component/java_web_base/springboot%E9%83%A8%E5%88%86%E6%BA%90%E7%A0%81%E7%9B%B8%E5%85%B3%E8%AE%B0%E5%BD%95/" class="tree-link" title="Springboot部分源码相关记录">Springboot部分源码相关记录</a>
+                </li></ul>
     </li><li class="tree-item tree-folder" data-level="3">
         <div class="tree-folder-header">
             <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
@@ -844,16 +851,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://Kyle-Derrick.github.io/zh/tags/%E5%BA%95%E5%B1%82%E7%9B%B8%E5%85%B3/">底层相关</a></li>
-      <li><a href="https://Kyle-Derrick.github.io/zh/tags/%E7%B3%BB%E7%BB%9F%E5%BA%95%E5%B1%82/">系统底层</a></li>
+      <li><a href="http://localhost:1313/zh/tags/%E5%BA%95%E5%B1%82%E7%9B%B8%E5%85%B3/">底层相关</a></li>
+      <li><a href="http://localhost:1313/zh/tags/%E7%B3%BB%E7%BB%9F%E5%BA%95%E5%B1%82/">系统底层</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://Kyle-Derrick.github.io/zh/posts/tech/linux/centos7%E4%BD%BF%E7%94%A8%E9%AB%98%E7%89%88%E6%9C%ACgcc/">
+  <a class="prev" href="http://localhost:1313/zh/posts/tech/linux/centos7%E4%BD%BF%E7%94%A8%E9%AB%98%E7%89%88%E6%9C%ACgcc/">
     <span class="title">« 上一页</span>
     <br>
     <span>CentOS7 使用高版本gcc</span>
   </a>
-  <a class="next" href="https://Kyle-Derrick.github.io/zh/posts/tech/linux/centos7_nodejs%E5%AE%89%E8%A3%85/">
+  <a class="next" href="http://localhost:1313/zh/posts/tech/linux/centos7_nodejs%E5%AE%89%E8%A3%85/">
     <span class="title">下一页 »</span>
     <br>
     <span>CentOS7 上安装 NodeJs</span>

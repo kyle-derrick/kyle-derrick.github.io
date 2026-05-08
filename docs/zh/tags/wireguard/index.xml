@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>WireGuard on Kyle&#39;s Notebook</title>
-    <link>https://Kyle-Derrick.github.io/zh/tags/wireguard/</link>
+    <link>http://localhost:1313/zh/tags/wireguard/</link>
     <description>Recent content in WireGuard on Kyle&#39;s Notebook</description>
     <generator>Hugo -- 0.147.3</generator>
     <language>zh</language>
     <lastBuildDate>Tue, 22 Jul 2025 22:58:51 +0800</lastBuildDate>
-    <atom:link href="https://Kyle-Derrick.github.io/zh/tags/wireguard/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/zh/tags/wireguard/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>WireGuard服务部署</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/linux/wireguard%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</link>
+      <link>http://localhost:1313/zh/posts/tech/linux/wireguard%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</link>
       <pubDate>Tue, 22 Jul 2025 22:58:51 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/linux/wireguard%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</guid>
+      <guid>http://localhost:1313/zh/posts/tech/linux/wireguard%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</guid>
       <description>&lt;h3 id=&#34;一虚拟机aubuntu-20配置&#34;&gt;&lt;strong&gt;一、虚拟机A（Ubuntu 20）配置&lt;/strong&gt;&lt;/h3&gt;
 &lt;h4 id=&#34;1-安装wireguard&#34;&gt;&lt;strong&gt;1. 安装WireGuard&lt;/strong&gt;&lt;/h4&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
