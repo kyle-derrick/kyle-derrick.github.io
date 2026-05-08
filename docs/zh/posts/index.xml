@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>文章 on Kyle&#39;s Notebook</title>
-    <link>http://localhost:1313/zh/posts/</link>
+    <link>https://Kyle-Derrick.github.io/zh/posts/</link>
     <description>Recent content in 文章 on Kyle&#39;s Notebook</description>
-    <generator>Hugo -- 0.147.3</generator>
-    <language>zh</language>
+    <generator>Hugo -- 0.161.1</generator>
+    <language>zh-cn</language>
     <lastBuildDate></lastBuildDate>
-    <atom:link href="http://localhost:1313/zh/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://Kyle-Derrick.github.io/zh/posts/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

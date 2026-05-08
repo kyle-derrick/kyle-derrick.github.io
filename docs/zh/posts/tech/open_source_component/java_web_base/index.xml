@@ -2,33 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Java Web 基本框架相关 on Kyle&#39;s Notebook</title>
-    <link>http://localhost:1313/zh/posts/tech/open_source_component/java_web_base/</link>
+    <link>https://Kyle-Derrick.github.io/zh/posts/tech/open_source_component/java_web_base/</link>
     <description>Recent content in Java Web 基本框架相关 on Kyle&#39;s Notebook</description>
-    <generator>Hugo -- 0.147.3</generator>
-    <language>zh</language>
-    <lastBuildDate>Sat, 26 Jul 2025 16:40:13 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/zh/posts/tech/open_source_component/java_web_base/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Springboot部分源码相关记录</title>
-      <link>http://localhost:1313/zh/posts/tech/open_source_component/java_web_base/springboot%E9%83%A8%E5%88%86%E6%BA%90%E7%A0%81%E7%9B%B8%E5%85%B3%E8%AE%B0%E5%BD%95/</link>
-      <pubDate>Sat, 26 Jul 2025 16:40:13 +0800</pubDate>
-      <guid>http://localhost:1313/zh/posts/tech/open_source_component/java_web_base/springboot%E9%83%A8%E5%88%86%E6%BA%90%E7%A0%81%E7%9B%B8%E5%85%B3%E8%AE%B0%E5%BD%95/</guid>
-      <description>&lt;h2 id=&#34;方法或构造器参数名字获取&#34;&gt;方法或构造器参数名字获取：&lt;/h2&gt;
-&lt;p&gt;DefaultParameterNameDiscoverer&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;其中默认用到了StandardReflectionParameterNameDiscoverer （利用反射中的参数名获取）、和LocalVariableTableParameterNameDiscoverer（利用asm解析class文件获取）&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Dubbo源码相关部分记录</title>
-      <link>http://localhost:1313/zh/posts/tech/open_source_component/java_web_base/dubbo%E6%BA%90%E7%A0%81%E7%9B%B8%E5%85%B3%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/</link>
-      <pubDate>Sat, 26 Jul 2025 16:39:14 +0800</pubDate>
-      <guid>http://localhost:1313/zh/posts/tech/open_source_component/java_web_base/dubbo%E6%BA%90%E7%A0%81%E7%9B%B8%E5%85%B3%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/</guid>
-      <description>&lt;h2 id=&#34;enabledubbo&#34;&gt;@EnableDubbo&lt;/h2&gt;
-&lt;p&gt;@EnableDubbo中包含@EnableDubboConfig和@DubboComponentScan，也是这两个注解实际上在生效
-&lt;img alt=&#34;@EnableDubbo运作原理&#34; loading=&#34;lazy&#34; src=&#34;../img/dubbo源码相关部分记录/image.png&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;service注册&#34;&gt;Service注册：&lt;/h2&gt;
-&lt;h3 id=&#34;扫描&#34;&gt;扫描&lt;/h3&gt;
-&lt;p&gt;ServiceAnnotationPostProcessor&lt;/p&gt;</description>
-    </item>
+    <generator>Hugo -- 0.161.1</generator>
+    <language>zh-cn</language>
+    <lastBuildDate></lastBuildDate>
+    <atom:link href="https://Kyle-Derrick.github.io/zh/posts/tech/open_source_component/java_web_base/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
