@@ -1,0 +1,73 @@
+/* 扩展 CSS 变量 - 与官方 PaperMod 兼容 */
+:root {
+    /* 扩展颜色变量 */
+    --accent: #2563eb;
+    --accent-light: #3b82f6;
+    --accent-hover: #1d4ed8;
+    --content-secondary: var(--secondary);
+    
+    /* 边框扩展 */
+    --border-light: var(--tertiary);
+    --divider: rgba(0, 0, 0, 0.06);
+    
+    /* 圆角扩展 */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+    
+    /* 间距扩展 */
+    --gap-xs: 4px;
+    --gap-sm: 8px;
+    --gap-md: 20px;
+    --gap-lg: 32px;
+    --gap-xl: 48px;
+    
+    /* 阴影系统 */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.07), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+    
+    /* 目录背景 */
+    --toc-bg: rgba(255, 255, 255, 0.9);
+    --node-active-color: var(--accent);
+    
+    /* 动画过渡 */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 深色模式适配 - 使用官方 PaperMod 的 data-theme="dark" */
+:root[data-theme="dark"] {
+    --accent: #60a5fa;
+    --accent-light: #93c5fd;
+    --accent-hover: #3b82f6;
+    --divider: rgba(255, 255, 255, 0.06);
+    
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+    
+    --toc-bg: rgba(46, 46, 51, 0.95);
+    --node-active-color: var(--accent);
+}
+
+/* 兼容旧的 .dark 类 */
+.dark {
+    --accent: #60a5fa;
+    --accent-light: #93c5fd;
+    --accent-hover: #3b82f6;
+    --divider: rgba(255, 255, 255, 0.06);
+    
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+    
+    --toc-bg: rgba(46, 46, 51, 0.95);
+    --node-active-color: var(--accent);
+}

@@ -1,0 +1,16 @@
+/* 面包屑导航样式 */
+
+.breadcrumbs-current {
+    color: var(--secondary);
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+@media (min-width: 768px) {
+    .breadcrumbs-current {
+        max-width: 300px;
+    }
+}

@@ -1,0 +1,88 @@
+/* 右侧目录样式 - 基于官方 PaperMod 扩展 */
+
+/* 基础 toc 样式 - 保持官方 PaperMod 默认 */
+.toc {
+    margin: 0 2px 40px;
+    border: 1px solid var(--border);
+    background: var(--code-bg);
+    border-radius: var(--radius);
+    padding: 0.4em;
+    font-size: 16px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.toc .inner {
+    font-size: 16px;
+}
+
+.toc ul {
+    margin: 0;
+    padding-left: 1em;
+}
+
+.toc a {
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+.toc a:hover {
+    color: var(--accent);
+}
+
+/* 当前项高亮 */
+.toc-active {
+    color: var(--accent) !important;
+    font-weight: 600;
+}
+
+/* 大窗口时固定到右侧 */
+@media (min-width: 1280px) {
+    .toc.toc-fixed {
+        position: fixed;
+        top: calc(var(--header-height) + 40px);
+        right: 20px;
+        width: 300px;
+        max-width: calc((100% - (var(--main-width) + var(--gap) * 2)) / 2 - 40px);
+        min-width: 240px;
+        max-height: calc(100vh - var(--header-height) - 80px);
+        z-index: 98;
+        
+        background: var(--toc-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-md);
+        padding: 16px;
+        opacity: 0.95;
+        transition: all var(--transition-slow);
+        margin: 0;
+    }
+    
+    .toc.toc-fixed:hover {
+        opacity: 1;
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .toc.toc-fixed summary {
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 8px;
+    }
+    
+    .toc.toc-fixed .inner {
+        max-height: calc(100vh - var(--header-height) - 200px);
+        overflow-y: auto;
+    }
+    
+    /* 隐藏滚动条但保留功能 */
+    .toc.toc-fixed .inner::-webkit-scrollbar {
+        width: 4px;
+    }
+    
+    .toc.toc-fixed .inner::-webkit-scrollbar-thumb {
+        background: var(--tertiary);
+        border-radius: 2px;
+    }
+}
