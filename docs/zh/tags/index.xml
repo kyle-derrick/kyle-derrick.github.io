@@ -2,213 +2,213 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on Kyle&#39;s Notebook</title>
-    <link>https://Kyle-Derrick.github.io/zh/tags/</link>
+    <link>http://localhost:62534/zh/tags/</link>
     <description>Recent content in Tags on Kyle&#39;s Notebook</description>
     <generator>Hugo -- 0.147.3</generator>
     <language>zh</language>
     <lastBuildDate>Fri, 08 May 2026 10:06:32 +0800</lastBuildDate>
-    <atom:link href="https://Kyle-Derrick.github.io/zh/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:62534/zh/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Read</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/read/</link>
+      <link>http://localhost:62534/zh/tags/read/</link>
       <pubDate>Fri, 08 May 2026 10:06:32 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/read/</guid>
+      <guid>http://localhost:62534/zh/tags/read/</guid>
       <description></description>
     </item>
     <item>
       <title>Rust</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/rust/</link>
+      <link>http://localhost:62534/zh/tags/rust/</link>
       <pubDate>Wed, 06 Aug 2025 09:47:24 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/rust/</guid>
+      <guid>http://localhost:62534/zh/tags/rust/</guid>
       <description></description>
     </item>
     <item>
       <title>AI回答记录</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/ai%E5%9B%9E%E7%AD%94%E8%AE%B0%E5%BD%95/</link>
+      <link>http://localhost:62534/zh/tags/ai%E5%9B%9E%E7%AD%94%E8%AE%B0%E5%BD%95/</link>
       <pubDate>Tue, 05 Aug 2025 10:39:19 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/ai%E5%9B%9E%E7%AD%94%E8%AE%B0%E5%BD%95/</guid>
+      <guid>http://localhost:62534/zh/tags/ai%E5%9B%9E%E7%AD%94%E8%AE%B0%E5%BD%95/</guid>
       <description></description>
     </item>
     <item>
       <title>硬件</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/%E7%A1%AC%E4%BB%B6/</link>
+      <link>http://localhost:62534/zh/tags/%E7%A1%AC%E4%BB%B6/</link>
       <pubDate>Tue, 05 Aug 2025 10:39:19 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/%E7%A1%AC%E4%BB%B6/</guid>
+      <guid>http://localhost:62534/zh/tags/%E7%A1%AC%E4%BB%B6/</guid>
       <description></description>
     </item>
     <item>
       <title>Redis</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/redis/</link>
+      <link>http://localhost:62534/zh/tags/redis/</link>
       <pubDate>Sat, 26 Jul 2025 16:25:28 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/redis/</guid>
+      <guid>http://localhost:62534/zh/tags/redis/</guid>
       <description></description>
     </item>
     <item>
       <title>C</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/c/</link>
+      <link>http://localhost:62534/zh/tags/c/</link>
       <pubDate>Sat, 26 Jul 2025 16:19:38 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/c/</guid>
+      <guid>http://localhost:62534/zh/tags/c/</guid>
       <description></description>
     </item>
     <item>
       <title>CMake</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/cmake/</link>
+      <link>http://localhost:62534/zh/tags/cmake/</link>
       <pubDate>Sat, 26 Jul 2025 16:19:38 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/cmake/</guid>
+      <guid>http://localhost:62534/zh/tags/cmake/</guid>
       <description></description>
     </item>
     <item>
       <title>Linux</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/linux/</link>
+      <link>http://localhost:62534/zh/tags/linux/</link>
       <pubDate>Sat, 26 Jul 2025 16:19:38 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/linux/</guid>
+      <guid>http://localhost:62534/zh/tags/linux/</guid>
       <description></description>
     </item>
     <item>
       <title>Java</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/java/</link>
+      <link>http://localhost:62534/zh/tags/java/</link>
       <pubDate>Wed, 23 Jul 2025 14:25:55 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/java/</guid>
+      <guid>http://localhost:62534/zh/tags/java/</guid>
       <description></description>
     </item>
     <item>
       <title>Network</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/network/</link>
+      <link>http://localhost:62534/zh/tags/network/</link>
       <pubDate>Tue, 22 Jul 2025 23:19:37 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/network/</guid>
+      <guid>http://localhost:62534/zh/tags/network/</guid>
       <description></description>
     </item>
     <item>
       <title>开源工具</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/%E5%BC%80%E6%BA%90%E5%B7%A5%E5%85%B7/</link>
+      <link>http://localhost:62534/zh/tags/%E5%BC%80%E6%BA%90%E5%B7%A5%E5%85%B7/</link>
       <pubDate>Tue, 22 Jul 2025 23:17:36 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/%E5%BC%80%E6%BA%90%E5%B7%A5%E5%85%B7/</guid>
+      <guid>http://localhost:62534/zh/tags/%E5%BC%80%E6%BA%90%E5%B7%A5%E5%85%B7/</guid>
       <description></description>
     </item>
     <item>
       <title>开源</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/%E5%BC%80%E6%BA%90/</link>
+      <link>http://localhost:62534/zh/tags/%E5%BC%80%E6%BA%90/</link>
       <pubDate>Tue, 22 Jul 2025 23:11:48 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/%E5%BC%80%E6%BA%90/</guid>
+      <guid>http://localhost:62534/zh/tags/%E5%BC%80%E6%BA%90/</guid>
       <description></description>
     </item>
     <item>
       <title>ESXi</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/esxi/</link>
+      <link>http://localhost:62534/zh/tags/esxi/</link>
       <pubDate>Tue, 22 Jul 2025 23:08:01 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/esxi/</guid>
+      <guid>http://localhost:62534/zh/tags/esxi/</guid>
       <description></description>
     </item>
     <item>
       <title>虚拟机</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/</link>
+      <link>http://localhost:62534/zh/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/</link>
       <pubDate>Tue, 22 Jul 2025 23:08:01 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/</guid>
+      <guid>http://localhost:62534/zh/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/</guid>
       <description></description>
     </item>
     <item>
       <title>Ubuntu</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/ubuntu/</link>
+      <link>http://localhost:62534/zh/tags/ubuntu/</link>
       <pubDate>Tue, 22 Jul 2025 23:05:18 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/ubuntu/</guid>
+      <guid>http://localhost:62534/zh/tags/ubuntu/</guid>
       <description></description>
     </item>
     <item>
       <title>Windows</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/windows/</link>
+      <link>http://localhost:62534/zh/tags/windows/</link>
       <pubDate>Tue, 22 Jul 2025 23:04:29 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/windows/</guid>
+      <guid>http://localhost:62534/zh/tags/windows/</guid>
       <description></description>
     </item>
     <item>
       <title>IPsec</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/ipsec/</link>
+      <link>http://localhost:62534/zh/tags/ipsec/</link>
       <pubDate>Tue, 22 Jul 2025 23:00:17 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/ipsec/</guid>
+      <guid>http://localhost:62534/zh/tags/ipsec/</guid>
       <description></description>
     </item>
     <item>
       <title>VPN</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/vpn/</link>
+      <link>http://localhost:62534/zh/tags/vpn/</link>
       <pubDate>Tue, 22 Jul 2025 23:00:17 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/vpn/</guid>
+      <guid>http://localhost:62534/zh/tags/vpn/</guid>
       <description></description>
     </item>
     <item>
       <title>WireGuard</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/wireguard/</link>
+      <link>http://localhost:62534/zh/tags/wireguard/</link>
       <pubDate>Tue, 22 Jul 2025 22:58:51 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/wireguard/</guid>
+      <guid>http://localhost:62534/zh/tags/wireguard/</guid>
       <description></description>
     </item>
     <item>
       <title>SMB</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/smb/</link>
+      <link>http://localhost:62534/zh/tags/smb/</link>
       <pubDate>Tue, 22 Jul 2025 22:56:40 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/smb/</guid>
+      <guid>http://localhost:62534/zh/tags/smb/</guid>
       <description></description>
     </item>
     <item>
       <title>CentOS</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/centos/</link>
+      <link>http://localhost:62534/zh/tags/centos/</link>
       <pubDate>Tue, 22 Jul 2025 22:48:13 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/centos/</guid>
+      <guid>http://localhost:62534/zh/tags/centos/</guid>
       <description></description>
     </item>
     <item>
       <title>底层相关</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/%E5%BA%95%E5%B1%82%E7%9B%B8%E5%85%B3/</link>
+      <link>http://localhost:62534/zh/tags/%E5%BA%95%E5%B1%82%E7%9B%B8%E5%85%B3/</link>
       <pubDate>Tue, 22 Jul 2025 22:40:49 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/%E5%BA%95%E5%B1%82%E7%9B%B8%E5%85%B3/</guid>
+      <guid>http://localhost:62534/zh/tags/%E5%BA%95%E5%B1%82%E7%9B%B8%E5%85%B3/</guid>
       <description></description>
     </item>
     <item>
       <title>系统底层</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/%E7%B3%BB%E7%BB%9F%E5%BA%95%E5%B1%82/</link>
+      <link>http://localhost:62534/zh/tags/%E7%B3%BB%E7%BB%9F%E5%BA%95%E5%B1%82/</link>
       <pubDate>Tue, 22 Jul 2025 22:40:49 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/%E7%B3%BB%E7%BB%9F%E5%BA%95%E5%B1%82/</guid>
+      <guid>http://localhost:62534/zh/tags/%E7%B3%BB%E7%BB%9F%E5%BA%95%E5%B1%82/</guid>
       <description></description>
     </item>
     <item>
       <title>NodeJs</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/nodejs/</link>
+      <link>http://localhost:62534/zh/tags/nodejs/</link>
       <pubDate>Tue, 22 Jul 2025 22:32:31 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/nodejs/</guid>
+      <guid>http://localhost:62534/zh/tags/nodejs/</guid>
       <description></description>
     </item>
     <item>
       <title>研究</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/%E7%A0%94%E7%A9%B6/</link>
+      <link>http://localhost:62534/zh/tags/%E7%A0%94%E7%A9%B6/</link>
       <pubDate>Tue, 22 Jul 2025 14:38:34 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/%E7%A0%94%E7%A9%B6/</guid>
+      <guid>http://localhost:62534/zh/tags/%E7%A0%94%E7%A9%B6/</guid>
       <description></description>
     </item>
     <item>
       <title>Gradle</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/gradle/</link>
+      <link>http://localhost:62534/zh/tags/gradle/</link>
       <pubDate>Mon, 21 Jul 2025 22:30:46 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/gradle/</guid>
+      <guid>http://localhost:62534/zh/tags/gradle/</guid>
       <description></description>
     </item>
     <item>
       <title>Maven</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/maven/</link>
+      <link>http://localhost:62534/zh/tags/maven/</link>
       <pubDate>Mon, 21 Jul 2025 22:30:46 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/maven/</guid>
+      <guid>http://localhost:62534/zh/tags/maven/</guid>
       <description></description>
     </item>
     <item>
       <title>Hugo</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/hugo/</link>
+      <link>http://localhost:62534/zh/tags/hugo/</link>
       <pubDate>Mon, 21 Jul 2025 19:40:14 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/hugo/</guid>
+      <guid>http://localhost:62534/zh/tags/hugo/</guid>
       <description></description>
     </item>
     <item>
       <title>Vscode</title>
-      <link>https://Kyle-Derrick.github.io/zh/tags/vscode/</link>
+      <link>http://localhost:62534/zh/tags/vscode/</link>
       <pubDate>Mon, 21 Jul 2025 14:44:55 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/tags/vscode/</guid>
+      <guid>http://localhost:62534/zh/tags/vscode/</guid>
       <description></description>
     </item>
   </channel>

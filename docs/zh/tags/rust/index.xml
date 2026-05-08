@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Rust on Kyle&#39;s Notebook</title>
-    <link>https://Kyle-Derrick.github.io/zh/tags/rust/</link>
+    <link>http://localhost:62534/zh/tags/rust/</link>
     <description>Recent content in Rust on Kyle&#39;s Notebook</description>
     <generator>Hugo -- 0.147.3</generator>
     <language>zh</language>
     <lastBuildDate>Wed, 06 Aug 2025 09:47:24 +0800</lastBuildDate>
-    <atom:link href="https://Kyle-Derrick.github.io/zh/tags/rust/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:62534/zh/tags/rust/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Pin和PhantomData的理解</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/</link>
+      <link>http://localhost:62534/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/</link>
       <pubDate>Wed, 06 Aug 2025 09:47:24 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/</guid>
+      <guid>http://localhost:62534/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/</guid>
       <description>源于AI回答 的 汇总</description>
     </item>
     <item>
       <title>开源库搜寻记录</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/</link>
+      <link>http://localhost:62534/zh/posts/tech/open_source_favorites/open_source_lib/</link>
       <pubDate>Tue, 22 Jul 2025 23:11:48 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/</guid>
+      <guid>http://localhost:62534/zh/posts/tech/open_source_favorites/open_source_lib/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;主要用于寻找第三方库后做备忘的零散记录，常用库此处不记录&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h1 id=&#34;rust&#34;&gt;Rust&lt;/h1&gt;
@@ -29,9 +29,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>Rust杂项记录点</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/rust/%E8%AE%B0%E5%BD%95%E7%82%B9/</link>
+      <link>http://localhost:62534/zh/posts/tech/rust/%E8%AE%B0%E5%BD%95%E7%82%B9/</link>
       <pubDate>Tue, 22 Jul 2025 21:51:45 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/rust/%E8%AE%B0%E5%BD%95%E7%82%B9/</guid>
+      <guid>http://localhost:62534/zh/posts/tech/rust/%E8%AE%B0%E5%BD%95%E7%82%B9/</guid>
       <description>&lt;h2 id=&#34;foreach需注意的细节&#34;&gt;foreach需注意的细节&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -85,9 +85,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>Rust国内源安装</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/rust/%E5%9B%BD%E5%86%85%E6%BA%90%E5%AE%89%E8%A3%85/</link>
+      <link>http://localhost:62534/zh/posts/tech/rust/%E5%9B%BD%E5%86%85%E6%BA%90%E5%AE%89%E8%A3%85/</link>
       <pubDate>Mon, 21 Jul 2025 22:53:34 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/rust/%E5%9B%BD%E5%86%85%E6%BA%90%E5%AE%89%E8%A3%85/</guid>
+      <guid>http://localhost:62534/zh/posts/tech/rust/%E5%9B%BD%E5%86%85%E6%BA%90%E5%AE%89%E8%A3%85/</guid>
       <description>&lt;ol&gt;
 &lt;li&gt;Rustup 镜像， 修改配置 ~/.zshrc or ~/.bashrc，windows直接配置环境变量&lt;/li&gt;
 &lt;/ol&gt;
@@ -179,9 +179,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>Rust离线环境安装及使用vendor离线编译项目</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/rust/%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8F%8A%E7%A6%BB%E7%BA%BF%E4%BE%9D%E8%B5%96/</link>
+      <link>http://localhost:62534/zh/posts/tech/rust/%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8F%8A%E7%A6%BB%E7%BA%BF%E4%BE%9D%E8%B5%96/</link>
       <pubDate>Mon, 21 Jul 2025 22:50:40 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/rust/%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8F%8A%E7%A6%BB%E7%BA%BF%E4%BE%9D%E8%B5%96/</guid>
+      <guid>http://localhost:62534/zh/posts/tech/rust/%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8F%8A%E7%A6%BB%E7%BA%BF%E4%BE%9D%E8%B5%96/</guid>
       <description>&lt;h1 id=&#34;1-离线安装&#34;&gt;1. 离线安装&lt;/h1&gt;
 &lt;ol&gt;
 &lt;li&gt;下载rust安装包: &lt;a href=&#34;https://forge.rust-lang.org/infra/archive-stable-version-installers.html&#34;&gt;链接&lt;/a&gt; 比如 x86_64-unknown-linux-gnu  |  x86_64-pc-windows-msvc&lt;/li&gt;
