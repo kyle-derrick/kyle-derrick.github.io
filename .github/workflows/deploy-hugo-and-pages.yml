@@ -37,10 +37,11 @@ jobs:
             persist-credentials: true
 
       - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+        uses: peaceiris/actions-hugo@v3
         with:
             hugo-version: "latest"
-            
+            extended: true
+
       - name: Build Web
         run: hugo --gc --minify --cleanDestinationDir
 
@@ -49,8 +50,12 @@ jobs:
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "github-actions@example.com"
           git add ./docs
-          git commit -m "chore: Auto-commit build artifacts [skip ci]" || echo "No changes to commit"
-          git push origin HEAD:master
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: Auto-commit build artifacts [skip ci]"
+            git push origin HEAD:master
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # - name: Checkout
