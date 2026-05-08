@@ -1,13 +1,12 @@
-{{- /* 主题选择器 */ -}}
+{{- /* 主题选择器 - 注意：使用 color-theme 前缀避免与 PaperMod 的 theme-toggle 冲突 */ -}}
 <div class="theme-selector" id="theme-selector">
-    <button class="theme-toggle-btn" id="theme-toggle" aria-label="切换主题">
-        <svg class="theme-icon theme-icon-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
+    <button class="theme-toggle-btn" id="color-theme-toggle" aria-label="切换主题颜色">
+        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="3"></circle>
             <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
         </svg>
     </button>
-    <div class="theme-dropdown" id="theme-dropdown">
+    <div class="theme-dropdown" id="color-theme-dropdown">
         <div class="theme-option" data-theme="green">
             <span class="theme-dot" style="background: #10b981;"></span>
             <span class="theme-name">森林绿</span>
@@ -36,10 +35,12 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeDropdown = document.getElementById('theme-dropdown');
-    const themeOptions = document.querySelectorAll('.theme-option');
+(function() {
+    const themeToggle = document.getElementById('color-theme-toggle');
+    const themeDropdown = document.getElementById('color-theme-dropdown');
+    if (!themeToggle || !themeDropdown) return;
+    
+    const themeOptions = themeDropdown.querySelectorAll('.theme-option');
     
     // 从 localStorage 读取主题设置
     const savedTheme = localStorage.getItem('blog-theme') || 'green';
@@ -62,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // 选择主题
-    themeOptions.forEach(option => {
+    themeOptions.forEach(function(option) {
         option.addEventListener('click', function() {
             const theme = this.getAttribute('data-theme');
             document.documentElement.setAttribute('data-color-theme', theme);
@@ -73,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     function updateActiveTheme(theme) {
-        themeOptions.forEach(option => {
+        themeOptions.forEach(function(option) {
             if (option.getAttribute('data-theme') === theme) {
                 option.classList.add('active');
             } else {
@@ -81,5 +82,5 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-});
+})();
 </script>

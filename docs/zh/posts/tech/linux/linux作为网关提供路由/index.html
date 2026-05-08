@@ -1,5 +1,13 @@
-<!doctype html><html lang=zh dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>linux作为网关提供路由 | Kyle's Notebook</title>
-<meta name=keywords content="Linux,Network"><meta name=description content='1. 配置网卡
+<!DOCTYPE html>
+<html lang="zh" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>linux作为网关提供路由 | Kyle&#39;s Notebook</title>
+<meta name="keywords" content="Linux, Network">
+<meta name="description" content="1. 配置网卡
 
 
  1
@@ -126,7 +134,7 @@ sudo vi /etc/dhcp/dhcpd.conf
 
 
 # 定义DHCP全局选项（可选）
-option domain-name "internal.net";
+option domain-name &#34;internal.net&#34;;
 option domain-name-servers 8.8.8.8, 8.8.4.4;  # DNS服务器
 default-lease-time 600;                        # 默认租约时间（秒）
 max-lease-time 7200;                           # 最大租约时间
@@ -155,7 +163,7 @@ sudo vi /etc/sysconfig/dhcpd
 1
 
 
-DHCPDARGS="ens2"  # 仅监听内部网络接口
+DHCPDARGS=&#34;ens2&#34;  # 仅监听内部网络接口
 
 
 
@@ -184,121 +192,742 @@ sudo firewall-cmd --permanent --add-service=dhcp
 sudo firewall-cmd --reload
 
 
-'><meta name=author content="kyle"><link rel=canonical href=https://Kyle-Derrick.github.io/zh/posts/tech/linux/linux%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E6%8F%90%E4%BE%9B%E8%B7%AF%E7%94%B1/><link crossorigin=anonymous href=/assets/css/stylesheet.ca2848ebeeca52df8c483397ae25b87c7d12a7cbfc51fdda486977f79c35b24f.css integrity="sha256-yihI6+7KUt+MSDOXriW4fH0Sp8v8Uf3aSGl395w1sk8=" rel="preload stylesheet" as=style><link rel=icon href=https://Kyle-Derrick.github.io/img/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://Kyle-Derrick.github.io/img/favicon-16x16.ico><link rel=icon type=image/png sizes=32x32 href=https://Kyle-Derrick.github.io/img/favicon-32x32.ico><link rel=apple-touch-icon href=https://Kyle-Derrick.github.io/img/apple-touch-icon.png><link rel=mask-icon href=https://Kyle-Derrick.github.io/img/favicon.ico><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=zh href=https://Kyle-Derrick.github.io/zh/posts/tech/linux/linux%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E6%8F%90%E4%BE%9B%E8%B7%AF%E7%94%B1/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta property="og:url" content="https://Kyle-Derrick.github.io/zh/posts/tech/linux/linux%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E6%8F%90%E4%BE%9B%E8%B7%AF%E7%94%B1/"><meta property="og:site_name" content="Kyle's Notebook"><meta property="og:title" content="linux作为网关提供路由"><meta property="og:description" content='1. 配置网卡 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 编辑网络配置文件 sudo vi /etc/sysconfig/network-scripts/ifcfg-ens1 # 内容如下（示例IP，根据实际情况修改）： DEVICE=ens1 BOOTPROTO=dhcp # 或静态IP（需与物理网络同网段） ONBOOT=yes sudo vi /etc/sysconfig/network-scripts/ifcfg-ens2 # 内容如下： DEVICE=ens2 BOOTPROTO=static IPADDR=192.168.10.1 NETMASK=255.255.255.0 ONBOOT=yes 2. 启用IP转发 1 2 3 4 5 sudo vi /etc/sysctl.conf # 取消注释或添加： net.ipv4.ip_forward = 1 # 生效配置 sudo sysctl -p 3. 配置防火墙/NAT 1 2 3 4 5 # 使用firewalld配置 sudo firewall-cmd --permanent --zone=public --add-interface=ens1 sudo firewall-cmd --permanent --zone=internal --add-interface=ens2 sudo firewall-cmd --permanent --zone=public --add-masquerade sudo firewall-cmd --reload 或使用iptables（如果未使用firewalld） 1 2 3 4 5 6 # 或使用iptables（如果未使用firewalld） sudo iptables -t nat -A POSTROUTING -o ens1 -j MASQUERADE sudo iptables -A FORWARD -i ens2 -j ACCEPT # 保存规则（需安装iptables-services） sudo service iptables save sudo systemctl restart iptables DHCP服务 1 sudo yum install dhcp -y 配置dhcp 1 sudo vi /etc/dhcp/dhcpd.conf 1 2 3 4 5 6 7 8 9 10 11 12 # 定义DHCP全局选项（可选） option domain-name "internal.net"; option domain-name-servers 8.8.8.8, 8.8.4.4; # DNS服务器 default-lease-time 600; # 默认租约时间（秒） max-lease-time 7200; # 最大租约时间 # 定义子网段 subnet 192.168.10.0 netmask 255.255.255.0 { range 192.168.10.100 192.168.10.200; # 分配的IP范围 option routers 192.168.10.1; # 网关（指向虚拟机A的ens2） option subnet-mask 255.255.255.0; } 指定DHCP监听的接口 1 sudo vi /etc/sysconfig/dhcpd 1 DHCPDARGS="ens2" # 仅监听内部网络接口 启动DHCP服务并设置开机自启 1 2 sudo systemctl start dhcpd sudo systemctl enable dhcpd 防火墙放行DHCP流量 1 2 sudo firewall-cmd --permanent --add-service=dhcp sudo firewall-cmd --reload'><meta property="og:locale" content="zh"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-07-22T23:02:49+08:00"><meta property="article:modified_time" content="2025-07-22T23:02:49+08:00"><meta property="article:tag" content="Linux"><meta property="article:tag" content="Network"><meta name=twitter:card content="summary"><meta name=twitter:title content="linux作为网关提供路由"><meta name=twitter:description content='1. 配置网卡 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 编辑网络配置文件 sudo vi /etc/sysconfig/network-scripts/ifcfg-ens1 # 内容如下（示例IP，根据实际情况修改）： DEVICE=ens1 BOOTPROTO=dhcp # 或静态IP（需与物理网络同网段） ONBOOT=yes sudo vi /etc/sysconfig/network-scripts/ifcfg-ens2 # 内容如下： DEVICE=ens2 BOOTPROTO=static IPADDR=192.168.10.1 NETMASK=255.255.255.0 ONBOOT=yes 2. 启用IP转发 1 2 3 4 5 sudo vi /etc/sysctl.conf # 取消注释或添加： net.ipv4.ip_forward = 1 # 生效配置 sudo sysctl -p 3. 配置防火墙/NAT 1 2 3 4 5 # 使用firewalld配置 sudo firewall-cmd --permanent --zone=public --add-interface=ens1 sudo firewall-cmd --permanent --zone=internal --add-interface=ens2 sudo firewall-cmd --permanent --zone=public --add-masquerade sudo firewall-cmd --reload 或使用iptables（如果未使用firewalld） 1 2 3 4 5 6 # 或使用iptables（如果未使用firewalld） sudo iptables -t nat -A POSTROUTING -o ens1 -j MASQUERADE sudo iptables -A FORWARD -i ens2 -j ACCEPT # 保存规则（需安装iptables-services） sudo service iptables save sudo systemctl restart iptables DHCP服务 1 sudo yum install dhcp -y 配置dhcp 1 sudo vi /etc/dhcp/dhcpd.conf 1 2 3 4 5 6 7 8 9 10 11 12 # 定义DHCP全局选项（可选） option domain-name "internal.net"; option domain-name-servers 8.8.8.8, 8.8.4.4; # DNS服务器 default-lease-time 600; # 默认租约时间（秒） max-lease-time 7200; # 最大租约时间 # 定义子网段 subnet 192.168.10.0 netmask 255.255.255.0 { range 192.168.10.100 192.168.10.200; # 分配的IP范围 option routers 192.168.10.1; # 网关（指向虚拟机A的ens2） option subnet-mask 255.255.255.0; } 指定DHCP监听的接口 1 sudo vi /etc/sysconfig/dhcpd 1 DHCPDARGS="ens2" # 仅监听内部网络接口 启动DHCP服务并设置开机自启 1 2 sudo systemctl start dhcpd sudo systemctl enable dhcpd 防火墙放行DHCP流量 1 2 sudo firewall-cmd --permanent --add-service=dhcp sudo firewall-cmd --reload'><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"文章","item":"https://Kyle-Derrick.github.io/zh/posts/"},{"@type":"ListItem","position":2,"name":"技术类","item":"https://Kyle-Derrick.github.io/zh/posts/tech/"},{"@type":"ListItem","position":3,"name":"Linux相关","item":"https://Kyle-Derrick.github.io/zh/posts/tech/linux/"},{"@type":"ListItem","position":4,"name":"linux作为网关提供路由","item":"https://Kyle-Derrick.github.io/zh/posts/tech/linux/linux%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E6%8F%90%E4%BE%9B%E8%B7%AF%E7%94%B1/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"linux作为网关提供路由","name":"linux作为网关提供路由","description":"1. 配置网卡 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 编辑网络配置文件 sudo vi /etc/sysconfig/network-scripts/ifcfg-ens1 # 内容如下（示例IP，根据实际情况修改）： DEVICE=ens1 BOOTPROTO=dhcp # 或静态IP（需与物理网络同网段） ONBOOT=yes sudo vi /etc/sysconfig/network-scripts/ifcfg-ens2 # 内容如下： DEVICE=ens2 BOOTPROTO=static IPADDR=192.168.10.1 NETMASK=255.255.255.0 ONBOOT=yes 2. 启用IP转发 1 2 3 4 5 sudo vi /etc/sysctl.conf # 取消注释或添加： net.ipv4.ip_forward = 1 # 生效配置 sudo sysctl -p 3. 配置防火墙/NAT 1 2 3 4 5 # 使用firewalld配置 sudo firewall-cmd --permanent --zone=public --add-interface=ens1 sudo firewall-cmd --permanent --zone=internal --add-interface=ens2 sudo firewall-cmd --permanent --zone=public --add-masquerade sudo firewall-cmd --reload 或使用iptables（如果未使用firewalld） 1 2 3 4 5 6 # 或使用iptables（如果未使用firewalld） sudo iptables -t nat -A POSTROUTING -o ens1 -j MASQUERADE sudo iptables -A FORWARD -i ens2 -j ACCEPT # 保存规则（需安装iptables-services） sudo service iptables save sudo systemctl restart iptables DHCP服务 1 sudo yum install dhcp -y 配置dhcp 1 sudo vi /etc/dhcp/dhcpd.conf 1 2 3 4 5 6 7 8 9 10 11 12 # 定义DHCP全局选项（可选） option domain-name \u0026#34;internal.net\u0026#34;; option domain-name-servers 8.8.8.8, 8.8.4.4; # DNS服务器 default-lease-time 600; # 默认租约时间（秒） max-lease-time 7200; # 最大租约时间 # 定义子网段 subnet 192.168.10.0 netmask 255.255.255.0 { range 192.168.10.100 192.168.10.200; # 分配的IP范围 option routers 192.168.10.1; # 网关（指向虚拟机A的ens2） option subnet-mask 255.255.255.0; } 指定DHCP监听的接口 1 sudo vi /etc/sysconfig/dhcpd 1 DHCPDARGS=\u0026#34;ens2\u0026#34; # 仅监听内部网络接口 启动DHCP服务并设置开机自启 1 2 sudo systemctl start dhcpd sudo systemctl enable dhcpd 防火墙放行DHCP流量 1 2 sudo firewall-cmd --permanent --add-service=dhcp sudo firewall-cmd --reload ","keywords":["Linux","Network"],"articleBody":"1. 配置网卡 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 编辑网络配置文件 sudo vi /etc/sysconfig/network-scripts/ifcfg-ens1 # 内容如下（示例IP，根据实际情况修改）： DEVICE=ens1 BOOTPROTO=dhcp # 或静态IP（需与物理网络同网段） ONBOOT=yes sudo vi /etc/sysconfig/network-scripts/ifcfg-ens2 # 内容如下： DEVICE=ens2 BOOTPROTO=static IPADDR=192.168.10.1 NETMASK=255.255.255.0 ONBOOT=yes 2. 启用IP转发 1 2 3 4 5 sudo vi /etc/sysctl.conf # 取消注释或添加： net.ipv4.ip_forward = 1 # 生效配置 sudo sysctl -p 3. 配置防火墙/NAT 1 2 3 4 5 # 使用firewalld配置 sudo firewall-cmd --permanent --zone=public --add-interface=ens1 sudo firewall-cmd --permanent --zone=internal --add-interface=ens2 sudo firewall-cmd --permanent --zone=public --add-masquerade sudo firewall-cmd --reload 或使用iptables（如果未使用firewalld） 1 2 3 4 5 6 # 或使用iptables（如果未使用firewalld） sudo iptables -t nat -A POSTROUTING -o ens1 -j MASQUERADE sudo iptables -A FORWARD -i ens2 -j ACCEPT # 保存规则（需安装iptables-services） sudo service iptables save sudo systemctl restart iptables DHCP服务 1 sudo yum install dhcp -y 配置dhcp 1 sudo vi /etc/dhcp/dhcpd.conf 1 2 3 4 5 6 7 8 9 10 11 12 # 定义DHCP全局选项（可选） option domain-name \"internal.net\"; option domain-name-servers 8.8.8.8, 8.8.4.4; # DNS服务器 default-lease-time 600; # 默认租约时间（秒） max-lease-time 7200; # 最大租约时间 # 定义子网段 subnet 192.168.10.0 netmask 255.255.255.0 { range 192.168.10.100 192.168.10.200; # 分配的IP范围 option routers 192.168.10.1; # 网关（指向虚拟机A的ens2） option subnet-mask 255.255.255.0; } 指定DHCP监听的接口 1 sudo vi /etc/sysconfig/dhcpd 1 DHCPDARGS=\"ens2\" # 仅监听内部网络接口 启动DHCP服务并设置开机自启 1 2 sudo systemctl start dhcpd sudo systemctl enable dhcpd 防火墙放行DHCP流量 1 2 sudo firewall-cmd --permanent --add-service=dhcp sudo firewall-cmd --reload ","wordCount":"483","inLanguage":"zh","datePublished":"2025-07-22T23:02:49+08:00","dateModified":"2025-07-22T23:02:49+08:00","author":[{"@type":"Person","name":"kyle"}],"mainEntityOfPage":{"@type":"WebPage","@id":"https://Kyle-Derrick.github.io/zh/posts/tech/linux/linux%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E6%8F%90%E4%BE%9B%E8%B7%AF%E7%94%B1/"},"publisher":{"@type":"Organization","name":"Kyle's Notebook","logo":{"@type":"ImageObject","url":"https://Kyle-Derrick.github.io/img/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://Kyle-Derrick.github.io/zh/ accesskey=h title="Kyle's Notebook (Alt + H)">Kyle's Notebook</a><div class=logo-switches><div class=theme-selector id=theme-selector><button class=theme-toggle-btn id=theme-toggle aria-label=切换主题><svg class="theme-icon theme-icon-palette" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83"/></svg></button><div class=theme-dropdown id=theme-dropdown><div class=theme-option data-theme=green><span class=theme-dot style=background:#10b981></span>
-<span class=theme-name>森林绿</span></div><div class=theme-option data-theme=blue><span class=theme-dot style=background:#2563eb></span>
-<span class=theme-name>海洋蓝</span></div><div class=theme-option data-theme=purple><span class=theme-dot style=background:#7c3aed></span>
-<span class=theme-name>紫罗兰</span></div><div class=theme-option data-theme=orange><span class=theme-dot style=background:#f59e0b></span>
-<span class=theme-name>暖阳橙</span></div><div class=theme-option data-theme=pink><span class=theme-dot style=background:#ec4899></span>
-<span class=theme-name>樱花粉</span></div><div class=theme-option data-theme=teal><span class=theme-dot style=background:#14b8a6></span>
-<span class=theme-name>青柠绿</span></div></div></div><script>document.addEventListener("DOMContentLoaded",function(){const o=document.getElementById("theme-toggle"),e=document.getElementById("theme-dropdown"),t=document.querySelectorAll(".theme-option"),n=localStorage.getItem("blog-theme")||"green";document.documentElement.setAttribute("data-color-theme",n),s(n),o.addEventListener("click",function(t){t.stopPropagation(),e.classList.toggle("show")}),document.addEventListener("click",function(){e.classList.remove("show")}),e.addEventListener("click",function(e){e.stopPropagation()}),t.forEach(t=>{t.addEventListener("click",function(){const t=this.getAttribute("data-theme");document.documentElement.setAttribute("data-color-theme",t),localStorage.setItem("blog-theme",t),s(t),e.classList.remove("show")})});function s(e){t.forEach(t=>{t.getAttribute("data-theme")===e?t.classList.add("active"):t.classList.remove("active")})}})</script><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme"><svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://Kyle-Derrick.github.io/zh/search title="搜索 (Alt + /)" accesskey=/><span>搜索</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/ title=主页><span>主页</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/posts title=文章><span>文章</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/archives title=时间轴><span>时间轴</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/tags title=标签><span>标签</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/about title=关于><span>关于</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><nav class=breadcrumbs role=navigation aria-label=Breadcrumb><a href=/zh/>主页</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
-<a href=/zh/posts/>文章</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
-<a href=/zh/posts/tech/>技术类</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
-<a href=/zh/posts/tech/linux/>Linux相关</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg><span class=breadcrumbs-current title=linux作为网关提供路由>linux作为网关提供路由</span></nav><h1 class="post-title entry-hint-parent">linux作为网关提供路由</h1><div class=post-meta><span title='2025-07-22 23:02:49 +0800 CST'>2025-07-22</span>&nbsp;·&nbsp;<span>1 分钟</span>&nbsp;·&nbsp;<span>kyle</span></div></header><details class=toc id=toc-container open><summary accesskey=c title="(Alt + C)"><span class=title>目录</span></summary><div class=inner><ul id=toc-list><li class=toc-item data-target=1-配置网卡><a href=#1-%e9%85%8d%e7%bd%ae%e7%bd%91%e5%8d%a1 aria-label="1. 配置网卡">1. 配置网卡</a></li><li class=toc-item data-target=2-启用ip转发><a href=#2-%e5%90%af%e7%94%a8ip%e8%bd%ac%e5%8f%91 aria-label="2. 启用IP转发">2. 启用IP转发</a></li><li class=toc-item data-target=3-配置防火墙nat><a href=#3-%e9%85%8d%e7%bd%ae%e9%98%b2%e7%81%ab%e5%a2%99nat aria-label="3. 配置防火墙/NAT">3. 配置防火墙/NAT</a></li><li class=toc-item data-target=dhcp服务><a href=#dhcp%e6%9c%8d%e5%8a%a1 aria-label=DHCP服务>DHCP服务</a></li></ul></div></details><script>document.addEventListener("DOMContentLoaded",function(){const e=document.getElementById("toc-container");if(!e)return;function t(){window.innerWidth<1280?(e.classList.remove("toc-fixed"),e.style.position="",e.style.right="",e.style.top="",e.style.width=""):e.classList.add("toc-fixed")}t(),window.addEventListener("resize",t);const n=e.querySelectorAll('a[href^="#"]'),o=Array.from(n).map(e=>{const t=e.getAttribute("href").substring(1);return document.getElementById(decodeURIComponent(t))}).filter(e=>e!==null);function s(){if(window.innerWidth<1280)return;const t=window.scrollY+100;let e=-1;o.forEach((n,s)=>{n&&n.offsetTop<=t&&(e=s)}),n.forEach((t,n)=>{n===e?(t.classList.add("toc-active"),t.parentElement.classList.add("toc-item-active")):(t.classList.remove("toc-active"),t.parentElement.classList.remove("toc-item-active"))})}window.addEventListener("scroll",s),s()})</script><div class="post-content md-content"><h2 id=1-配置网卡>1. 配置网卡<a hidden class=anchor aria-hidden=true href=#1-配置网卡>#</a></h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 编辑网络配置文件
-</span></span><span class=line><span class=cl>sudo vi /etc/sysconfig/network-scripts/ifcfg-ens1
-</span></span><span class=line><span class=cl># 内容如下（示例IP，根据实际情况修改）：
-</span></span><span class=line><span class=cl>DEVICE=ens1
-</span></span><span class=line><span class=cl>BOOTPROTO=dhcp  # 或静态IP（需与物理网络同网段）
-</span></span><span class=line><span class=cl>ONBOOT=yes
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>sudo vi /etc/sysconfig/network-scripts/ifcfg-ens2
-</span></span><span class=line><span class=cl># 内容如下：
-</span></span><span class=line><span class=cl>DEVICE=ens2
-</span></span><span class=line><span class=cl>BOOTPROTO=static
-</span></span><span class=line><span class=cl>IPADDR=192.168.10.1
-</span></span><span class=line><span class=cl>NETMASK=255.255.255.0
-</span></span><span class=line><span class=cl>ONBOOT=yes
-</span></span></code></pre></td></tr></table></div></div><h2 id=2-启用ip转发>2. 启用IP转发<a hidden class=anchor aria-hidden=true href=#2-启用ip转发>#</a></h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo vi /etc/sysctl.conf
-</span></span><span class=line><span class=cl># 取消注释或添加：
-</span></span><span class=line><span class=cl>net.ipv4.ip_forward = 1
-</span></span><span class=line><span class=cl># 生效配置
-</span></span><span class=line><span class=cl>sudo sysctl -p
-</span></span></code></pre></td></tr></table></div></div><h2 id=3-配置防火墙nat>3. 配置防火墙/NAT<a hidden class=anchor aria-hidden=true href=#3-配置防火墙nat>#</a></h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=c1># 使用firewalld配置</span>
-</span></span><span class=line><span class=cl><span class=n>sudo</span> <span class=n>firewall</span><span class=o>-</span><span class=n>cmd</span> <span class=o>--</span><span class=n>permanent</span> <span class=o>--</span><span class=n>zone</span><span class=o>=</span><span class=n>public</span> <span class=o>--</span><span class=n>add</span><span class=o>-</span><span class=n>interface</span><span class=o>=</span><span class=n>ens1</span>
-</span></span><span class=line><span class=cl><span class=n>sudo</span> <span class=n>firewall</span><span class=o>-</span><span class=n>cmd</span> <span class=o>--</span><span class=n>permanent</span> <span class=o>--</span><span class=n>zone</span><span class=o>=</span><span class=n>internal</span> <span class=o>--</span><span class=n>add</span><span class=o>-</span><span class=n>interface</span><span class=o>=</span><span class=n>ens2</span>
-</span></span><span class=line><span class=cl><span class=n>sudo</span> <span class=n>firewall</span><span class=o>-</span><span class=n>cmd</span> <span class=o>--</span><span class=n>permanent</span> <span class=o>--</span><span class=n>zone</span><span class=o>=</span><span class=n>public</span> <span class=o>--</span><span class=n>add</span><span class=o>-</span><span class=n>masquerade</span>
-</span></span><span class=line><span class=cl><span class=n>sudo</span> <span class=n>firewall</span><span class=o>-</span><span class=n>cmd</span> <span class=o>--</span><span class=n>reload</span>
-</span></span></code></pre></td></tr></table></div></div><ul><li>或使用iptables（如果未使用firewalld）</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 或使用iptables（如果未使用firewalld）
-</span></span><span class=line><span class=cl>sudo iptables -t nat -A POSTROUTING -o ens1 -j MASQUERADE
-</span></span><span class=line><span class=cl>sudo iptables -A FORWARD -i ens2 -j ACCEPT
-</span></span><span class=line><span class=cl># 保存规则（需安装iptables-services）
-</span></span><span class=line><span class=cl>sudo service iptables save
-</span></span><span class=line><span class=cl>sudo systemctl restart iptables
-</span></span></code></pre></td></tr></table></div></div><h2 id=dhcp服务>DHCP服务<a hidden class=anchor aria-hidden=true href=#dhcp服务>#</a></h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo yum install dhcp -y
-</span></span></code></pre></td></tr></table></div></div><ul><li>配置dhcp</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo vi /etc/dhcp/dhcpd.conf
-</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 定义DHCP全局选项（可选）
-</span></span><span class=line><span class=cl>option domain-name &#34;internal.net&#34;;
-</span></span><span class=line><span class=cl>option domain-name-servers 8.8.8.8, 8.8.4.4;  # DNS服务器
-</span></span><span class=line><span class=cl>default-lease-time 600;                        # 默认租约时间（秒）
-</span></span><span class=line><span class=cl>max-lease-time 7200;                           # 最大租约时间
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl># 定义子网段
-</span></span><span class=line><span class=cl>subnet 192.168.10.0 netmask 255.255.255.0 {
-</span></span><span class=line><span class=cl>    range 192.168.10.100 192.168.10.200;       # 分配的IP范围
-</span></span><span class=line><span class=cl>    option routers 192.168.10.1;               # 网关（指向虚拟机A的ens2）
-</span></span><span class=line><span class=cl>    option subnet-mask 255.255.255.0;
-</span></span><span class=line><span class=cl>}
-</span></span></code></pre></td></tr></table></div></div><ul><li>指定DHCP监听的接口</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo vi /etc/sysconfig/dhcpd
-</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>DHCPDARGS=&#34;ens2&#34;  # 仅监听内部网络接口
-</span></span></code></pre></td></tr></table></div></div><ul><li>启动DHCP服务并设置开机自启</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo systemctl start dhcpd
-</span></span><span class=line><span class=cl>sudo systemctl enable dhcpd
-</span></span></code></pre></td></tr></table></div></div><ul><li>防火墙放行DHCP流量</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>sudo</span> <span class=n>firewall</span><span class=o>-</span><span class=n>cmd</span> <span class=o>--</span><span class=n>permanent</span> <span class=o>--</span><span class=n>add</span><span class=o>-</span><span class=n>service</span><span class=o>=</span><span class=n>dhcp</span>
-</span></span><span class=line><span class=cl><span class=n>sudo</span> <span class=n>firewall</span><span class=o>-</span><span class=n>cmd</span> <span class=o>--</span><span class=n>reload</span>
-</span></span></code></pre></td></tr></table></div></div></div><footer class=post-footer><ul class=post-tags><li><a href=https://Kyle-Derrick.github.io/zh/tags/linux/>Linux</a></li><li><a href=https://Kyle-Derrick.github.io/zh/tags/network/>Network</a></li></ul><nav class=paginav><a class=prev href=https://Kyle-Derrick.github.io/zh/posts/tech/linux/%E5%8F%8C%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4%E9%97%AE%E9%A2%98/><span class=title>« 上一页</span>
-<span>双系统时间问题</span>
-</a><a class=next href=https://Kyle-Derrick.github.io/zh/posts/tech/linux/ipsec_ikev2%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/><span class=title>下一页 »</span>
-<span>IPsec/IKEv2服务部署</span></a></nav></footer><script src=https://giscus.app/client.js data-repo=Kyle-Derrick/Kyle-Derrick.github.io data-repo-id=R_kgDOOqQLVA data-category=Announcements data-category-id=DIC_kwDOOqQLVM4CtPKE data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=bottom data-theme=preferred_color_scheme data-lang=zh-CN crossorigin=anonymous async></script></article></main><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
-</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="复制";function s(){t.innerHTML="已复制！",setTimeout(()=>{t.innerHTML="复制"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+">
+<meta name="author" content="kyle">
+<link rel="canonical" href="https://Kyle-Derrick.github.io/zh/posts/tech/linux/linux%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E6%8F%90%E4%BE%9B%E8%B7%AF%E7%94%B1/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bec1a25820e3b93d5b857316bc0a413e000c90b1c61d0daca92ec1b06f98af99.css" integrity="sha256-vsGiWCDjuT1bhXMWvApBPgAMkLHGHQ2sqS7BsG&#43;Yr5k=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://Kyle-Derrick.github.io/img/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://Kyle-Derrick.github.io/img/favicon-16x16.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://Kyle-Derrick.github.io/img/favicon-32x32.ico">
+<link rel="apple-touch-icon" href="https://Kyle-Derrick.github.io/img/apple-touch-icon.png">
+<link rel="mask-icon" href="https://Kyle-Derrick.github.io/img/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="https://Kyle-Derrick.github.io/zh/posts/tech/linux/linux%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E6%8F%90%E4%BE%9B%E8%B7%AF%E7%94%B1/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://Kyle-Derrick.github.io/zh/posts/tech/linux/linux%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E6%8F%90%E4%BE%9B%E8%B7%AF%E7%94%B1/">
+  <meta property="og:site_name" content="Kyle&#39;s Notebook">
+  <meta property="og:title" content="linux作为网关提供路由">
+  <meta property="og:description" content="1. 配置网卡 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 编辑网络配置文件 sudo vi /etc/sysconfig/network-scripts/ifcfg-ens1 # 内容如下（示例IP，根据实际情况修改）： DEVICE=ens1 BOOTPROTO=dhcp # 或静态IP（需与物理网络同网段） ONBOOT=yes sudo vi /etc/sysconfig/network-scripts/ifcfg-ens2 # 内容如下： DEVICE=ens2 BOOTPROTO=static IPADDR=192.168.10.1 NETMASK=255.255.255.0 ONBOOT=yes 2. 启用IP转发 1 2 3 4 5 sudo vi /etc/sysctl.conf # 取消注释或添加： net.ipv4.ip_forward = 1 # 生效配置 sudo sysctl -p 3. 配置防火墙/NAT 1 2 3 4 5 # 使用firewalld配置 sudo firewall-cmd --permanent --zone=public --add-interface=ens1 sudo firewall-cmd --permanent --zone=internal --add-interface=ens2 sudo firewall-cmd --permanent --zone=public --add-masquerade sudo firewall-cmd --reload 或使用iptables（如果未使用firewalld） 1 2 3 4 5 6 # 或使用iptables（如果未使用firewalld） sudo iptables -t nat -A POSTROUTING -o ens1 -j MASQUERADE sudo iptables -A FORWARD -i ens2 -j ACCEPT # 保存规则（需安装iptables-services） sudo service iptables save sudo systemctl restart iptables DHCP服务 1 sudo yum install dhcp -y 配置dhcp 1 sudo vi /etc/dhcp/dhcpd.conf 1 2 3 4 5 6 7 8 9 10 11 12 # 定义DHCP全局选项（可选） option domain-name &#34;internal.net&#34;; option domain-name-servers 8.8.8.8, 8.8.4.4; # DNS服务器 default-lease-time 600; # 默认租约时间（秒） max-lease-time 7200; # 最大租约时间 # 定义子网段 subnet 192.168.10.0 netmask 255.255.255.0 { range 192.168.10.100 192.168.10.200; # 分配的IP范围 option routers 192.168.10.1; # 网关（指向虚拟机A的ens2） option subnet-mask 255.255.255.0; } 指定DHCP监听的接口 1 sudo vi /etc/sysconfig/dhcpd 1 DHCPDARGS=&#34;ens2&#34; # 仅监听内部网络接口 启动DHCP服务并设置开机自启 1 2 sudo systemctl start dhcpd sudo systemctl enable dhcpd 防火墙放行DHCP流量 1 2 sudo firewall-cmd --permanent --add-service=dhcp sudo firewall-cmd --reload">
+  <meta property="og:locale" content="zh">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-07-22T23:02:49+08:00">
+    <meta property="article:modified_time" content="2025-07-22T23:02:49+08:00">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Network">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="linux作为网关提供路由">
+  <meta name="twitter:description" content="1. 配置网卡 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 编辑网络配置文件 sudo vi /etc/sysconfig/network-scripts/ifcfg-ens1 # 内容如下（示例IP，根据实际情况修改）： DEVICE=ens1 BOOTPROTO=dhcp # 或静态IP（需与物理网络同网段） ONBOOT=yes sudo vi /etc/sysconfig/network-scripts/ifcfg-ens2 # 内容如下： DEVICE=ens2 BOOTPROTO=static IPADDR=192.168.10.1 NETMASK=255.255.255.0 ONBOOT=yes 2. 启用IP转发 1 2 3 4 5 sudo vi /etc/sysctl.conf # 取消注释或添加： net.ipv4.ip_forward = 1 # 生效配置 sudo sysctl -p 3. 配置防火墙/NAT 1 2 3 4 5 # 使用firewalld配置 sudo firewall-cmd --permanent --zone=public --add-interface=ens1 sudo firewall-cmd --permanent --zone=internal --add-interface=ens2 sudo firewall-cmd --permanent --zone=public --add-masquerade sudo firewall-cmd --reload 或使用iptables（如果未使用firewalld） 1 2 3 4 5 6 # 或使用iptables（如果未使用firewalld） sudo iptables -t nat -A POSTROUTING -o ens1 -j MASQUERADE sudo iptables -A FORWARD -i ens2 -j ACCEPT # 保存规则（需安装iptables-services） sudo service iptables save sudo systemctl restart iptables DHCP服务 1 sudo yum install dhcp -y 配置dhcp 1 sudo vi /etc/dhcp/dhcpd.conf 1 2 3 4 5 6 7 8 9 10 11 12 # 定义DHCP全局选项（可选） option domain-name &#34;internal.net&#34;; option domain-name-servers 8.8.8.8, 8.8.4.4; # DNS服务器 default-lease-time 600; # 默认租约时间（秒） max-lease-time 7200; # 最大租约时间 # 定义子网段 subnet 192.168.10.0 netmask 255.255.255.0 { range 192.168.10.100 192.168.10.200; # 分配的IP范围 option routers 192.168.10.1; # 网关（指向虚拟机A的ens2） option subnet-mask 255.255.255.0; } 指定DHCP监听的接口 1 sudo vi /etc/sysconfig/dhcpd 1 DHCPDARGS=&#34;ens2&#34; # 仅监听内部网络接口 启动DHCP服务并设置开机自启 1 2 sudo systemctl start dhcpd sudo systemctl enable dhcpd 防火墙放行DHCP流量 1 2 sudo firewall-cmd --permanent --add-service=dhcp sudo firewall-cmd --reload">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "文章",
+      "item": "https://Kyle-Derrick.github.io/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "技术类",
+      "item": "https://Kyle-Derrick.github.io/zh/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Linux相关",
+      "item": "https://Kyle-Derrick.github.io/zh/posts/tech/linux/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "linux作为网关提供路由",
+      "item": "https://Kyle-Derrick.github.io/zh/posts/tech/linux/linux%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E6%8F%90%E4%BE%9B%E8%B7%AF%E7%94%B1/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "linux作为网关提供路由",
+  "name": "linux作为网关提供路由",
+  "description": "1. 配置网卡 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 编辑网络配置文件 sudo vi /etc/sysconfig/network-scripts/ifcfg-ens1 # 内容如下（示例IP，根据实际情况修改）： DEVICE=ens1 BOOTPROTO=dhcp # 或静态IP（需与物理网络同网段） ONBOOT=yes sudo vi /etc/sysconfig/network-scripts/ifcfg-ens2 # 内容如下： DEVICE=ens2 BOOTPROTO=static IPADDR=192.168.10.1 NETMASK=255.255.255.0 ONBOOT=yes 2. 启用IP转发 1 2 3 4 5 sudo vi /etc/sysctl.conf # 取消注释或添加： net.ipv4.ip_forward = 1 # 生效配置 sudo sysctl -p 3. 配置防火墙/NAT 1 2 3 4 5 # 使用firewalld配置 sudo firewall-cmd --permanent --zone=public --add-interface=ens1 sudo firewall-cmd --permanent --zone=internal --add-interface=ens2 sudo firewall-cmd --permanent --zone=public --add-masquerade sudo firewall-cmd --reload 或使用iptables（如果未使用firewalld） 1 2 3 4 5 6 # 或使用iptables（如果未使用firewalld） sudo iptables -t nat -A POSTROUTING -o ens1 -j MASQUERADE sudo iptables -A FORWARD -i ens2 -j ACCEPT # 保存规则（需安装iptables-services） sudo service iptables save sudo systemctl restart iptables DHCP服务 1 sudo yum install dhcp -y 配置dhcp 1 sudo vi /etc/dhcp/dhcpd.conf 1 2 3 4 5 6 7 8 9 10 11 12 # 定义DHCP全局选项（可选） option domain-name \u0026#34;internal.net\u0026#34;; option domain-name-servers 8.8.8.8, 8.8.4.4; # DNS服务器 default-lease-time 600; # 默认租约时间（秒） max-lease-time 7200; # 最大租约时间 # 定义子网段 subnet 192.168.10.0 netmask 255.255.255.0 { range 192.168.10.100 192.168.10.200; # 分配的IP范围 option routers 192.168.10.1; # 网关（指向虚拟机A的ens2） option subnet-mask 255.255.255.0; } 指定DHCP监听的接口 1 sudo vi /etc/sysconfig/dhcpd 1 DHCPDARGS=\u0026#34;ens2\u0026#34; # 仅监听内部网络接口 启动DHCP服务并设置开机自启 1 2 sudo systemctl start dhcpd sudo systemctl enable dhcpd 防火墙放行DHCP流量 1 2 sudo firewall-cmd --permanent --add-service=dhcp sudo firewall-cmd --reload ",
+  "keywords": [
+    "Linux", "Network"
+  ],
+  "articleBody": "1. 配置网卡 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 编辑网络配置文件 sudo vi /etc/sysconfig/network-scripts/ifcfg-ens1 # 内容如下（示例IP，根据实际情况修改）： DEVICE=ens1 BOOTPROTO=dhcp # 或静态IP（需与物理网络同网段） ONBOOT=yes sudo vi /etc/sysconfig/network-scripts/ifcfg-ens2 # 内容如下： DEVICE=ens2 BOOTPROTO=static IPADDR=192.168.10.1 NETMASK=255.255.255.0 ONBOOT=yes 2. 启用IP转发 1 2 3 4 5 sudo vi /etc/sysctl.conf # 取消注释或添加： net.ipv4.ip_forward = 1 # 生效配置 sudo sysctl -p 3. 配置防火墙/NAT 1 2 3 4 5 # 使用firewalld配置 sudo firewall-cmd --permanent --zone=public --add-interface=ens1 sudo firewall-cmd --permanent --zone=internal --add-interface=ens2 sudo firewall-cmd --permanent --zone=public --add-masquerade sudo firewall-cmd --reload 或使用iptables（如果未使用firewalld） 1 2 3 4 5 6 # 或使用iptables（如果未使用firewalld） sudo iptables -t nat -A POSTROUTING -o ens1 -j MASQUERADE sudo iptables -A FORWARD -i ens2 -j ACCEPT # 保存规则（需安装iptables-services） sudo service iptables save sudo systemctl restart iptables DHCP服务 1 sudo yum install dhcp -y 配置dhcp 1 sudo vi /etc/dhcp/dhcpd.conf 1 2 3 4 5 6 7 8 9 10 11 12 # 定义DHCP全局选项（可选） option domain-name \"internal.net\"; option domain-name-servers 8.8.8.8, 8.8.4.4; # DNS服务器 default-lease-time 600; # 默认租约时间（秒） max-lease-time 7200; # 最大租约时间 # 定义子网段 subnet 192.168.10.0 netmask 255.255.255.0 { range 192.168.10.100 192.168.10.200; # 分配的IP范围 option routers 192.168.10.1; # 网关（指向虚拟机A的ens2） option subnet-mask 255.255.255.0; } 指定DHCP监听的接口 1 sudo vi /etc/sysconfig/dhcpd 1 DHCPDARGS=\"ens2\" # 仅监听内部网络接口 启动DHCP服务并设置开机自启 1 2 sudo systemctl start dhcpd sudo systemctl enable dhcpd 防火墙放行DHCP流量 1 2 sudo firewall-cmd --permanent --add-service=dhcp sudo firewall-cmd --reload ",
+  "wordCount" : "483",
+  "inLanguage": "zh",
+  "datePublished": "2025-07-22T23:02:49+08:00",
+  "dateModified": "2025-07-22T23:02:49+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "kyle"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://Kyle-Derrick.github.io/zh/posts/tech/linux/linux%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E6%8F%90%E4%BE%9B%E8%B7%AF%E7%94%B1/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Kyle's Notebook",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://Kyle-Derrick.github.io/img/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://Kyle-Derrick.github.io/zh/" accesskey="h" title="Kyle&#39;s Notebook (Alt + H)">Kyle&#39;s Notebook</a>
+            <div class="logo-switches"><div class="theme-selector" id="theme-selector">
+    <button class="theme-toggle-btn" id="color-theme-toggle" aria-label="切换主题颜色">
+        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+        </svg>
+    </button>
+    <div class="theme-dropdown" id="color-theme-dropdown">
+        <div class="theme-option" data-theme="green">
+            <span class="theme-dot" style="background: #10b981;"></span>
+            <span class="theme-name">森林绿</span>
+        </div>
+        <div class="theme-option" data-theme="blue">
+            <span class="theme-dot" style="background: #2563eb;"></span>
+            <span class="theme-name">海洋蓝</span>
+        </div>
+        <div class="theme-option" data-theme="purple">
+            <span class="theme-dot" style="background: #7c3aed;"></span>
+            <span class="theme-name">紫罗兰</span>
+        </div>
+        <div class="theme-option" data-theme="orange">
+            <span class="theme-dot" style="background: #f59e0b;"></span>
+            <span class="theme-name">暖阳橙</span>
+        </div>
+        <div class="theme-option" data-theme="pink">
+            <span class="theme-dot" style="background: #ec4899;"></span>
+            <span class="theme-name">樱花粉</span>
+        </div>
+        <div class="theme-option" data-theme="teal">
+            <span class="theme-dot" style="background: #14b8a6;"></span>
+            <span class="theme-name">青柠绿</span>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    const themeToggle = document.getElementById('color-theme-toggle');
+    const themeDropdown = document.getElementById('color-theme-dropdown');
+    if (!themeToggle || !themeDropdown) return;
+    
+    const themeOptions = themeDropdown.querySelectorAll('.theme-option');
+    
+    
+    const savedTheme = localStorage.getItem('blog-theme') || 'green';
+    document.documentElement.setAttribute('data-color-theme', savedTheme);
+    updateActiveTheme(savedTheme);
+    
+    
+    themeToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        themeDropdown.classList.toggle('show');
+    });
+    
+    
+    document.addEventListener('click', function() {
+        themeDropdown.classList.remove('show');
+    });
+    
+    themeDropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+    
+    
+    themeOptions.forEach(function(option) {
+        option.addEventListener('click', function() {
+            const theme = this.getAttribute('data-theme');
+            document.documentElement.setAttribute('data-color-theme', theme);
+            localStorage.setItem('blog-theme', theme);
+            updateActiveTheme(theme);
+            themeDropdown.classList.remove('show');
+        });
+    });
+    
+    function updateActiveTheme(theme) {
+        themeOptions.forEach(function(option) {
+            if (option.getAttribute('data-theme') === theme) {
+                option.classList.add('active');
+            } else {
+                option.classList.remove('active');
+            }
+        });
+    }
+})();
+</script>
+
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/posts" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/zh/">主页</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/zh/posts/">文章</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/zh/posts/tech/">技术类</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/zh/posts/tech/linux/">Linux相关</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg><span class="breadcrumbs-current" title="linux作为网关提供路由">linux作为网关提供路由</span>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      linux作为网关提供路由
+    </h1>
+    <div class="post-meta">
+
+<span title='2025-07-22 23:02:49 +0800 CST'>2025-07-22</span>&nbsp;·&nbsp;<span>1 分钟</span>&nbsp;·&nbsp;<span>kyle</span>
+
+</div>
+  </header> <details class="toc" id="toc-container"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">目录</span>
+    </summary>
+
+    <div class="inner"><ul id="toc-list">
+            <li class="toc-item" data-target="1-配置网卡">
+                <a href="#1-%e9%85%8d%e7%bd%ae%e7%bd%91%e5%8d%a1" aria-label="1. 配置网卡">1. 配置网卡</a></li>
+            <li class="toc-item" data-target="2-启用ip转发">
+                <a href="#2-%e5%90%af%e7%94%a8ip%e8%bd%ac%e5%8f%91" aria-label="2. 启用IP转发">2. 启用IP转发</a></li>
+            <li class="toc-item" data-target="3-配置防火墙nat">
+                <a href="#3-%e9%85%8d%e7%bd%ae%e9%98%b2%e7%81%ab%e5%a2%99nat" aria-label="3. 配置防火墙/NAT">3. 配置防火墙/NAT</a></li>
+            <li class="toc-item" data-target="dhcp服务">
+                <a href="#dhcp%e6%9c%8d%e5%8a%a1" aria-label="DHCP服务">DHCP服务</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toc = document.getElementById('toc-container');
+    if (!toc) return;
+
+    
+    function checkViewport() {
+        if (window.innerWidth < 1280) {
+            toc.classList.remove('toc-fixed');
+            toc.style.position = '';
+            toc.style.right = '';
+            toc.style.top = '';
+            toc.style.width = '';
+        } else {
+            toc.classList.add('toc-fixed');
+        }
+    }
+
+    
+    checkViewport();
+
+    
+    window.addEventListener('resize', checkViewport);
+
+    
+    const tocLinks = toc.querySelectorAll('a[href^="#"]');
+    const headings = Array.from(tocLinks).map(link => {
+        const id = link.getAttribute('href').substring(1);
+        return document.getElementById(decodeURIComponent(id));
+    }).filter(h => h !== null);
+
+    function highlightCurrentHeading() {
+        if (window.innerWidth < 1280) return;
+
+        const scrollPosition = window.scrollY + 100;
+        let currentIndex = -1;
+
+        headings.forEach((heading, index) => {
+            if (heading && heading.offsetTop <= scrollPosition) {
+                currentIndex = index;
+            }
+        });
+
+        tocLinks.forEach((link, index) => {
+            if (index === currentIndex) {
+                link.classList.add('toc-active');
+                link.parentElement.classList.add('toc-item-active');
+            } else {
+                link.classList.remove('toc-active');
+                link.parentElement.classList.remove('toc-item-active');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', highlightCurrentHeading);
+    highlightCurrentHeading();
+});
+</script>
+
+  <div class="post-content md-content"><h2 id="1-配置网卡">1. 配置网卡<a hidden class="anchor" aria-hidden="true" href="#1-配置网卡">#</a></h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># 编辑网络配置文件
+</span></span><span class="line"><span class="cl">sudo vi /etc/sysconfig/network-scripts/ifcfg-ens1
+</span></span><span class="line"><span class="cl"># 内容如下（示例IP，根据实际情况修改）：
+</span></span><span class="line"><span class="cl">DEVICE=ens1
+</span></span><span class="line"><span class="cl">BOOTPROTO=dhcp  # 或静态IP（需与物理网络同网段）
+</span></span><span class="line"><span class="cl">ONBOOT=yes
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo vi /etc/sysconfig/network-scripts/ifcfg-ens2
+</span></span><span class="line"><span class="cl"># 内容如下：
+</span></span><span class="line"><span class="cl">DEVICE=ens2
+</span></span><span class="line"><span class="cl">BOOTPROTO=static
+</span></span><span class="line"><span class="cl">IPADDR=192.168.10.1
+</span></span><span class="line"><span class="cl">NETMASK=255.255.255.0
+</span></span><span class="line"><span class="cl">ONBOOT=yes
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="2-启用ip转发">2. 启用IP转发<a hidden class="anchor" aria-hidden="true" href="#2-启用ip转发">#</a></h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo vi /etc/sysctl.conf
+</span></span><span class="line"><span class="cl"># 取消注释或添加：
+</span></span><span class="line"><span class="cl">net.ipv4.ip_forward = 1
+</span></span><span class="line"><span class="cl"># 生效配置
+</span></span><span class="line"><span class="cl">sudo sysctl -p
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="3-配置防火墙nat">3. 配置防火墙/NAT<a hidden class="anchor" aria-hidden="true" href="#3-配置防火墙nat">#</a></h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="c1"># 使用firewalld配置</span>
+</span></span><span class="line"><span class="cl"><span class="n">sudo</span> <span class="n">firewall</span><span class="o">-</span><span class="n">cmd</span> <span class="o">--</span><span class="n">permanent</span> <span class="o">--</span><span class="n">zone</span><span class="o">=</span><span class="n">public</span> <span class="o">--</span><span class="n">add</span><span class="o">-</span><span class="n">interface</span><span class="o">=</span><span class="n">ens1</span>
+</span></span><span class="line"><span class="cl"><span class="n">sudo</span> <span class="n">firewall</span><span class="o">-</span><span class="n">cmd</span> <span class="o">--</span><span class="n">permanent</span> <span class="o">--</span><span class="n">zone</span><span class="o">=</span><span class="n">internal</span> <span class="o">--</span><span class="n">add</span><span class="o">-</span><span class="n">interface</span><span class="o">=</span><span class="n">ens2</span>
+</span></span><span class="line"><span class="cl"><span class="n">sudo</span> <span class="n">firewall</span><span class="o">-</span><span class="n">cmd</span> <span class="o">--</span><span class="n">permanent</span> <span class="o">--</span><span class="n">zone</span><span class="o">=</span><span class="n">public</span> <span class="o">--</span><span class="n">add</span><span class="o">-</span><span class="n">masquerade</span>
+</span></span><span class="line"><span class="cl"><span class="n">sudo</span> <span class="n">firewall</span><span class="o">-</span><span class="n">cmd</span> <span class="o">--</span><span class="n">reload</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>或使用iptables（如果未使用firewalld）</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># 或使用iptables（如果未使用firewalld）
+</span></span><span class="line"><span class="cl">sudo iptables -t nat -A POSTROUTING -o ens1 -j MASQUERADE
+</span></span><span class="line"><span class="cl">sudo iptables -A FORWARD -i ens2 -j ACCEPT
+</span></span><span class="line"><span class="cl"># 保存规则（需安装iptables-services）
+</span></span><span class="line"><span class="cl">sudo service iptables save
+</span></span><span class="line"><span class="cl">sudo systemctl restart iptables
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="dhcp服务">DHCP服务<a hidden class="anchor" aria-hidden="true" href="#dhcp服务">#</a></h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo yum install dhcp -y
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>配置dhcp</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo vi /etc/dhcp/dhcpd.conf
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># 定义DHCP全局选项（可选）
+</span></span><span class="line"><span class="cl">option domain-name &#34;internal.net&#34;;
+</span></span><span class="line"><span class="cl">option domain-name-servers 8.8.8.8, 8.8.4.4;  # DNS服务器
+</span></span><span class="line"><span class="cl">default-lease-time 600;                        # 默认租约时间（秒）
+</span></span><span class="line"><span class="cl">max-lease-time 7200;                           # 最大租约时间
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># 定义子网段
+</span></span><span class="line"><span class="cl">subnet 192.168.10.0 netmask 255.255.255.0 {
+</span></span><span class="line"><span class="cl">    range 192.168.10.100 192.168.10.200;       # 分配的IP范围
+</span></span><span class="line"><span class="cl">    option routers 192.168.10.1;               # 网关（指向虚拟机A的ens2）
+</span></span><span class="line"><span class="cl">    option subnet-mask 255.255.255.0;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>指定DHCP监听的接口</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo vi /etc/sysconfig/dhcpd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">DHCPDARGS=&#34;ens2&#34;  # 仅监听内部网络接口
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>启动DHCP服务并设置开机自启</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo systemctl start dhcpd
+</span></span><span class="line"><span class="cl">sudo systemctl enable dhcpd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>防火墙放行DHCP流量</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">sudo</span> <span class="n">firewall</span><span class="o">-</span><span class="n">cmd</span> <span class="o">--</span><span class="n">permanent</span> <span class="o">--</span><span class="n">add</span><span class="o">-</span><span class="n">service</span><span class="o">=</span><span class="n">dhcp</span>
+</span></span><span class="line"><span class="cl"><span class="n">sudo</span> <span class="n">firewall</span><span class="o">-</span><span class="n">cmd</span> <span class="o">--</span><span class="n">reload</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://Kyle-Derrick.github.io/zh/tags/linux/">Linux</a></li>
+      <li><a href="https://Kyle-Derrick.github.io/zh/tags/network/">Network</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://Kyle-Derrick.github.io/zh/posts/tech/linux/%E5%8F%8C%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4%E9%97%AE%E9%A2%98/">
+    <span class="title">« 上一页</span>
+    <span>双系统时间问题</span>
+  </a>
+  <a class="next" href="https://Kyle-Derrick.github.io/zh/posts/tech/linux/ipsec_ikev2%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/">
+    <span class="title">下一页 »</span>
+    <span>IPsec/IKEv2服务部署</span>
+  </a>
+</nav>
+
+  </footer><script src="https://giscus.app/client.js"
+        data-repo="Kyle-Derrick/Kyle-Derrick.github.io"
+        data-repo-id="R_kgDOOqQLVA"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOOqQLVM4CtPKE"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+</article>
+    </main>
+    
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

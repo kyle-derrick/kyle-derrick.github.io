@@ -1,55 +1,863 @@
-<!doctype html><html lang=zh dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Pin和PhantomData的理解 | Kyle's Notebook</title>
-<meta name=keywords content="Rust"><meta name=description content="源于AI回答 的 汇总"><meta name=author content="kyle"><link rel=canonical href=https://Kyle-Derrick.github.io/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/><link crossorigin=anonymous href=/assets/css/stylesheet.ca2848ebeeca52df8c483397ae25b87c7d12a7cbfc51fdda486977f79c35b24f.css integrity="sha256-yihI6+7KUt+MSDOXriW4fH0Sp8v8Uf3aSGl395w1sk8=" rel="preload stylesheet" as=style><link rel=icon href=https://Kyle-Derrick.github.io/img/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://Kyle-Derrick.github.io/img/favicon-16x16.ico><link rel=icon type=image/png sizes=32x32 href=https://Kyle-Derrick.github.io/img/favicon-32x32.ico><link rel=apple-touch-icon href=https://Kyle-Derrick.github.io/img/apple-touch-icon.png><link rel=mask-icon href=https://Kyle-Derrick.github.io/img/favicon.ico><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=zh href=https://Kyle-Derrick.github.io/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta property="og:url" content="https://Kyle-Derrick.github.io/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/"><meta property="og:site_name" content="Kyle's Notebook"><meta property="og:title" content="Pin和PhantomData的理解"><meta property="og:description" content="源于AI回答 的 汇总"><meta property="og:locale" content="zh"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-08-06T09:47:24+08:00"><meta property="article:modified_time" content="2025-08-06T09:47:24+08:00"><meta property="article:tag" content="Rust"><meta name=twitter:card content="summary"><meta name=twitter:title content="Pin和PhantomData的理解"><meta name=twitter:description content="源于AI回答 的 汇总"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"文章","item":"https://Kyle-Derrick.github.io/zh/posts/"},{"@type":"ListItem","position":2,"name":"技术类","item":"https://Kyle-Derrick.github.io/zh/posts/tech/"},{"@type":"ListItem","position":3,"name":"Rust相关","item":"https://Kyle-Derrick.github.io/zh/posts/tech/rust/"},{"@type":"ListItem","position":4,"name":"Pin和PhantomData的理解","item":"https://Kyle-Derrick.github.io/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Pin和PhantomData的理解","name":"Pin和PhantomData的理解","description":"源于AI回答 的 汇总","keywords":["Rust"],"articleBody":"以下是对 Rust 中 Pin、Unpin 及 PhantomData 核心机制的完整技术解析，结合内存安全原理、异步编程实践及编译器行为，系统化梳理关键知识点：\n一、Pin 的核心机制与内存固定原理 1.1 为什么需要内存固定？ 自引用结构的危险性：\n当结构体包含指向自身字段的指针（如 *const String），移动该结构体会导致指针指向旧地址，引发悬垂引用和未定义行为（UB）。\n示例：\n1 struct SelfRef { data: String, ptr: *const String } 若移动 SelfRef，ptr 仍指向原 data 地址，访问即崩溃。\n异步 Future 的依赖：\nasync 块编译为状态机，可能生成自引用结构（如引用栈上缓冲区的 Future）。移动正在执行的 Future 会导致内部引用失效。\n1.2 Pin 如何实现“不移动” 运行时机制：\nBox::pin(T) 将 T 移至堆，返回 Pin","wordCount":"1449","inLanguage":"zh","datePublished":"2025-08-06T09:47:24+08:00","dateModified":"2025-08-06T09:47:24+08:00","author":[{"@type":"Person","name":"kyle"}],"mainEntityOfPage":{"@type":"WebPage","@id":"https://Kyle-Derrick.github.io/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/"},"publisher":{"@type":"Organization","name":"Kyle's Notebook","logo":{"@type":"ImageObject","url":"https://Kyle-Derrick.github.io/img/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://Kyle-Derrick.github.io/zh/ accesskey=h title="Kyle's Notebook (Alt + H)">Kyle's Notebook</a><div class=logo-switches><div class=theme-selector id=theme-selector><button class=theme-toggle-btn id=theme-toggle aria-label=切换主题><svg class="theme-icon theme-icon-palette" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83"/></svg></button><div class=theme-dropdown id=theme-dropdown><div class=theme-option data-theme=green><span class=theme-dot style=background:#10b981></span>
-<span class=theme-name>森林绿</span></div><div class=theme-option data-theme=blue><span class=theme-dot style=background:#2563eb></span>
-<span class=theme-name>海洋蓝</span></div><div class=theme-option data-theme=purple><span class=theme-dot style=background:#7c3aed></span>
-<span class=theme-name>紫罗兰</span></div><div class=theme-option data-theme=orange><span class=theme-dot style=background:#f59e0b></span>
-<span class=theme-name>暖阳橙</span></div><div class=theme-option data-theme=pink><span class=theme-dot style=background:#ec4899></span>
-<span class=theme-name>樱花粉</span></div><div class=theme-option data-theme=teal><span class=theme-dot style=background:#14b8a6></span>
-<span class=theme-name>青柠绿</span></div></div></div><script>document.addEventListener("DOMContentLoaded",function(){const o=document.getElementById("theme-toggle"),e=document.getElementById("theme-dropdown"),t=document.querySelectorAll(".theme-option"),n=localStorage.getItem("blog-theme")||"green";document.documentElement.setAttribute("data-color-theme",n),s(n),o.addEventListener("click",function(t){t.stopPropagation(),e.classList.toggle("show")}),document.addEventListener("click",function(){e.classList.remove("show")}),e.addEventListener("click",function(e){e.stopPropagation()}),t.forEach(t=>{t.addEventListener("click",function(){const t=this.getAttribute("data-theme");document.documentElement.setAttribute("data-color-theme",t),localStorage.setItem("blog-theme",t),s(t),e.classList.remove("show")})});function s(e){t.forEach(t=>{t.getAttribute("data-theme")===e?t.classList.add("active"):t.classList.remove("active")})}})</script><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme"><svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://Kyle-Derrick.github.io/zh/search title="搜索 (Alt + /)" accesskey=/><span>搜索</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/ title=主页><span>主页</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/posts title=文章><span>文章</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/archives title=时间轴><span>时间轴</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/tags title=标签><span>标签</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/about title=关于><span>关于</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><nav class=breadcrumbs role=navigation aria-label=Breadcrumb><a href=/zh/>主页</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
-<a href=/zh/posts/>文章</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
-<a href=/zh/posts/tech/>技术类</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
-<a href=/zh/posts/tech/rust/>Rust相关</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg><span class=breadcrumbs-current title=Pin和PhantomData的理解>Pin和PhantomData的理解</span></nav><h1 class="post-title entry-hint-parent">Pin和PhantomData的理解</h1><div class=post-description>源于AI回答 的 汇总</div><div class=post-meta><span title='2025-08-06 09:47:24 +0800 CST'>2025-08-06</span>&nbsp;·&nbsp;<span>3 分钟</span>&nbsp;·&nbsp;<span>kyle</span></div></header><details class=toc id=toc-container open><summary accesskey=c title="(Alt + C)"><span class=title>目录</span></summary><div class=inner><ul id=toc-list><li class=toc-item data-target=一><a href=#%e4%b8%80 aria-label="一、Pin 的核心机制与内存固定原理">一、Pin 的核心机制与内存固定原理</a><ul><li class=toc-item data-target=11-为什么需要内存固定><a href=#11-%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e5%86%85%e5%ad%98%e5%9b%ba%e5%ae%9a aria-label="1.1 为什么需要内存固定？">1.1 为什么需要内存固定？</a></li><li class=toc-item data-target=12><a href=#12 aria-label="1.2 Pin 如何实现“不移动”">1.2 Pin 如何实现“不移动”</a></li></ul></li><li class=toc-item data-target=二><a href=#%e4%ba%8c aria-label="二、!Unpin 与标记类型的作用">二、!Unpin 与标记类型的作用</a><ul><li class=toc-item data-target=21><a href=#21 aria-label="2.1 PhantomPinned 的角色">2.1 PhantomPinned 的角色</a></li><li class=toc-item data-target=22><a href=#22 aria-label="2.2 Unpin 与 !Unpin 的边界">2.2 Unpin 与 !Unpin 的边界</a></li></ul></li><li class=toc-item data-target=三关键-api-的适用场景与对比><a href=#%e4%b8%89%e5%85%b3%e9%94%ae-api-%e7%9a%84%e9%80%82%e7%94%a8%e5%9c%ba%e6%99%af%e4%b8%8e%e5%af%b9%e6%af%94 aria-label="三、关键 API 的适用场景与对比">三、关键 API 的适用场景与对比</a><ul><li class=toc-item data-target=31><a href=#31 aria-label="3.1 Box::pin vs Pin::new">3.1 Box::pin vs Pin::new</a></li><li class=toc-item data-target=32-修改被固定对象的最佳实践><a href=#32-%e4%bf%ae%e6%94%b9%e8%a2%ab%e5%9b%ba%e5%ae%9a%e5%af%b9%e8%b1%a1%e7%9a%84%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5 aria-label="3.2 修改被固定对象的最佳实践">3.2 修改被固定对象的最佳实践</a></li></ul></li><li class=toc-item data-target=四异步编程中的核心应用><a href=#%e5%9b%9b%e5%bc%82%e6%ad%a5%e7%bc%96%e7%a8%8b%e4%b8%ad%e7%9a%84%e6%a0%b8%e5%bf%83%e5%ba%94%e7%94%a8 aria-label=四、异步编程中的核心应用>四、异步编程中的核心应用</a><ul><li class=toc-item data-target=41-future-的生命周期与><a href=#41-future-%e7%9a%84%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e4%b8%8e aria-label="4.1 Future 的生命周期与 Pin">4.1 Future 的生命周期与 Pin</a></li><li class=toc-item data-target=42-异步实践中><a href=#42-%e5%bc%82%e6%ad%a5%e5%ae%9e%e8%b7%b5%e4%b8%ad aria-label="4.2 异步实践中 Pin 的隐式使用">4.2 异步实践中 Pin 的隐式使用</a></li></ul></li><li class=toc-item data-target=五总结设计原则与决策树><a href=#%e4%ba%94%e6%80%bb%e7%bb%93%e8%ae%be%e8%ae%a1%e5%8e%9f%e5%88%99%e4%b8%8e%e5%86%b3%e7%ad%96%e6%a0%91 aria-label=五、总结：设计原则与决策树>五、总结：设计原则与决策树</a><ul><li class=toc-item data-target=51-何时使用><a href=#51-%e4%bd%95%e6%97%b6%e4%bd%bf%e7%94%a8 aria-label="5.1 何时使用 Pin？">5.1 何时使用 Pin？</a></li><li class=toc-item data-target=52-rust-的零成本抽象哲学><a href=#52-rust-%e7%9a%84%e9%9b%b6%e6%88%90%e6%9c%ac%e6%8a%bd%e8%b1%a1%e5%93%b2%e5%ad%a6 aria-label="5.2 Rust 的零成本抽象哲学">5.2 Rust 的零成本抽象哲学</a></li></ul></li></ul></div></details><script>document.addEventListener("DOMContentLoaded",function(){const e=document.getElementById("toc-container");if(!e)return;function t(){window.innerWidth<1280?(e.classList.remove("toc-fixed"),e.style.position="",e.style.right="",e.style.top="",e.style.width=""):e.classList.add("toc-fixed")}t(),window.addEventListener("resize",t);const n=e.querySelectorAll('a[href^="#"]'),o=Array.from(n).map(e=>{const t=e.getAttribute("href").substring(1);return document.getElementById(decodeURIComponent(t))}).filter(e=>e!==null);function s(){if(window.innerWidth<1280)return;const t=window.scrollY+100;let e=-1;o.forEach((n,s)=>{n&&n.offsetTop<=t&&(e=s)}),n.forEach((t,n)=>{n===e?(t.classList.add("toc-active"),t.parentElement.classList.add("toc-item-active")):(t.classList.remove("toc-active"),t.parentElement.classList.remove("toc-item-active"))})}window.addEventListener("scroll",s),s()})</script><div class="post-content md-content"><p>以下是对 Rust 中 <code>Pin</code>、<code>Unpin</code> 及 <code>PhantomData</code> 核心机制的完整技术解析，结合内存安全原理、异步编程实践及编译器行为，系统化梳理关键知识点：</p><hr><h3 id=一><strong>一、<code>Pin</code> 的核心机制与内存固定原理</strong><a hidden class=anchor aria-hidden=true href=#一>#</a></h3><h4 id=11-为什么需要内存固定><strong>1.1 为什么需要内存固定？</strong><a hidden class=anchor aria-hidden=true href=#11-为什么需要内存固定>#</a></h4><ul><li><p><strong>自引用结构的危险性</strong>：<br>当结构体包含指向自身字段的指针（如 <code>*const String</code>），移动该结构体会导致指针指向旧地址，引发悬垂引用和未定义行为（UB）。<br><strong>示例</strong>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>struct</span> <span class=nc>SelfRef</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=n>data</span>: <span class=nb>String</span><span class=p>,</span><span class=w> </span><span class=n>ptr</span>: <span class=o>*</span><span class=k>const</span><span class=w> </span><span class=nb>String</span><span class=w> </span><span class=p>}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>若移动 <code>SelfRef</code>，<code>ptr</code> 仍指向原 <code>data</code> 地址，访问即崩溃。</p></li><li><p><strong>异步 Future 的依赖</strong>：<br><code>async</code> 块编译为状态机，可能生成自引用结构（如引用栈上缓冲区的 Future）。移动正在执行的 Future 会导致内部引用失效。</p></li></ul><h4 id=12><strong>1.2 <code>Pin</code> 如何实现“不移动”</strong><a hidden class=anchor aria-hidden=true href=#12>#</a></h4><ul><li><p><strong>运行时机制</strong>：</p><ul><li><code>Box::pin(T)</code> 将 <code>T</code> 移至堆，返回 <code>Pin&lt;Box&lt;T>></code>。堆地址固定，移动 <code>Pin&lt;Box&lt;T>></code> 仅复制栈指针，不改变堆数据位置。</li><li><strong>关键约束</strong>：<code>Pin</code> 禁止暴露裸 <code>&amp;mut T</code>（移动需通过 <code>&amp;mut T</code> 实现），编译期阻断移动途径。</li></ul></li><li><p><strong>栈固定与安全性</strong>：<br><code>Pin::new_unchecked(&amp;mut T)</code> 需 <code>unsafe</code> 保证：调用者需承诺 <code>T</code> 在固定期间不被移动。错误使用（如交换两个 <code>Pin&lt;&amp;mut T></code>）会导致 UB。<br><strong>安全替代</strong>：优先使用 <code>pin!</code> 宏（如 <code>tokio::pin!</code>），通过变量遮蔽隐藏原值，防止意外移动。</p></li></ul><hr><h3 id=二><strong>二、<code>!Unpin</code> 与标记类型的作用</strong><a hidden class=anchor aria-hidden=true href=#二>#</a></h3><h4 id=21><strong>2.1 <code>PhantomPinned</code> 的角色</strong><a hidden class=anchor aria-hidden=true href=#21>#</a></h4><ul><li><p><strong>自动实现 <code>!Unpin</code></strong>：<br>添加 <code>_pin: PhantomPinned</code> 字段，编译器自动阻止类型实现 <code>Unpin</code>，标记其对移动敏感。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Cache</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=n>_pin</span>: <span class=nc>PhantomPinned</span><span class=w> </span><span class=p>}</span><span class=w> </span><span class=c1>// 自动 !Unpin
-</span></span></span></code></pre></td></tr></table></div></div></li><li><p><strong>与 <code>PhantomData</code> 的区别</strong>：</p><table><thead><tr><th><strong>标记类型</strong></th><th>作用</th><th>是否影响移动</th></tr></thead><tbody><tr><td><code>PhantomPinned</code></td><td>强制 <code>!Unpin</code></td><td>✅</td></tr><tr><td><code>PhantomData&lt;T></code></td><td>占位泛型/声明所有权</td><td>❌</td></tr></tbody></table></li></ul><h4 id=22><strong>2.2 <code>Unpin</code> 与 <code>!Unpin</code> 的边界</strong><a hidden class=anchor aria-hidden=true href=#22>#</a></h4><ul><li><strong><code>Unpin</code></strong>：默认 trait，表示类型可安全移动（如 <code>i32</code>、<code>Vec</code>）。若所有字段 <code>Unpin</code>，则结构体自动 <code>Unpin</code>。</li><li><strong><code>!Unpin</code></strong>：需显式标记（如 <code>PhantomPinned</code>），禁止安全移动。仅适用于：<ul><li>自引用结构</li><li>异步 <code>Future</code>（编译器生成的状态机）</li></ul></li></ul><hr><h3 id=三关键-api-的适用场景与对比><strong>三、关键 API 的适用场景与对比</strong><a hidden class=anchor aria-hidden=true href=#三关键-api-的适用场景与对比>#</a></h3><h4 id=31><strong>3.1 <code>Box::pin</code> vs <code>Pin::new</code></strong><a hidden class=anchor aria-hidden=true href=#31>#</a></h4><table><thead><tr><th><strong>方法</strong></th><th>适用类型</th><th>安全性</th><th>典型场景</th></tr></thead><tbody><tr><td><code>Pin::new(&amp;mut T)</code></td><td><code>T: Unpin</code></td><td>安全</td><td>临时兼容泛型 API（无实际约束）</td></tr><tr><td><code>Box::pin(T)</code></td><td>任意 <code>T</code></td><td>安全</td><td>固定 <code>!Unpin</code> 类型到堆</td></tr><tr><td><code>Pin::new_unchecked()</code></td><td><code>T: !Unpin</code></td><td><code>unsafe</code></td><td>栈固定（需严格保证不移动）</td></tr></tbody></table><p><strong>为什么 <code>Pin::new</code> 仍有用？</strong><br>统一处理泛型 API：如异步执行器需同时支持 <code>Unpin</code> 和 <code>!Unpin</code> 的 Future：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>poll</span><span class=o>&lt;</span><span class=n>T</span>: <span class=nc>Future</span><span class=o>&gt;</span><span class=p>(</span><span class=k>mut</span><span class=w> </span><span class=n>f</span>: <span class=nc>T</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>pinned</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>Pin</span>::<span class=n>new</span><span class=p>(</span><span class=o>&amp;</span><span class=k>mut</span><span class=w> </span><span class=n>f</span><span class=p>);</span><span class=w> </span><span class=c1>// 兼容 Unpin
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=n>pinned</span><span class=p>.</span><span class=n>poll</span><span class=p>(</span><span class=n>cx</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><h4 id=32-修改被固定对象的最佳实践><strong>3.2 修改被固定对象的最佳实践</strong><a hidden class=anchor aria-hidden=true href=#32-修改被固定对象的最佳实践>#</a></h4><ul><li><strong>安全路径（<code>T: Unpin</code>）</strong>：<br>直接通过 <code>Pin::as_mut()</code> 获取 <code>&amp;mut T</code> 修改：<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>vec</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=fm>vec!</span><span class=p>[</span><span class=mi>1</span><span class=p>,</span><span class=w> </span><span class=mi>2</span><span class=p>];</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=kd>let</span><span class=w> </span><span class=n>pinned</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>Pin</span>::<span class=n>new</span><span class=p>(</span><span class=o>&amp;</span><span class=k>mut</span><span class=w> </span><span class=n>vec</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>pinned</span><span class=p>.</span><span class=n>push</span><span class=p>(</span><span class=mi>3</span><span class=p>);</span><span class=w> </span><span class=c1>// 安全
-</span></span></span></code></pre></td></tr></table></div></div></li><li><strong><code>!Unpin</code> 类型的修改</strong>：<br>需 <code>unsafe</code> + <code>get_unchecked_mut()</code>，但可通过封装方法避免暴露：<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>impl</span><span class=w> </span><span class=n>Cache</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>fn</span> <span class=nf>update</span><span class=p>(</span><span class=bp>self</span>: <span class=nc>Pin</span><span class=o>&lt;&amp;</span><span class=k>mut</span><span class=w> </span><span class=bp>Self</span><span class=o>&gt;</span><span class=p>,</span><span class=w> </span><span class=n>data</span>: <span class=nb>String</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>unsafe</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=bp>self</span><span class=p>.</span><span class=n>get_unchecked_mut</span><span class=p>().</span><span class=n>data</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>data</span><span class=w> </span><span class=p>};</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><strong>替代方案</strong>：<ul><li>使用 <code>pin-project</code> 库自动生成安全投影。</li><li>分离可变状态（如将 <code>Vec</code> 放入 <code>RefCell</code>）。</li></ul></li></ul><hr><h3 id=四异步编程中的核心应用><strong>四、异步编程中的核心应用</strong><a hidden class=anchor aria-hidden=true href=#四异步编程中的核心应用>#</a></h3><h4 id=41-future-的生命周期与><strong>4.1 Future 的生命周期与 <code>Pin</code></strong><a hidden class=anchor aria-hidden=true href=#41-future-的生命周期与>#</a></h4><ul><li><strong>两阶段模型</strong>：<ol><li><strong>创建阶段</strong>：Future 未轮询，无自引用，可安全移动。</li><li><strong>轮询阶段</strong>：Future 执行后可能生成内部引用，必须固定。</li></ol></li><li><strong><code>Future::poll</code> 签名强制约束</strong>：<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>poll</span><span class=p>(</span><span class=bp>self</span>: <span class=nc>Pin</span><span class=o>&lt;&amp;</span><span class=k>mut</span><span class=w> </span><span class=bp>Self</span><span class=o>&gt;</span><span class=p>,</span><span class=w> </span><span class=n>cx</span>: <span class=kp>&amp;</span><span class=nc>mut</span><span class=w> </span><span class=n>Context</span><span class=p>)</span><span class=w> </span>-&gt; <span class=nc>Poll</span><span class=o>&lt;</span><span class=n>Output</span><span class=o>&gt;</span><span class=p>;</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div>强制通过 <code>Pin</code> 访问，确保状态机地址稳定。</li></ul><h4 id=42-异步实践中><strong>4.2 异步实践中 <code>Pin</code> 的隐式使用</strong><a hidden class=anchor aria-hidden=true href=#42-异步实践中>#</a></h4><ul><li><strong><code>await</code> 关键字</strong>：自动调用 <code>pin!</code> 固定 Future。</li><li><strong>重试场景示例</strong>：<div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=kd>let</span><span class=w> </span><span class=n>f</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>async</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=mi>1</span><span class=w> </span><span class=p>};</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>tokio</span>::<span class=fm>pin!</span><span class=p>(</span><span class=n>f</span><span class=p>);</span><span class=w> </span><span class=c1>// 显式固定
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>timeout</span><span class=p>(</span><span class=o>&amp;</span><span class=k>mut</span><span class=w> </span><span class=n>f</span><span class=p>).</span><span class=k>await</span><span class=p>;</span><span class=w> </span><span class=c1>// 多次轮询安全
-</span></span></span></code></pre></td></tr></table></div></div></li></ul><hr><h3 id=五总结设计原则与决策树><strong>五、总结：设计原则与决策树</strong><a hidden class=anchor aria-hidden=true href=#五总结设计原则与决策树>#</a></h3><h4 id=51-何时使用><strong>5.1 何时使用 <code>Pin</code>？</strong><a hidden class=anchor aria-hidden=true href=#51-何时使用>#</a></h4><table><thead><tr><th><strong>场景</strong></th><th>是否需要 <code>Pin</code></th><th>推荐方法</th></tr></thead><tbody><tr><td>自引用结构</td><td>✅</td><td><code>Box::pin</code> + <code>PhantomPinned</code></td></tr><tr><td>异步 Future（编译器生成）</td><td>✅</td><td><code>tokio::pin!</code> 或 <code>Box::pin</code></td></tr><tr><td>普通 <code>Unpin</code> 类型</td><td>❌</td><td>直接移动</td></tr></tbody></table><h4 id=52-rust-的零成本抽象哲学><strong>5.2 Rust 的零成本抽象哲学</strong><a hidden class=anchor aria-hidden=true href=#52-rust-的零成本抽象哲学>#</a></h4><ul><li><strong>编译期保障</strong>：<code>Pin</code> 为 ZST（零大小类型），仅通过类型系统施加约束，无运行时开销。</li><li><strong>安全与灵活平衡</strong>：<ul><li><code>Unpin</code> 默认实现允许大多数类型自由移动。</li><li><code>!Unpin</code> 显式标记敏感类型，需开发者主动处理。</li></ul></li></ul><hr><p><strong>附录：关键代码示例</strong></p><ul><li><a href=https://play.rust-lang.org/>https://play.rust-lang.org/</a></li><li><a href=https://play.rust-lang.org/>https://play.rust-lang.org/</a></li></ul><p>本文综合了 Rust 内存安全模型、异步运行时机制及类型系统设计，为深入理解 <code>Pin</code> 提供完整框架。进一步实践可参考《Programming Rust, 2nd Edition》第 20 章。</p></div><footer class=post-footer><ul class=post-tags><li><a href=https://Kyle-Derrick.github.io/zh/tags/rust/>Rust</a></li></ul><nav class=paginav><a class=prev href=https://Kyle-Derrick.github.io/zh/posts/read/ai%E6%97%B6%E4%BB%A3%E7%9A%84%E9%98%85%E8%AF%BB%E6%8C%87%E5%8D%97/><span class=title>« 上一页</span>
-<span>AI 时代的阅读指南</span>
-</a><a class=next href=https://Kyle-Derrick.github.io/zh/posts/tech/system_level/%E8%8A%AF%E7%89%87%E8%AE%BE%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%A1%88/><span class=title>下一页 »</span>
-<span>零基础学习芯片设计(AI回答记录)</span></a></nav></footer><script src=https://giscus.app/client.js data-repo=Kyle-Derrick/Kyle-Derrick.github.io data-repo-id=R_kgDOOqQLVA data-category=Announcements data-category-id=DIC_kwDOOqQLVM4CtPKE data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=bottom data-theme=preferred_color_scheme data-lang=zh-CN crossorigin=anonymous async></script></article></main><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
-</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="复制";function s(){t.innerHTML="已复制！",setTimeout(()=>{t.innerHTML="复制"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+<!DOCTYPE html>
+<html lang="zh" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Pin和PhantomData的理解 | Kyle&#39;s Notebook</title>
+<meta name="keywords" content="Rust">
+<meta name="description" content="源于AI回答 的 汇总">
+<meta name="author" content="kyle">
+<link rel="canonical" href="https://Kyle-Derrick.github.io/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bec1a25820e3b93d5b857316bc0a413e000c90b1c61d0daca92ec1b06f98af99.css" integrity="sha256-vsGiWCDjuT1bhXMWvApBPgAMkLHGHQ2sqS7BsG&#43;Yr5k=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://Kyle-Derrick.github.io/img/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://Kyle-Derrick.github.io/img/favicon-16x16.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://Kyle-Derrick.github.io/img/favicon-32x32.ico">
+<link rel="apple-touch-icon" href="https://Kyle-Derrick.github.io/img/apple-touch-icon.png">
+<link rel="mask-icon" href="https://Kyle-Derrick.github.io/img/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="https://Kyle-Derrick.github.io/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://Kyle-Derrick.github.io/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/">
+  <meta property="og:site_name" content="Kyle&#39;s Notebook">
+  <meta property="og:title" content="Pin和PhantomData的理解">
+  <meta property="og:description" content="源于AI回答 的 汇总">
+  <meta property="og:locale" content="zh">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-08-06T09:47:24+08:00">
+    <meta property="article:modified_time" content="2025-08-06T09:47:24+08:00">
+    <meta property="article:tag" content="Rust">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pin和PhantomData的理解">
+  <meta name="twitter:description" content="源于AI回答 的 汇总">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "文章",
+      "item": "https://Kyle-Derrick.github.io/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "技术类",
+      "item": "https://Kyle-Derrick.github.io/zh/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Rust相关",
+      "item": "https://Kyle-Derrick.github.io/zh/posts/tech/rust/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Pin和PhantomData的理解",
+      "item": "https://Kyle-Derrick.github.io/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Pin和PhantomData的理解",
+  "name": "Pin和PhantomData的理解",
+  "description": "源于AI回答 的 汇总",
+  "keywords": [
+    "Rust"
+  ],
+  "articleBody": "以下是对 Rust 中 Pin、Unpin 及 PhantomData 核心机制的完整技术解析，结合内存安全原理、异步编程实践及编译器行为，系统化梳理关键知识点：\n一、Pin 的核心机制与内存固定原理 1.1 为什么需要内存固定？ 自引用结构的危险性：\n当结构体包含指向自身字段的指针（如 *const String），移动该结构体会导致指针指向旧地址，引发悬垂引用和未定义行为（UB）。\n示例：\n1 struct SelfRef { data: String, ptr: *const String } 若移动 SelfRef，ptr 仍指向原 data 地址，访问即崩溃。\n异步 Future 的依赖：\nasync 块编译为状态机，可能生成自引用结构（如引用栈上缓冲区的 Future）。移动正在执行的 Future 会导致内部引用失效。\n1.2 Pin 如何实现“不移动” 运行时机制：\nBox::pin(T) 将 T 移至堆，返回 Pin",
+  "wordCount" : "1449",
+  "inLanguage": "zh",
+  "datePublished": "2025-08-06T09:47:24+08:00",
+  "dateModified": "2025-08-06T09:47:24+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "kyle"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://Kyle-Derrick.github.io/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Kyle's Notebook",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://Kyle-Derrick.github.io/img/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://Kyle-Derrick.github.io/zh/" accesskey="h" title="Kyle&#39;s Notebook (Alt + H)">Kyle&#39;s Notebook</a>
+            <div class="logo-switches"><div class="theme-selector" id="theme-selector">
+    <button class="theme-toggle-btn" id="color-theme-toggle" aria-label="切换主题颜色">
+        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+        </svg>
+    </button>
+    <div class="theme-dropdown" id="color-theme-dropdown">
+        <div class="theme-option" data-theme="green">
+            <span class="theme-dot" style="background: #10b981;"></span>
+            <span class="theme-name">森林绿</span>
+        </div>
+        <div class="theme-option" data-theme="blue">
+            <span class="theme-dot" style="background: #2563eb;"></span>
+            <span class="theme-name">海洋蓝</span>
+        </div>
+        <div class="theme-option" data-theme="purple">
+            <span class="theme-dot" style="background: #7c3aed;"></span>
+            <span class="theme-name">紫罗兰</span>
+        </div>
+        <div class="theme-option" data-theme="orange">
+            <span class="theme-dot" style="background: #f59e0b;"></span>
+            <span class="theme-name">暖阳橙</span>
+        </div>
+        <div class="theme-option" data-theme="pink">
+            <span class="theme-dot" style="background: #ec4899;"></span>
+            <span class="theme-name">樱花粉</span>
+        </div>
+        <div class="theme-option" data-theme="teal">
+            <span class="theme-dot" style="background: #14b8a6;"></span>
+            <span class="theme-name">青柠绿</span>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    const themeToggle = document.getElementById('color-theme-toggle');
+    const themeDropdown = document.getElementById('color-theme-dropdown');
+    if (!themeToggle || !themeDropdown) return;
+    
+    const themeOptions = themeDropdown.querySelectorAll('.theme-option');
+    
+    
+    const savedTheme = localStorage.getItem('blog-theme') || 'green';
+    document.documentElement.setAttribute('data-color-theme', savedTheme);
+    updateActiveTheme(savedTheme);
+    
+    
+    themeToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        themeDropdown.classList.toggle('show');
+    });
+    
+    
+    document.addEventListener('click', function() {
+        themeDropdown.classList.remove('show');
+    });
+    
+    themeDropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+    
+    
+    themeOptions.forEach(function(option) {
+        option.addEventListener('click', function() {
+            const theme = this.getAttribute('data-theme');
+            document.documentElement.setAttribute('data-color-theme', theme);
+            localStorage.setItem('blog-theme', theme);
+            updateActiveTheme(theme);
+            themeDropdown.classList.remove('show');
+        });
+    });
+    
+    function updateActiveTheme(theme) {
+        themeOptions.forEach(function(option) {
+            if (option.getAttribute('data-theme') === theme) {
+                option.classList.add('active');
+            } else {
+                option.classList.remove('active');
+            }
+        });
+    }
+})();
+</script>
+
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/posts" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/zh/">主页</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/zh/posts/">文章</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/zh/posts/tech/">技术类</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/zh/posts/tech/rust/">Rust相关</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg><span class="breadcrumbs-current" title="Pin和PhantomData的理解">Pin和PhantomData的理解</span>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      Pin和PhantomData的理解
+    </h1>
+    <div class="post-description">
+      源于AI回答 的 汇总
+    </div>
+    <div class="post-meta">
+
+<span title='2025-08-06 09:47:24 +0800 CST'>2025-08-06</span>&nbsp;·&nbsp;<span>3 分钟</span>&nbsp;·&nbsp;<span>kyle</span>
+
+</div>
+  </header> <details class="toc" id="toc-container"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">目录</span>
+    </summary>
+
+    <div class="inner"><ul id="toc-list">
+            <li class="toc-item" data-target="一">
+                <a href="#%e4%b8%80" aria-label="一、Pin 的核心机制与内存固定原理">一、Pin 的核心机制与内存固定原理</a><ul>
+                    
+            <li class="toc-item" data-target="11-为什么需要内存固定">
+                <a href="#11-%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e5%86%85%e5%ad%98%e5%9b%ba%e5%ae%9a" aria-label="1.1 为什么需要内存固定？">1.1 为什么需要内存固定？</a></li>
+            <li class="toc-item" data-target="12">
+                <a href="#12" aria-label="1.2 Pin 如何实现“不移动”">1.2 Pin 如何实现“不移动”</a></li></ul>
+            </li>
+            <li class="toc-item" data-target="二">
+                <a href="#%e4%ba%8c" aria-label="二、!Unpin 与标记类型的作用">二、!Unpin 与标记类型的作用</a><ul>
+                    
+            <li class="toc-item" data-target="21">
+                <a href="#21" aria-label="2.1 PhantomPinned 的角色">2.1 PhantomPinned 的角色</a></li>
+            <li class="toc-item" data-target="22">
+                <a href="#22" aria-label="2.2 Unpin 与 !Unpin 的边界">2.2 Unpin 与 !Unpin 的边界</a></li></ul>
+            </li>
+            <li class="toc-item" data-target="三关键-api-的适用场景与对比">
+                <a href="#%e4%b8%89%e5%85%b3%e9%94%ae-api-%e7%9a%84%e9%80%82%e7%94%a8%e5%9c%ba%e6%99%af%e4%b8%8e%e5%af%b9%e6%af%94" aria-label="三、关键 API 的适用场景与对比">三、关键 API 的适用场景与对比</a><ul>
+                    
+            <li class="toc-item" data-target="31">
+                <a href="#31" aria-label="3.1 Box::pin vs Pin::new">3.1 Box::pin vs Pin::new</a></li>
+            <li class="toc-item" data-target="32-修改被固定对象的最佳实践">
+                <a href="#32-%e4%bf%ae%e6%94%b9%e8%a2%ab%e5%9b%ba%e5%ae%9a%e5%af%b9%e8%b1%a1%e7%9a%84%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5" aria-label="3.2 修改被固定对象的最佳实践">3.2 修改被固定对象的最佳实践</a></li></ul>
+            </li>
+            <li class="toc-item" data-target="四异步编程中的核心应用">
+                <a href="#%e5%9b%9b%e5%bc%82%e6%ad%a5%e7%bc%96%e7%a8%8b%e4%b8%ad%e7%9a%84%e6%a0%b8%e5%bf%83%e5%ba%94%e7%94%a8" aria-label="四、异步编程中的核心应用">四、异步编程中的核心应用</a><ul>
+                    
+            <li class="toc-item" data-target="41-future-的生命周期与">
+                <a href="#41-future-%e7%9a%84%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e4%b8%8e" aria-label="4.1 Future 的生命周期与 Pin">4.1 Future 的生命周期与 Pin</a></li>
+            <li class="toc-item" data-target="42-异步实践中">
+                <a href="#42-%e5%bc%82%e6%ad%a5%e5%ae%9e%e8%b7%b5%e4%b8%ad" aria-label="4.2 异步实践中 Pin 的隐式使用">4.2 异步实践中 Pin 的隐式使用</a></li></ul>
+            </li>
+            <li class="toc-item" data-target="五总结设计原则与决策树">
+                <a href="#%e4%ba%94%e6%80%bb%e7%bb%93%e8%ae%be%e8%ae%a1%e5%8e%9f%e5%88%99%e4%b8%8e%e5%86%b3%e7%ad%96%e6%a0%91" aria-label="五、总结：设计原则与决策树">五、总结：设计原则与决策树</a><ul>
+                    
+            <li class="toc-item" data-target="51-何时使用">
+                <a href="#51-%e4%bd%95%e6%97%b6%e4%bd%bf%e7%94%a8" aria-label="5.1 何时使用 Pin？">5.1 何时使用 Pin？</a></li>
+            <li class="toc-item" data-target="52-rust-的零成本抽象哲学">
+                <a href="#52-rust-%e7%9a%84%e9%9b%b6%e6%88%90%e6%9c%ac%e6%8a%bd%e8%b1%a1%e5%93%b2%e5%ad%a6" aria-label="5.2 Rust 的零成本抽象哲学">5.2 Rust 的零成本抽象哲学</a>
+            </li>
+        </ul>
+        </li>
+        </ul>
+    </div>
+</details>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toc = document.getElementById('toc-container');
+    if (!toc) return;
+
+    
+    function checkViewport() {
+        if (window.innerWidth < 1280) {
+            toc.classList.remove('toc-fixed');
+            toc.style.position = '';
+            toc.style.right = '';
+            toc.style.top = '';
+            toc.style.width = '';
+        } else {
+            toc.classList.add('toc-fixed');
+        }
+    }
+
+    
+    checkViewport();
+
+    
+    window.addEventListener('resize', checkViewport);
+
+    
+    const tocLinks = toc.querySelectorAll('a[href^="#"]');
+    const headings = Array.from(tocLinks).map(link => {
+        const id = link.getAttribute('href').substring(1);
+        return document.getElementById(decodeURIComponent(id));
+    }).filter(h => h !== null);
+
+    function highlightCurrentHeading() {
+        if (window.innerWidth < 1280) return;
+
+        const scrollPosition = window.scrollY + 100;
+        let currentIndex = -1;
+
+        headings.forEach((heading, index) => {
+            if (heading && heading.offsetTop <= scrollPosition) {
+                currentIndex = index;
+            }
+        });
+
+        tocLinks.forEach((link, index) => {
+            if (index === currentIndex) {
+                link.classList.add('toc-active');
+                link.parentElement.classList.add('toc-item-active');
+            } else {
+                link.classList.remove('toc-active');
+                link.parentElement.classList.remove('toc-item-active');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', highlightCurrentHeading);
+    highlightCurrentHeading();
+});
+</script>
+
+  <div class="post-content md-content"><p>以下是对 Rust 中 <code>Pin</code>、<code>Unpin</code> 及 <code>PhantomData</code> 核心机制的完整技术解析，结合内存安全原理、异步编程实践及编译器行为，系统化梳理关键知识点：</p>
+<hr>
+<h3 id="一"><strong>一、<code>Pin</code> 的核心机制与内存固定原理</strong><a hidden class="anchor" aria-hidden="true" href="#一">#</a></h3>
+<h4 id="11-为什么需要内存固定"><strong>1.1 为什么需要内存固定？</strong><a hidden class="anchor" aria-hidden="true" href="#11-为什么需要内存固定">#</a></h4>
+<ul>
+<li>
+<p><strong>自引用结构的危险性</strong>：<br>
+当结构体包含指向自身字段的指针（如 <code>*const String</code>），移动该结构体会导致指针指向旧地址，引发悬垂引用和未定义行为（UB）。<br>
+<strong>示例</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">SelfRef</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">data</span>: <span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">ptr</span>: <span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>若移动 <code>SelfRef</code>，<code>ptr</code> 仍指向原 <code>data</code> 地址，访问即崩溃。</p>
+</li>
+<li>
+<p><strong>异步 Future 的依赖</strong>：<br>
+<code>async</code> 块编译为状态机，可能生成自引用结构（如引用栈上缓冲区的 Future）。移动正在执行的 Future 会导致内部引用失效。</p>
+</li>
+</ul>
+<h4 id="12"><strong>1.2 <code>Pin</code> 如何实现“不移动”</strong><a hidden class="anchor" aria-hidden="true" href="#12">#</a></h4>
+<ul>
+<li>
+<p><strong>运行时机制</strong>：</p>
+<ul>
+<li><code>Box::pin(T)</code> 将 <code>T</code> 移至堆，返回 <code>Pin&lt;Box&lt;T&gt;&gt;</code>。堆地址固定，移动 <code>Pin&lt;Box&lt;T&gt;&gt;</code> 仅复制栈指针，不改变堆数据位置。</li>
+<li><strong>关键约束</strong>：<code>Pin</code> 禁止暴露裸 <code>&amp;mut T</code>（移动需通过 <code>&amp;mut T</code> 实现），编译期阻断移动途径。</li>
+</ul>
+</li>
+<li>
+<p><strong>栈固定与安全性</strong>：<br>
+<code>Pin::new_unchecked(&amp;mut T)</code> 需 <code>unsafe</code> 保证：调用者需承诺 <code>T</code> 在固定期间不被移动。错误使用（如交换两个 <code>Pin&lt;&amp;mut T&gt;</code>）会导致 UB。<br>
+<strong>安全替代</strong>：优先使用 <code>pin!</code> 宏（如 <code>tokio::pin!</code>），通过变量遮蔽隐藏原值，防止意外移动。</p>
+</li>
+</ul>
+<hr>
+<h3 id="二"><strong>二、<code>!Unpin</code> 与标记类型的作用</strong><a hidden class="anchor" aria-hidden="true" href="#二">#</a></h3>
+<h4 id="21"><strong>2.1 <code>PhantomPinned</code> 的角色</strong><a hidden class="anchor" aria-hidden="true" href="#21">#</a></h4>
+<ul>
+<li>
+<p><strong>自动实现 <code>!Unpin</code></strong>：<br>
+添加 <code>_pin: PhantomPinned</code> 字段，编译器自动阻止类型实现 <code>Unpin</code>，标记其对移动敏感。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Cache</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">_pin</span>: <span class="nc">PhantomPinned</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1">// 自动 !Unpin
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><strong>与 <code>PhantomData</code> 的区别</strong>：</p>
+<table>
+  <thead>
+      <tr>
+          <th><strong>标记类型</strong></th>
+          <th>作用</th>
+          <th>是否影响移动</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>PhantomPinned</code></td>
+          <td>强制 <code>!Unpin</code></td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td><code>PhantomData&lt;T&gt;</code></td>
+          <td>占位泛型/声明所有权</td>
+          <td>❌</td>
+      </tr>
+  </tbody>
+</table>
+</li>
+</ul>
+<h4 id="22"><strong>2.2 <code>Unpin</code> 与 <code>!Unpin</code> 的边界</strong><a hidden class="anchor" aria-hidden="true" href="#22">#</a></h4>
+<ul>
+<li><strong><code>Unpin</code></strong>：默认 trait，表示类型可安全移动（如 <code>i32</code>、<code>Vec</code>）。若所有字段 <code>Unpin</code>，则结构体自动 <code>Unpin</code>。</li>
+<li><strong><code>!Unpin</code></strong>：需显式标记（如 <code>PhantomPinned</code>），禁止安全移动。仅适用于：
+<ul>
+<li>自引用结构</li>
+<li>异步 <code>Future</code>（编译器生成的状态机）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="三关键-api-的适用场景与对比"><strong>三、关键 API 的适用场景与对比</strong><a hidden class="anchor" aria-hidden="true" href="#三关键-api-的适用场景与对比">#</a></h3>
+<h4 id="31"><strong>3.1 <code>Box::pin</code> vs <code>Pin::new</code></strong><a hidden class="anchor" aria-hidden="true" href="#31">#</a></h4>
+<table>
+  <thead>
+      <tr>
+          <th><strong>方法</strong></th>
+          <th>适用类型</th>
+          <th>安全性</th>
+          <th>典型场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>Pin::new(&amp;mut T)</code></td>
+          <td><code>T: Unpin</code></td>
+          <td>安全</td>
+          <td>临时兼容泛型 API（无实际约束）</td>
+      </tr>
+      <tr>
+          <td><code>Box::pin(T)</code></td>
+          <td>任意 <code>T</code></td>
+          <td>安全</td>
+          <td>固定 <code>!Unpin</code> 类型到堆</td>
+      </tr>
+      <tr>
+          <td><code>Pin::new_unchecked()</code></td>
+          <td><code>T: !Unpin</code></td>
+          <td><code>unsafe</code></td>
+          <td>栈固定（需严格保证不移动）</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>为什么 <code>Pin::new</code> 仍有用？</strong><br>
+统一处理泛型 API：如异步执行器需同时支持 <code>Unpin</code> 和 <code>!Unpin</code> 的 Future：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">poll</span><span class="o">&lt;</span><span class="n">T</span>: <span class="nc">Future</span><span class="o">&gt;</span><span class="p">(</span><span class="k">mut</span><span class="w"> </span><span class="n">f</span>: <span class="nc">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">pinned</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Pin</span>::<span class="n">new</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">f</span><span class="p">);</span><span class="w"> </span><span class="c1">// 兼容 Unpin
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="n">pinned</span><span class="p">.</span><span class="n">poll</span><span class="p">(</span><span class="n">cx</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="32-修改被固定对象的最佳实践"><strong>3.2 修改被固定对象的最佳实践</strong><a hidden class="anchor" aria-hidden="true" href="#32-修改被固定对象的最佳实践">#</a></h4>
+<ul>
+<li><strong>安全路径（<code>T: Unpin</code>）</strong>：<br>
+直接通过 <code>Pin::as_mut()</code> 获取 <code>&amp;mut T</code> 修改：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">vec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">];</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">let</span><span class="w"> </span><span class="n">pinned</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Pin</span>::<span class="n">new</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">vec</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">pinned</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span><span class="w"> </span><span class="c1">// 安全
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><strong><code>!Unpin</code> 类型的修改</strong>：<br>
+需 <code>unsafe</code> + <code>get_unchecked_mut()</code>，但可通过封装方法避免暴露：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">impl</span><span class="w"> </span><span class="n">Cache</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span>: <span class="nc">Pin</span><span class="o">&lt;&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">Self</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">data</span>: <span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">unsafe</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">get_unchecked_mut</span><span class="p">().</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><strong>替代方案</strong>：
+<ul>
+<li>使用 <code>pin-project</code> 库自动生成安全投影。</li>
+<li>分离可变状态（如将 <code>Vec</code> 放入 <code>RefCell</code>）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="四异步编程中的核心应用"><strong>四、异步编程中的核心应用</strong><a hidden class="anchor" aria-hidden="true" href="#四异步编程中的核心应用">#</a></h3>
+<h4 id="41-future-的生命周期与"><strong>4.1 Future 的生命周期与 <code>Pin</code></strong><a hidden class="anchor" aria-hidden="true" href="#41-future-的生命周期与">#</a></h4>
+<ul>
+<li><strong>两阶段模型</strong>：
+<ol>
+<li><strong>创建阶段</strong>：Future 未轮询，无自引用，可安全移动。</li>
+<li><strong>轮询阶段</strong>：Future 执行后可能生成内部引用，必须固定。</li>
+</ol>
+</li>
+<li><strong><code>Future::poll</code> 签名强制约束</strong>：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">poll</span><span class="p">(</span><span class="bp">self</span>: <span class="nc">Pin</span><span class="o">&lt;&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">Self</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">cx</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">Context</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Poll</span><span class="o">&lt;</span><span class="n">Output</span><span class="o">&gt;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div>强制通过 <code>Pin</code> 访问，确保状态机地址稳定。</li>
+</ul>
+<h4 id="42-异步实践中"><strong>4.2 异步实践中 <code>Pin</code> 的隐式使用</strong><a hidden class="anchor" aria-hidden="true" href="#42-异步实践中">#</a></h4>
+<ul>
+<li><strong><code>await</code> 关键字</strong>：自动调用 <code>pin!</code> 固定 Future。</li>
+<li><strong>重试场景示例</strong>：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">tokio</span>::<span class="fm">pin!</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"> </span><span class="c1">// 显式固定
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">timeout</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">f</span><span class="p">).</span><span class="k">await</span><span class="p">;</span><span class="w"> </span><span class="c1">// 多次轮询安全
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<hr>
+<h3 id="五总结设计原则与决策树"><strong>五、总结：设计原则与决策树</strong><a hidden class="anchor" aria-hidden="true" href="#五总结设计原则与决策树">#</a></h3>
+<h4 id="51-何时使用"><strong>5.1 何时使用 <code>Pin</code>？</strong><a hidden class="anchor" aria-hidden="true" href="#51-何时使用">#</a></h4>
+<table>
+  <thead>
+      <tr>
+          <th><strong>场景</strong></th>
+          <th>是否需要 <code>Pin</code></th>
+          <th>推荐方法</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>自引用结构</td>
+          <td>✅</td>
+          <td><code>Box::pin</code> + <code>PhantomPinned</code></td>
+      </tr>
+      <tr>
+          <td>异步 Future（编译器生成）</td>
+          <td>✅</td>
+          <td><code>tokio::pin!</code> 或 <code>Box::pin</code></td>
+      </tr>
+      <tr>
+          <td>普通 <code>Unpin</code> 类型</td>
+          <td>❌</td>
+          <td>直接移动</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="52-rust-的零成本抽象哲学"><strong>5.2 Rust 的零成本抽象哲学</strong><a hidden class="anchor" aria-hidden="true" href="#52-rust-的零成本抽象哲学">#</a></h4>
+<ul>
+<li><strong>编译期保障</strong>：<code>Pin</code> 为 ZST（零大小类型），仅通过类型系统施加约束，无运行时开销。</li>
+<li><strong>安全与灵活平衡</strong>：
+<ul>
+<li><code>Unpin</code> 默认实现允许大多数类型自由移动。</li>
+<li><code>!Unpin</code> 显式标记敏感类型，需开发者主动处理。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>附录：关键代码示例</strong></p>
+<ul>
+<li><a href="https://play.rust-lang.org/">https://play.rust-lang.org/</a></li>
+<li><a href="https://play.rust-lang.org/">https://play.rust-lang.org/</a></li>
+</ul>
+<p>本文综合了 Rust 内存安全模型、异步运行时机制及类型系统设计，为深入理解 <code>Pin</code> 提供完整框架。进一步实践可参考《Programming Rust, 2nd Edition》第 20 章。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://Kyle-Derrick.github.io/zh/tags/rust/">Rust</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://Kyle-Derrick.github.io/zh/posts/read/ai%E6%97%B6%E4%BB%A3%E7%9A%84%E9%98%85%E8%AF%BB%E6%8C%87%E5%8D%97/">
+    <span class="title">« 上一页</span>
+    <span>AI 时代的阅读指南</span>
+  </a>
+  <a class="next" href="https://Kyle-Derrick.github.io/zh/posts/tech/system_level/%E8%8A%AF%E7%89%87%E8%AE%BE%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%A1%88/">
+    <span class="title">下一页 »</span>
+    <span>零基础学习芯片设计(AI回答记录)</span>
+  </a>
+</nav>
+
+  </footer><script src="https://giscus.app/client.js"
+        data-repo="Kyle-Derrick/Kyle-Derrick.github.io"
+        data-repo-id="R_kgDOOqQLVA"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOOqQLVM4CtPKE"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+</article>
+    </main>
+    
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -1,12 +1,329 @@
-<!doctype html><html lang=zh dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>ESXi | Kyle's Notebook</title>
-<meta name=keywords content><meta name=description content="这是一个纯粹的博客......"><meta name=author content="Me"><link rel=canonical href=https://Kyle-Derrick.github.io/zh/tags/esxi/><link crossorigin=anonymous href=/assets/css/stylesheet.ca2848ebeeca52df8c483397ae25b87c7d12a7cbfc51fdda486977f79c35b24f.css integrity="sha256-yihI6+7KUt+MSDOXriW4fH0Sp8v8Uf3aSGl395w1sk8=" rel="preload stylesheet" as=style><link rel=icon href=https://Kyle-Derrick.github.io/img/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://Kyle-Derrick.github.io/img/favicon-16x16.ico><link rel=icon type=image/png sizes=32x32 href=https://Kyle-Derrick.github.io/img/favicon-32x32.ico><link rel=apple-touch-icon href=https://Kyle-Derrick.github.io/img/apple-touch-icon.png><link rel=mask-icon href=https://Kyle-Derrick.github.io/img/favicon.ico><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate type=application/rss+xml href=https://Kyle-Derrick.github.io/zh/tags/esxi/index.xml title=rss><link rel=alternate hreflang=zh href=https://Kyle-Derrick.github.io/zh/tags/esxi/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta property="og:url" content="https://Kyle-Derrick.github.io/zh/tags/esxi/"><meta property="og:site_name" content="Kyle's Notebook"><meta property="og:title" content="ESXi"><meta property="og:description" content="这是一个纯粹的博客......"><meta property="og:locale" content="zh"><meta property="og:type" content="website"><meta name=twitter:card content="summary"><meta name=twitter:title content="ESXi"><meta name=twitter:description content="这是一个纯粹的博客......"></head><body class=list id=top><header class=header><nav class=header-nav><div class=logo><a href=https://Kyle-Derrick.github.io/zh/ accesskey=h title="Kyle's Notebook (Alt + H)">Kyle's Notebook</a><div class=logo-switches><div class=theme-selector id=theme-selector><button class=theme-toggle-btn id=theme-toggle aria-label=切换主题><svg class="theme-icon theme-icon-palette" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83"/></svg></button><div class=theme-dropdown id=theme-dropdown><div class=theme-option data-theme=green><span class=theme-dot style=background:#10b981></span>
-<span class=theme-name>森林绿</span></div><div class=theme-option data-theme=blue><span class=theme-dot style=background:#2563eb></span>
-<span class=theme-name>海洋蓝</span></div><div class=theme-option data-theme=purple><span class=theme-dot style=background:#7c3aed></span>
-<span class=theme-name>紫罗兰</span></div><div class=theme-option data-theme=orange><span class=theme-dot style=background:#f59e0b></span>
-<span class=theme-name>暖阳橙</span></div><div class=theme-option data-theme=pink><span class=theme-dot style=background:#ec4899></span>
-<span class=theme-name>樱花粉</span></div><div class=theme-option data-theme=teal><span class=theme-dot style=background:#14b8a6></span>
-<span class=theme-name>青柠绿</span></div></div></div><script>document.addEventListener("DOMContentLoaded",function(){const o=document.getElementById("theme-toggle"),e=document.getElementById("theme-dropdown"),t=document.querySelectorAll(".theme-option"),n=localStorage.getItem("blog-theme")||"green";document.documentElement.setAttribute("data-color-theme",n),s(n),o.addEventListener("click",function(t){t.stopPropagation(),e.classList.toggle("show")}),document.addEventListener("click",function(){e.classList.remove("show")}),e.addEventListener("click",function(e){e.stopPropagation()}),t.forEach(t=>{t.addEventListener("click",function(){const t=this.getAttribute("data-theme");document.documentElement.setAttribute("data-color-theme",t),localStorage.setItem("blog-theme",t),s(t),e.classList.remove("show")})});function s(e){t.forEach(t=>{t.getAttribute("data-theme")===e?t.classList.add("active"):t.classList.remove("active")})}})</script><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme"><svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://Kyle-Derrick.github.io/zh/search title="搜索 (Alt + /)" accesskey=/><span>搜索</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/ title=主页><span>主页</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/posts title=文章><span>文章</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/archives title=时间轴><span>时间轴</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/tags title=标签><span>标签</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/about title=关于><span>关于</span></a></li></ul></nav></header><main class=main><header class=page-header><nav class=breadcrumbs role=navigation aria-label=Breadcrumb><a href=/zh/>主页</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
-<a href=/zh/tags/>Tags</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg><span class=breadcrumbs-current title=ESXi>ESXi</span></nav><h1>ESXi</h1></header><article class="post-entry tag-entry"><header class=entry-header><h2 class=entry-hint-parent>ESXi7虚拟机克隆脚本实现</h2></header><div class=entry-content><p>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 #!/bin/sh datastore_path=/vmfs/volumes/datastore1 template_name=CentOS-Base-250609 nts_template_path="$datastore_path/$template_name" new_path=$datastore_path/$1 if [ -d "$new_path" ]; then echo "exists vm : $1" exit 1 fi mkdir $new_path echo "clone vmdk..." vmkfstools -i $nts_template_path/$template_name.vmdk $new_path/$1.vmdk -d eagerzeroedthick echo "clone vmdk2..." vmkfstools -i $nts_template_path/${template_name}_1.vmdk $new_path/$1_1.vmdk -d zeroedthick echo "generate vmx..." cp $nts_template_path/$template_name.vmx $new_path/$1.vmx sed -i '/ethernet[0-9]\.generatedAddress/d' $new_path/$1.vmx sed -i '/annotation = "/d' $new_path/$1.vmx sed -i '/scsi[0-9]\.sasWWID = "/d' $new_path/$1.vmx sed -i '/sched\.swap\.derivedName = "/d' $new_path/$1.vmx sed -i '/migrate\.hostlog = "/d' $new_path/$1.vmx sed -i '/nvram = "/d' $new_path/$1.vmx sed -i '/vc\.uuid = "/d' $new_path/$1.vmx sed -i '/uuid\.location = "/d' $new_path/$1.vmx sed -i '/uuid\.bios = "/d' $new_path/$1.vmx sed -i "/displayName = \"/c\displayName = \"$1\"" $new_path/$1.vmx # custom disk file and ethernet sed -i "/scsi0:0\.fileName = \"/c\scsi0:0.fileName = \"$1.vmdk\"" $new_path/$1.vmx sed -i "/scsi0:1\.fileName = \"/c\scsi0:1.fileName = \"$1_1.vmdk\"" $new_path/$1.vmx if [ -n "$2" ]; then sed -i '/ethernet0\.addressType = "/c\ethernet0.addressType = "static"' $new_path/$1.vmx sed -i "/ethernet0\.address = \"/c\ethernet0.address = \"$2\"" $new_path/$1.vmx else sed -i '/ethernet0\.addressType = "/c\ethernet0.addressType = "generated"' $new_path/$1.vmx sed -i "/ethernet0\.address = \"/d" $new_path/$1.vmx fi echo "register vm..." vim-cmd solo/registervm $new_path/$1.vmx echo "over."</p></div><footer class=entry-footer><span title='2025-07-22 23:08:01 +0800 CST'>2025-07-22</span>&nbsp;·&nbsp;<span>1 分钟</span>&nbsp;·&nbsp;<span>kyle</span></footer><a class=entry-link aria-label="post link to ESXi7虚拟机克隆脚本实现" href=https://Kyle-Derrick.github.io/zh/posts/tech/linux/esxi7%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%85%8B%E9%9A%86%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0/></a></article></main><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
-</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>
+<!DOCTYPE html>
+<html lang="zh" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>ESXi | Kyle&#39;s Notebook</title>
+<meta name="keywords" content="">
+<meta name="description" content="这是一个纯粹的博客......">
+<meta name="author" content="Me">
+<link rel="canonical" href="https://Kyle-Derrick.github.io/zh/tags/esxi/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bec1a25820e3b93d5b857316bc0a413e000c90b1c61d0daca92ec1b06f98af99.css" integrity="sha256-vsGiWCDjuT1bhXMWvApBPgAMkLHGHQ2sqS7BsG&#43;Yr5k=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://Kyle-Derrick.github.io/img/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://Kyle-Derrick.github.io/img/favicon-16x16.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://Kyle-Derrick.github.io/img/favicon-32x32.ico">
+<link rel="apple-touch-icon" href="https://Kyle-Derrick.github.io/img/apple-touch-icon.png">
+<link rel="mask-icon" href="https://Kyle-Derrick.github.io/img/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://Kyle-Derrick.github.io/zh/tags/esxi/index.xml" title="rss">
+<link rel="alternate" hreflang="zh" href="https://Kyle-Derrick.github.io/zh/tags/esxi/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://Kyle-Derrick.github.io/zh/tags/esxi/">
+  <meta property="og:site_name" content="Kyle&#39;s Notebook">
+  <meta property="og:title" content="ESXi">
+  <meta property="og:description" content="这是一个纯粹的博客......">
+  <meta property="og:locale" content="zh">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="ESXi">
+  <meta name="twitter:description" content="这是一个纯粹的博客......">
+
+</head>
+<body class="list" id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://Kyle-Derrick.github.io/zh/" accesskey="h" title="Kyle&#39;s Notebook (Alt + H)">Kyle&#39;s Notebook</a>
+            <div class="logo-switches"><div class="theme-selector" id="theme-selector">
+    <button class="theme-toggle-btn" id="color-theme-toggle" aria-label="切换主题颜色">
+        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+        </svg>
+    </button>
+    <div class="theme-dropdown" id="color-theme-dropdown">
+        <div class="theme-option" data-theme="green">
+            <span class="theme-dot" style="background: #10b981;"></span>
+            <span class="theme-name">森林绿</span>
+        </div>
+        <div class="theme-option" data-theme="blue">
+            <span class="theme-dot" style="background: #2563eb;"></span>
+            <span class="theme-name">海洋蓝</span>
+        </div>
+        <div class="theme-option" data-theme="purple">
+            <span class="theme-dot" style="background: #7c3aed;"></span>
+            <span class="theme-name">紫罗兰</span>
+        </div>
+        <div class="theme-option" data-theme="orange">
+            <span class="theme-dot" style="background: #f59e0b;"></span>
+            <span class="theme-name">暖阳橙</span>
+        </div>
+        <div class="theme-option" data-theme="pink">
+            <span class="theme-dot" style="background: #ec4899;"></span>
+            <span class="theme-name">樱花粉</span>
+        </div>
+        <div class="theme-option" data-theme="teal">
+            <span class="theme-dot" style="background: #14b8a6;"></span>
+            <span class="theme-name">青柠绿</span>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    const themeToggle = document.getElementById('color-theme-toggle');
+    const themeDropdown = document.getElementById('color-theme-dropdown');
+    if (!themeToggle || !themeDropdown) return;
+    
+    const themeOptions = themeDropdown.querySelectorAll('.theme-option');
+    
+    
+    const savedTheme = localStorage.getItem('blog-theme') || 'green';
+    document.documentElement.setAttribute('data-color-theme', savedTheme);
+    updateActiveTheme(savedTheme);
+    
+    
+    themeToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        themeDropdown.classList.toggle('show');
+    });
+    
+    
+    document.addEventListener('click', function() {
+        themeDropdown.classList.remove('show');
+    });
+    
+    themeDropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+    
+    
+    themeOptions.forEach(function(option) {
+        option.addEventListener('click', function() {
+            const theme = this.getAttribute('data-theme');
+            document.documentElement.setAttribute('data-color-theme', theme);
+            localStorage.setItem('blog-theme', theme);
+            updateActiveTheme(theme);
+            themeDropdown.classList.remove('show');
+        });
+    });
+    
+    function updateActiveTheme(theme) {
+        themeOptions.forEach(function(option) {
+            if (option.getAttribute('data-theme') === theme) {
+                option.classList.add('active');
+            } else {
+                option.classList.remove('active');
+            }
+        });
+    }
+})();
+</script>
+
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/posts" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/zh/">主页</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/zh/tags/">Tags</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg><span class="breadcrumbs-current" title="ESXi">ESXi</span>
+</nav>
+  <h1>
+    ESXi
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">ESXi7虚拟机克隆脚本实现
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 #!/bin/sh datastore_path=/vmfs/volumes/datastore1 template_name=CentOS-Base-250609 nts_template_path=&#34;$datastore_path/$template_name&#34; new_path=$datastore_path/$1 if [ -d &#34;$new_path&#34; ]; then echo &#34;exists vm : $1&#34; exit 1 fi mkdir $new_path echo &#34;clone vmdk...&#34; vmkfstools -i $nts_template_path/$template_name.vmdk $new_path/$1.vmdk -d eagerzeroedthick echo &#34;clone vmdk2...&#34; vmkfstools -i $nts_template_path/${template_name}_1.vmdk $new_path/$1_1.vmdk -d zeroedthick echo &#34;generate vmx...&#34; cp $nts_template_path/$template_name.vmx $new_path/$1.vmx sed -i &#39;/ethernet[0-9]\.generatedAddress/d&#39; $new_path/$1.vmx sed -i &#39;/annotation = &#34;/d&#39; $new_path/$1.vmx sed -i &#39;/scsi[0-9]\.sasWWID = &#34;/d&#39; $new_path/$1.vmx sed -i &#39;/sched\.swap\.derivedName = &#34;/d&#39; $new_path/$1.vmx sed -i &#39;/migrate\.hostlog = &#34;/d&#39; $new_path/$1.vmx sed -i &#39;/nvram = &#34;/d&#39; $new_path/$1.vmx sed -i &#39;/vc\.uuid = &#34;/d&#39; $new_path/$1.vmx sed -i &#39;/uuid\.location = &#34;/d&#39; $new_path/$1.vmx sed -i &#39;/uuid\.bios = &#34;/d&#39; $new_path/$1.vmx sed -i &#34;/displayName = \&#34;/c\displayName = \&#34;$1\&#34;&#34; $new_path/$1.vmx # custom disk file and ethernet sed -i &#34;/scsi0:0\.fileName = \&#34;/c\scsi0:0.fileName = \&#34;$1.vmdk\&#34;&#34; $new_path/$1.vmx sed -i &#34;/scsi0:1\.fileName = \&#34;/c\scsi0:1.fileName = \&#34;$1_1.vmdk\&#34;&#34; $new_path/$1.vmx if [ -n &#34;$2&#34; ]; then sed -i &#39;/ethernet0\.addressType = &#34;/c\ethernet0.addressType = &#34;static&#34;&#39; $new_path/$1.vmx sed -i &#34;/ethernet0\.address = \&#34;/c\ethernet0.address = \&#34;$2\&#34;&#34; $new_path/$1.vmx else sed -i &#39;/ethernet0\.addressType = &#34;/c\ethernet0.addressType = &#34;generated&#34;&#39; $new_path/$1.vmx sed -i &#34;/ethernet0\.address = \&#34;/d&#34; $new_path/$1.vmx fi echo &#34;register vm...&#34; vim-cmd solo/registervm $new_path/$1.vmx echo &#34;over.&#34; </p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2025-07-22 23:08:01 +0800 CST'>2025-07-22</span>&nbsp;·&nbsp;<span>1 分钟</span>&nbsp;·&nbsp;<span>kyle</span></footer>
+  <a class="entry-link" aria-label="post link to ESXi7虚拟机克隆脚本实现" href="https://Kyle-Derrick.github.io/zh/posts/tech/linux/esxi7%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%85%8B%E9%9A%86%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0/"></a>
+</article>
+    </main>
+    
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

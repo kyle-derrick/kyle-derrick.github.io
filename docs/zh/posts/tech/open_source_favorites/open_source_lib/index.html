@@ -1,32 +1,648 @@
-<!doctype html><html lang=zh dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>开源库搜寻记录 | Kyle's Notebook</title>
-<meta name=keywords content="Rust,开源"><meta name=description content="
+<!DOCTYPE html>
+<html lang="zh" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>开源库搜寻记录 | Kyle&#39;s Notebook</title>
+<meta name="keywords" content="Rust, 开源">
+<meta name="description" content="
 主要用于寻找第三方库后做备忘的零散记录，常用库此处不记录
 Rust
 deno: 类似nodejs
 nom: 解析库（包括但不限于语法）
-egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff-8c80-1a0b8154fb7d"><meta name=author content="kyle"><link rel=canonical href=https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/><link crossorigin=anonymous href=/assets/css/stylesheet.ca2848ebeeca52df8c483397ae25b87c7d12a7cbfc51fdda486977f79c35b24f.css integrity="sha256-yihI6+7KUt+MSDOXriW4fH0Sp8v8Uf3aSGl395w1sk8=" rel="preload stylesheet" as=style><link rel=icon href=https://Kyle-Derrick.github.io/img/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://Kyle-Derrick.github.io/img/favicon-16x16.ico><link rel=icon type=image/png sizes=32x32 href=https://Kyle-Derrick.github.io/img/favicon-32x32.ico><link rel=apple-touch-icon href=https://Kyle-Derrick.github.io/img/apple-touch-icon.png><link rel=mask-icon href=https://Kyle-Derrick.github.io/img/favicon.ico><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=zh href=https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta property="og:url" content="https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/"><meta property="og:site_name" content="Kyle's Notebook"><meta property="og:title" content="开源库搜寻记录"><meta property="og:description" content="主要用于寻找第三方库后做备忘的零散记录，常用库此处不记录
-Rust deno: 类似nodejs nom: 解析库（包括但不限于语法） egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff-8c80-1a0b8154fb7d"><meta property="og:locale" content="zh"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-07-22T23:11:48+08:00"><meta property="article:modified_time" content="2025-07-22T23:11:48+08:00"><meta property="article:tag" content="Rust"><meta property="article:tag" content="开源"><meta name=twitter:card content="summary"><meta name=twitter:title content="开源库搜寻记录"><meta name=twitter:description content="主要用于寻找第三方库后做备忘的零散记录，常用库此处不记录
-Rust deno: 类似nodejs nom: 解析库（包括但不限于语法） egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff-8c80-1a0b8154fb7d"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"文章","item":"https://Kyle-Derrick.github.io/zh/posts/"},{"@type":"ListItem","position":2,"name":"技术类","item":"https://Kyle-Derrick.github.io/zh/posts/tech/"},{"@type":"ListItem","position":3,"name":"开源收藏夹","item":"https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/"},{"@type":"ListItem","position":4,"name":"开源库搜寻记录","item":"https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"开源库搜寻记录","name":"开源库搜寻记录","description":" 主要用于寻找第三方库后做备忘的零散记录，常用库此处不记录\nRust deno: 类似nodejs nom: 解析库（包括但不限于语法） egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff-8c80-1a0b8154fb7d\n","keywords":["Rust","开源"],"articleBody":" 主要用于寻找第三方库后做备忘的零散记录，常用库此处不记录\nRust deno: 类似nodejs nom: 解析库（包括但不限于语法） egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff-8c80-1a0b8154fb7d\npingora 类似nginx\n加密库 aes等加密以及ed25519等签名校验常用ring rustls、rust-openssl、ring\nJS相关 https://github.com/yuankunzhang/charming : 通过deno_core调用echarts生成图表 https://github.com/rscarson/rustyscript : deno_core的上层封装\nboa_engine : 一个实验性Js引擎，rust实现\nJava javalin: 非常轻量级的web框架（java或kotlin） vertx: 响应式 网络框架集 包括但不限于web quarkus: 全栈Kubernetes原生Java框架，专为GraalVM和HotSpot优化，底层使用的反应式框架之一是vertx\n浏览器自动化 一、Playwright vs Puppeteer 核心对比 对比维度 Puppeteer Playwright 浏览器支持 主攻 Chromium，有限支持 Firefox（功能不全） 原生支持 Chromium、Firefox、WebKit（Safari） API 设计 需手动等待元素状态（如 waitForSelector） 自动等待元素可交互（如点击前检查可见性） 性能表现 冷启动约 1.2 秒，内存占用较低 冷启动约 0.8 秒（连接池优化），支持并行上下文隔离 高级功能 - PDF 生成质量更高- 截图速度快 15-20% - 移动设备模拟（精确视口/触摸事件）- 视频录制、网络请求拦截- 跨 iframe 操作 多语言支持 Node.js 为主，社区提供非官方 Python 库 官方支持：JavaScript/TypeScript、Python、Java、C# 适用场景 - 仅需覆盖 Chromium 系浏览器 - 轻量级部署或高质量 PDF 生成- 跨浏览器测试（含 Safari）- 复杂自动化（移动端模拟、视频录制）- 多语言团队协作 选型建议：\n选 Puppeteer：项目深度绑定 Chromium 生态，追求轻量部署或高质量 PDF/截图生成。 选 Playwright：需覆盖 Safari/Firefox、实现复杂自动化（如移动端测试），或团队使用多语言开发。 ","wordCount":"840","inLanguage":"zh","datePublished":"2025-07-22T23:11:48+08:00","dateModified":"2025-07-22T23:11:48+08:00","author":[{"@type":"Person","name":"kyle"}],"mainEntityOfPage":{"@type":"WebPage","@id":"https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/"},"publisher":{"@type":"Organization","name":"Kyle's Notebook","logo":{"@type":"ImageObject","url":"https://Kyle-Derrick.github.io/img/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://Kyle-Derrick.github.io/zh/ accesskey=h title="Kyle's Notebook (Alt + H)">Kyle's Notebook</a><div class=logo-switches><div class=theme-selector id=theme-selector><button class=theme-toggle-btn id=theme-toggle aria-label=切换主题><svg class="theme-icon theme-icon-palette" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83"/></svg></button><div class=theme-dropdown id=theme-dropdown><div class=theme-option data-theme=green><span class=theme-dot style=background:#10b981></span>
-<span class=theme-name>森林绿</span></div><div class=theme-option data-theme=blue><span class=theme-dot style=background:#2563eb></span>
-<span class=theme-name>海洋蓝</span></div><div class=theme-option data-theme=purple><span class=theme-dot style=background:#7c3aed></span>
-<span class=theme-name>紫罗兰</span></div><div class=theme-option data-theme=orange><span class=theme-dot style=background:#f59e0b></span>
-<span class=theme-name>暖阳橙</span></div><div class=theme-option data-theme=pink><span class=theme-dot style=background:#ec4899></span>
-<span class=theme-name>樱花粉</span></div><div class=theme-option data-theme=teal><span class=theme-dot style=background:#14b8a6></span>
-<span class=theme-name>青柠绿</span></div></div></div><script>document.addEventListener("DOMContentLoaded",function(){const o=document.getElementById("theme-toggle"),e=document.getElementById("theme-dropdown"),t=document.querySelectorAll(".theme-option"),n=localStorage.getItem("blog-theme")||"green";document.documentElement.setAttribute("data-color-theme",n),s(n),o.addEventListener("click",function(t){t.stopPropagation(),e.classList.toggle("show")}),document.addEventListener("click",function(){e.classList.remove("show")}),e.addEventListener("click",function(e){e.stopPropagation()}),t.forEach(t=>{t.addEventListener("click",function(){const t=this.getAttribute("data-theme");document.documentElement.setAttribute("data-color-theme",t),localStorage.setItem("blog-theme",t),s(t),e.classList.remove("show")})});function s(e){t.forEach(t=>{t.getAttribute("data-theme")===e?t.classList.add("active"):t.classList.remove("active")})}})</script><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme"><svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://Kyle-Derrick.github.io/zh/search title="搜索 (Alt + /)" accesskey=/><span>搜索</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/ title=主页><span>主页</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/posts title=文章><span>文章</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/archives title=时间轴><span>时间轴</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/tags title=标签><span>标签</span></a></li><li><a href=https://Kyle-Derrick.github.io/zh/about title=关于><span>关于</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><nav class=breadcrumbs role=navigation aria-label=Breadcrumb><a href=/zh/>主页</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
-<a href=/zh/posts/>文章</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
-<a href=/zh/posts/tech/>技术类</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
-<a href=/zh/posts/tech/open_source_favorites/>开源收藏夹</a>
-<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg><span class=breadcrumbs-current title=开源库搜寻记录>开源库搜寻记录</span></nav><h1 class="post-title entry-hint-parent">开源库搜寻记录</h1><div class=post-meta><span title='2025-07-22 23:11:48 +0800 CST'>2025-07-22</span>&nbsp;·&nbsp;<span>2 分钟</span>&nbsp;·&nbsp;<span>kyle</span></div></header><details class=toc id=toc-container open><summary accesskey=c title="(Alt + C)"><span class=title>目录</span></summary><div class=inner><ul id=toc-list><li class=toc-item data-target=rust><a href=#rust aria-label=Rust>Rust</a><ul><ul><li class=toc-item data-target=加密库><a href=#%e5%8a%a0%e5%af%86%e5%ba%93 aria-label=加密库>加密库</a></li><li class=toc-item data-target=js相关><a href=#js%e7%9b%b8%e5%85%b3 aria-label=JS相关>JS相关</a></li></ul></ul></li><li class=toc-item data-target=java><a href=#java aria-label=Java>Java</a></li><li class=toc-item data-target=浏览器自动化><a href=#%e6%b5%8f%e8%a7%88%e5%99%a8%e8%87%aa%e5%8a%a8%e5%8c%96 aria-label=浏览器自动化>浏览器自动化</a><ul><li class=toc-item data-target=一playwright-vs-puppeteer-核心对比><a href=#%e4%b8%80playwright-vs-puppeteer-%e6%a0%b8%e5%bf%83%e5%af%b9%e6%af%94 aria-label="一、Playwright vs Puppeteer 核心对比">一、Playwright vs Puppeteer 核心对比</a></li></ul></li></ul></div></details><script>document.addEventListener("DOMContentLoaded",function(){const e=document.getElementById("toc-container");if(!e)return;function t(){window.innerWidth<1280?(e.classList.remove("toc-fixed"),e.style.position="",e.style.right="",e.style.top="",e.style.width=""):e.classList.add("toc-fixed")}t(),window.addEventListener("resize",t);const n=e.querySelectorAll('a[href^="#"]'),o=Array.from(n).map(e=>{const t=e.getAttribute("href").substring(1);return document.getElementById(decodeURIComponent(t))}).filter(e=>e!==null);function s(){if(window.innerWidth<1280)return;const t=window.scrollY+100;let e=-1;o.forEach((n,s)=>{n&&n.offsetTop<=t&&(e=s)}),n.forEach((t,n)=>{n===e?(t.classList.add("toc-active"),t.parentElement.classList.add("toc-item-active")):(t.classList.remove("toc-active"),t.parentElement.classList.remove("toc-item-active"))})}window.addEventListener("scroll",s),s()})</script><div class="post-content md-content"><blockquote><p>主要用于寻找第三方库后做备忘的零散记录，常用库此处不记录</p></blockquote><h1 id=rust>Rust<a hidden class=anchor aria-hidden=true href=#rust>#</a></h1><p>deno: 类似nodejs
+egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff-8c80-1a0b8154fb7d">
+<meta name="author" content="kyle">
+<link rel="canonical" href="https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bec1a25820e3b93d5b857316bc0a413e000c90b1c61d0daca92ec1b06f98af99.css" integrity="sha256-vsGiWCDjuT1bhXMWvApBPgAMkLHGHQ2sqS7BsG&#43;Yr5k=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://Kyle-Derrick.github.io/img/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://Kyle-Derrick.github.io/img/favicon-16x16.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://Kyle-Derrick.github.io/img/favicon-32x32.ico">
+<link rel="apple-touch-icon" href="https://Kyle-Derrick.github.io/img/apple-touch-icon.png">
+<link rel="mask-icon" href="https://Kyle-Derrick.github.io/img/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/">
+  <meta property="og:site_name" content="Kyle&#39;s Notebook">
+  <meta property="og:title" content="开源库搜寻记录">
+  <meta property="og:description" content="主要用于寻找第三方库后做备忘的零散记录，常用库此处不记录
+Rust deno: 类似nodejs nom: 解析库（包括但不限于语法） egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff-8c80-1a0b8154fb7d">
+  <meta property="og:locale" content="zh">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-07-22T23:11:48+08:00">
+    <meta property="article:modified_time" content="2025-07-22T23:11:48+08:00">
+    <meta property="article:tag" content="Rust">
+    <meta property="article:tag" content="开源">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="开源库搜寻记录">
+  <meta name="twitter:description" content="主要用于寻找第三方库后做备忘的零散记录，常用库此处不记录
+Rust deno: 类似nodejs nom: 解析库（包括但不限于语法） egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff-8c80-1a0b8154fb7d">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "文章",
+      "item": "https://Kyle-Derrick.github.io/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "技术类",
+      "item": "https://Kyle-Derrick.github.io/zh/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "开源收藏夹",
+      "item": "https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "开源库搜寻记录",
+      "item": "https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "开源库搜寻记录",
+  "name": "开源库搜寻记录",
+  "description": " 主要用于寻找第三方库后做备忘的零散记录，常用库此处不记录\nRust deno: 类似nodejs nom: 解析库（包括但不限于语法） egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff-8c80-1a0b8154fb7d\n",
+  "keywords": [
+    "Rust", "开源"
+  ],
+  "articleBody": " 主要用于寻找第三方库后做备忘的零散记录，常用库此处不记录\nRust deno: 类似nodejs nom: 解析库（包括但不限于语法） egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff-8c80-1a0b8154fb7d\npingora 类似nginx\n加密库 aes等加密以及ed25519等签名校验常用ring rustls、rust-openssl、ring\nJS相关 https://github.com/yuankunzhang/charming : 通过deno_core调用echarts生成图表 https://github.com/rscarson/rustyscript : deno_core的上层封装\nboa_engine : 一个实验性Js引擎，rust实现\nJava javalin: 非常轻量级的web框架（java或kotlin） vertx: 响应式 网络框架集 包括但不限于web quarkus: 全栈Kubernetes原生Java框架，专为GraalVM和HotSpot优化，底层使用的反应式框架之一是vertx\n浏览器自动化 一、Playwright vs Puppeteer 核心对比 对比维度 Puppeteer Playwright 浏览器支持 主攻 Chromium，有限支持 Firefox（功能不全） 原生支持 Chromium、Firefox、WebKit（Safari） API 设计 需手动等待元素状态（如 waitForSelector） 自动等待元素可交互（如点击前检查可见性） 性能表现 冷启动约 1.2 秒，内存占用较低 冷启动约 0.8 秒（连接池优化），支持并行上下文隔离 高级功能 - PDF 生成质量更高- 截图速度快 15-20% - 移动设备模拟（精确视口/触摸事件）- 视频录制、网络请求拦截- 跨 iframe 操作 多语言支持 Node.js 为主，社区提供非官方 Python 库 官方支持：JavaScript/TypeScript、Python、Java、C# 适用场景 - 仅需覆盖 Chromium 系浏览器 - 轻量级部署或高质量 PDF 生成- 跨浏览器测试（含 Safari）- 复杂自动化（移动端模拟、视频录制）- 多语言团队协作 选型建议：\n选 Puppeteer：项目深度绑定 Chromium 生态，追求轻量部署或高质量 PDF/截图生成。 选 Playwright：需覆盖 Safari/Firefox、实现复杂自动化（如移动端测试），或团队使用多语言开发。 ",
+  "wordCount" : "840",
+  "inLanguage": "zh",
+  "datePublished": "2025-07-22T23:11:48+08:00",
+  "dateModified": "2025-07-22T23:11:48+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "kyle"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Kyle's Notebook",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://Kyle-Derrick.github.io/img/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://Kyle-Derrick.github.io/zh/" accesskey="h" title="Kyle&#39;s Notebook (Alt + H)">Kyle&#39;s Notebook</a>
+            <div class="logo-switches"><div class="theme-selector" id="theme-selector">
+    <button class="theme-toggle-btn" id="color-theme-toggle" aria-label="切换主题颜色">
+        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+        </svg>
+    </button>
+    <div class="theme-dropdown" id="color-theme-dropdown">
+        <div class="theme-option" data-theme="green">
+            <span class="theme-dot" style="background: #10b981;"></span>
+            <span class="theme-name">森林绿</span>
+        </div>
+        <div class="theme-option" data-theme="blue">
+            <span class="theme-dot" style="background: #2563eb;"></span>
+            <span class="theme-name">海洋蓝</span>
+        </div>
+        <div class="theme-option" data-theme="purple">
+            <span class="theme-dot" style="background: #7c3aed;"></span>
+            <span class="theme-name">紫罗兰</span>
+        </div>
+        <div class="theme-option" data-theme="orange">
+            <span class="theme-dot" style="background: #f59e0b;"></span>
+            <span class="theme-name">暖阳橙</span>
+        </div>
+        <div class="theme-option" data-theme="pink">
+            <span class="theme-dot" style="background: #ec4899;"></span>
+            <span class="theme-name">樱花粉</span>
+        </div>
+        <div class="theme-option" data-theme="teal">
+            <span class="theme-dot" style="background: #14b8a6;"></span>
+            <span class="theme-name">青柠绿</span>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    const themeToggle = document.getElementById('color-theme-toggle');
+    const themeDropdown = document.getElementById('color-theme-dropdown');
+    if (!themeToggle || !themeDropdown) return;
+    
+    const themeOptions = themeDropdown.querySelectorAll('.theme-option');
+    
+    
+    const savedTheme = localStorage.getItem('blog-theme') || 'green';
+    document.documentElement.setAttribute('data-color-theme', savedTheme);
+    updateActiveTheme(savedTheme);
+    
+    
+    themeToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        themeDropdown.classList.toggle('show');
+    });
+    
+    
+    document.addEventListener('click', function() {
+        themeDropdown.classList.remove('show');
+    });
+    
+    themeDropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+    
+    
+    themeOptions.forEach(function(option) {
+        option.addEventListener('click', function() {
+            const theme = this.getAttribute('data-theme');
+            document.documentElement.setAttribute('data-color-theme', theme);
+            localStorage.setItem('blog-theme', theme);
+            updateActiveTheme(theme);
+            themeDropdown.classList.remove('show');
+        });
+    });
+    
+    function updateActiveTheme(theme) {
+        themeOptions.forEach(function(option) {
+            if (option.getAttribute('data-theme') === theme) {
+                option.classList.add('active');
+            } else {
+                option.classList.remove('active');
+            }
+        });
+    }
+})();
+</script>
+
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/posts" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://Kyle-Derrick.github.io/zh/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/zh/">主页</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/zh/posts/">文章</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/zh/posts/tech/">技术类</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/zh/posts/tech/open_source_favorites/">开源收藏夹</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg><span class="breadcrumbs-current" title="开源库搜寻记录">开源库搜寻记录</span>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      开源库搜寻记录
+    </h1>
+    <div class="post-meta">
+
+<span title='2025-07-22 23:11:48 +0800 CST'>2025-07-22</span>&nbsp;·&nbsp;<span>2 分钟</span>&nbsp;·&nbsp;<span>kyle</span>
+
+</div>
+  </header> <details class="toc" id="toc-container"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">目录</span>
+    </summary>
+
+    <div class="inner"><ul id="toc-list">
+            <li class="toc-item" data-target="rust">
+                <a href="#rust" aria-label="Rust">Rust</a><ul>
+                    <ul>
+                    
+            <li class="toc-item" data-target="加密库">
+                <a href="#%e5%8a%a0%e5%af%86%e5%ba%93" aria-label="加密库">加密库</a></li>
+            <li class="toc-item" data-target="js相关">
+                <a href="#js%e7%9b%b8%e5%85%b3" aria-label="JS相关">JS相关</a></li></ul>
+                </ul>
+            </li>
+            <li class="toc-item" data-target="java">
+                <a href="#java" aria-label="Java">Java</a></li>
+            <li class="toc-item" data-target="浏览器自动化">
+                <a href="#%e6%b5%8f%e8%a7%88%e5%99%a8%e8%87%aa%e5%8a%a8%e5%8c%96" aria-label="浏览器自动化">浏览器自动化</a><ul>
+                    
+            <li class="toc-item" data-target="一playwright-vs-puppeteer-核心对比">
+                <a href="#%e4%b8%80playwright-vs-puppeteer-%e6%a0%b8%e5%bf%83%e5%af%b9%e6%af%94" aria-label="一、Playwright vs Puppeteer 核心对比">一、Playwright vs Puppeteer 核心对比</a>
+            </li>
+        </ul>
+        </li>
+        </ul>
+    </div>
+</details>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toc = document.getElementById('toc-container');
+    if (!toc) return;
+
+    
+    function checkViewport() {
+        if (window.innerWidth < 1280) {
+            toc.classList.remove('toc-fixed');
+            toc.style.position = '';
+            toc.style.right = '';
+            toc.style.top = '';
+            toc.style.width = '';
+        } else {
+            toc.classList.add('toc-fixed');
+        }
+    }
+
+    
+    checkViewport();
+
+    
+    window.addEventListener('resize', checkViewport);
+
+    
+    const tocLinks = toc.querySelectorAll('a[href^="#"]');
+    const headings = Array.from(tocLinks).map(link => {
+        const id = link.getAttribute('href').substring(1);
+        return document.getElementById(decodeURIComponent(id));
+    }).filter(h => h !== null);
+
+    function highlightCurrentHeading() {
+        if (window.innerWidth < 1280) return;
+
+        const scrollPosition = window.scrollY + 100;
+        let currentIndex = -1;
+
+        headings.forEach((heading, index) => {
+            if (heading && heading.offsetTop <= scrollPosition) {
+                currentIndex = index;
+            }
+        });
+
+        tocLinks.forEach((link, index) => {
+            if (index === currentIndex) {
+                link.classList.add('toc-active');
+                link.parentElement.classList.add('toc-item-active');
+            } else {
+                link.classList.remove('toc-active');
+                link.parentElement.classList.remove('toc-item-active');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', highlightCurrentHeading);
+    highlightCurrentHeading();
+});
+</script>
+
+  <div class="post-content md-content"><blockquote>
+<p>主要用于寻找第三方库后做备忘的零散记录，常用库此处不记录</p></blockquote>
+<h1 id="rust">Rust<a hidden class="anchor" aria-hidden="true" href="#rust">#</a></h1>
+<p>deno: 类似nodejs
 nom: 解析库（包括但不限于语法）
-egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff-8c80-1a0b8154fb7d</p><p>pingora 类似nginx</p><h3 id=加密库>加密库<a hidden class=anchor aria-hidden=true href=#加密库>#</a></h3><blockquote><p>aes等加密以及ed25519等签名校验常用ring
-rustls、rust-openssl、<a href=https://github.com/briansmith/ring>ring</a></p></blockquote><h3 id=js相关>JS相关<a hidden class=anchor aria-hidden=true href=#js相关>#</a></h3><p><a href=https://github.com/yuankunzhang/charming>https://github.com/yuankunzhang/charming</a> : 通过deno_core调用echarts生成图表
-<a href=https://github.com/rscarson/rustyscript>https://github.com/rscarson/rustyscript</a> : deno_core的上层封装</p><p>boa_engine : 一个实验性Js引擎，rust实现</p><h1 id=java>Java<a hidden class=anchor aria-hidden=true href=#java>#</a></h1><p>javalin: 非常轻量级的web框架（java或kotlin）
+egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff-8c80-1a0b8154fb7d</p>
+<p>pingora 类似nginx</p>
+<h3 id="加密库">加密库<a hidden class="anchor" aria-hidden="true" href="#加密库">#</a></h3>
+<blockquote>
+<p>aes等加密以及ed25519等签名校验常用ring
+rustls、rust-openssl、<a href="https://github.com/briansmith/ring">ring</a></p></blockquote>
+<h3 id="js相关">JS相关<a hidden class="anchor" aria-hidden="true" href="#js相关">#</a></h3>
+<p><a href="https://github.com/yuankunzhang/charming">https://github.com/yuankunzhang/charming</a> : 通过deno_core调用echarts生成图表
+<a href="https://github.com/rscarson/rustyscript">https://github.com/rscarson/rustyscript</a> : deno_core的上层封装</p>
+<p>boa_engine : 一个实验性Js引擎，rust实现</p>
+<h1 id="java">Java<a hidden class="anchor" aria-hidden="true" href="#java">#</a></h1>
+<p>javalin: 非常轻量级的web框架（java或kotlin）
 vertx: 响应式 网络框架集 包括但不限于web
-quarkus: 全栈Kubernetes原生Java框架，专为GraalVM和HotSpot优化，底层使用的反应式框架之一是vertx</p><h1 id=浏览器自动化>浏览器自动化<a hidden class=anchor aria-hidden=true href=#浏览器自动化>#</a></h1><h2 id=一playwright-vs-puppeteer-核心对比>一、Playwright vs Puppeteer 核心对比<a hidden class=anchor aria-hidden=true href=#一playwright-vs-puppeteer-核心对比>#</a></h2><table><thead><tr><th><strong>对比维度</strong></th><th><strong>Puppeteer</strong></th><th><strong>Playwright</strong></th></tr></thead><tbody><tr><td><strong>浏览器支持</strong></td><td>主攻 Chromium，有限支持 Firefox（功能不全）</td><td>原生支持 Chromium、Firefox、WebKit（Safari）</td></tr><tr><td><strong>API 设计</strong></td><td>需手动等待元素状态（如 waitForSelector）</td><td>自动等待元素可交互（如点击前检查可见性）</td></tr><tr><td><strong>性能表现</strong></td><td>冷启动约 1.2 秒，内存占用较低</td><td>冷启动约 0.8 秒（连接池优化），支持并行上下文隔离</td></tr><tr><td><strong>高级功能</strong></td><td>- PDF 生成质量更高<br>- 截图速度快 15-20%</td><td>- 移动设备模拟（精确视口/触摸事件）<br>- 视频录制、网络请求拦截<br>- 跨 iframe 操作</td></tr><tr><td><strong>多语言支持</strong></td><td>Node.js 为主，社区提供非官方 Python 库</td><td>官方支持：JavaScript/TypeScript、Python、Java、C#</td></tr><tr><td><strong>适用场景</strong></td><td>- 仅需覆盖 Chromium 系浏览器</td><td>- 轻量级部署或高质量 PDF 生成<br>- 跨浏览器测试（含 Safari）<br>- 复杂自动化（移动端模拟、视频录制）<br>- 多语言团队协作</td></tr></tbody></table><p><strong>选型建议</strong>：</p><ul><li><strong>选 Puppeteer</strong>：项目深度绑定 Chromium 生态，追求轻量部署或高质量 PDF/截图生成。</li><li><strong>选 Playwright</strong>：需覆盖 Safari/Firefox、实现复杂自动化（如移动端测试），或团队使用多语言开发。</li></ul></div><footer class=post-footer><ul class=post-tags><li><a href=https://Kyle-Derrick.github.io/zh/tags/rust/>Rust</a></li><li><a href=https://Kyle-Derrick.github.io/zh/tags/%E5%BC%80%E6%BA%90/>开源</a></li></ul><nav class=paginav><a class=prev href=https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/%E4%BA%92%E8%81%94barrier/><span class=title>« 上一页</span>
-<span>互联Barrier安装记录</span>
-</a><a class=next href=https://Kyle-Derrick.github.io/zh/posts/tech/linux/esxi7%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%85%8B%E9%9A%86%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0/><span class=title>下一页 »</span>
-<span>ESXi7虚拟机克隆脚本实现</span></a></nav></footer><script src=https://giscus.app/client.js data-repo=Kyle-Derrick/Kyle-Derrick.github.io data-repo-id=R_kgDOOqQLVA data-category=Announcements data-category-id=DIC_kwDOOqQLVM4CtPKE data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=bottom data-theme=preferred_color_scheme data-lang=zh-CN crossorigin=anonymous async></script></article></main><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
-</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="复制";function s(){t.innerHTML="已复制！",setTimeout(()=>{t.innerHTML="复制"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+quarkus: 全栈Kubernetes原生Java框架，专为GraalVM和HotSpot优化，底层使用的反应式框架之一是vertx</p>
+<h1 id="浏览器自动化">浏览器自动化<a hidden class="anchor" aria-hidden="true" href="#浏览器自动化">#</a></h1>
+<h2 id="一playwright-vs-puppeteer-核心对比">一、Playwright vs Puppeteer 核心对比<a hidden class="anchor" aria-hidden="true" href="#一playwright-vs-puppeteer-核心对比">#</a></h2>
+<table>
+  <thead>
+      <tr>
+          <th><strong>对比维度</strong></th>
+          <th><strong>Puppeteer</strong></th>
+          <th><strong>Playwright</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>浏览器支持</strong></td>
+          <td>主攻 Chromium，有限支持 Firefox（功能不全）</td>
+          <td>原生支持 Chromium、Firefox、WebKit（Safari）</td>
+      </tr>
+      <tr>
+          <td><strong>API 设计</strong></td>
+          <td>需手动等待元素状态（如 waitForSelector）</td>
+          <td>自动等待元素可交互（如点击前检查可见性）</td>
+      </tr>
+      <tr>
+          <td><strong>性能表现</strong></td>
+          <td>冷启动约 1.2 秒，内存占用较低</td>
+          <td>冷启动约 0.8 秒（连接池优化），支持并行上下文隔离</td>
+      </tr>
+      <tr>
+          <td><strong>高级功能</strong></td>
+          <td>- PDF 生成质量更高<br/>- 截图速度快 15-20%</td>
+          <td>- 移动设备模拟（精确视口/触摸事件）<br/>- 视频录制、网络请求拦截<br/>- 跨 iframe 操作</td>
+      </tr>
+      <tr>
+          <td><strong>多语言支持</strong></td>
+          <td>Node.js 为主，社区提供非官方 Python 库</td>
+          <td>官方支持：JavaScript/TypeScript、Python、Java、C#</td>
+      </tr>
+      <tr>
+          <td><strong>适用场景</strong></td>
+          <td>- 仅需覆盖 Chromium 系浏览器</td>
+          <td>- 轻量级部署或高质量 PDF 生成<br/>- 跨浏览器测试（含 Safari）<br/>- 复杂自动化（移动端模拟、视频录制）<br/>- 多语言团队协作</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>选型建议</strong>：</p>
+<ul>
+<li><strong>选 Puppeteer</strong>：项目深度绑定 Chromium 生态，追求轻量部署或高质量 PDF/截图生成。</li>
+<li><strong>选 Playwright</strong>：需覆盖 Safari/Firefox、实现复杂自动化（如移动端测试），或团队使用多语言开发。</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://Kyle-Derrick.github.io/zh/tags/rust/">Rust</a></li>
+      <li><a href="https://Kyle-Derrick.github.io/zh/tags/%E5%BC%80%E6%BA%90/">开源</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/%E4%BA%92%E8%81%94barrier/">
+    <span class="title">« 上一页</span>
+    <span>互联Barrier安装记录</span>
+  </a>
+  <a class="next" href="https://Kyle-Derrick.github.io/zh/posts/tech/linux/esxi7%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%85%8B%E9%9A%86%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0/">
+    <span class="title">下一页 »</span>
+    <span>ESXi7虚拟机克隆脚本实现</span>
+  </a>
+</nav>
+
+  </footer><script src="https://giscus.app/client.js"
+        data-repo="Kyle-Derrick/Kyle-Derrick.github.io"
+        data-repo-id="R_kgDOOqQLVA"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOOqQLVM4CtPKE"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+</article>
+    </main>
+    
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

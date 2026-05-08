@@ -1,19 +1,19 @@
 /* 右侧目录样式 - 基于官方 PaperMod 扩展 */
 
-/* 基础 toc 样式 - 保持官方 PaperMod 默认 */
+/* 基础 toc 样式 */
 .toc {
     margin: 0 2px 40px;
     border: 1px solid var(--border);
     background: var(--code-bg);
     border-radius: var(--radius);
     padding: 0.4em;
-    font-size: 16px;
+    font-size: 14px;
     max-height: 80vh;
     overflow-y: auto;
 }
 
 .toc .inner {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .toc ul {
@@ -36,27 +36,27 @@
     font-weight: 600;
 }
 
-/* 大窗口时固定到右侧 */
+/* 大窗口时固定到右侧 - 更紧凑 */
 @media (min-width: 1280px) {
     .toc.toc-fixed {
         position: fixed;
-        top: calc(var(--header-height) + 40px);
-        right: 20px;
-        width: 300px;
-        max-width: calc((100% - (var(--main-width) + var(--gap) * 2)) / 2 - 40px);
-        min-width: 240px;
-        max-height: calc(100vh - var(--header-height) - 80px);
+        top: calc(var(--header-height) + 30px);
+        right: 16px;
+        width: 260px;
+        max-width: calc((100% - (var(--main-width) + var(--gap) * 2)) / 2 - 32px);
+        min-width: 220px;
+        max-height: calc(100vh - var(--header-height) - 60px);
         z-index: 98;
         
         background: var(--toc-bg);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         border: 1px solid var(--border);
-        border-radius: var(--radius-md);
+        border-radius: 12px;
         box-shadow: var(--shadow-md);
-        padding: 16px;
+        padding: 12px;
         opacity: 0.95;
-        transition: all var(--transition-slow);
+        transition: all 0.3s ease;
         margin: 0;
     }
     
@@ -66,19 +66,41 @@
     }
     
     .toc.toc-fixed summary {
-        padding-bottom: 12px;
+        padding-bottom: 10px;
         border-bottom: 1px solid var(--border);
         margin-bottom: 8px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: var(--secondary);
+    }
+    
+    .toc.toc-fixed .title {
+        font-size: 11px;
     }
     
     .toc.toc-fixed .inner {
-        max-height: calc(100vh - var(--header-height) - 200px);
+        max-height: calc(100vh - var(--header-height) - 160px);
         overflow-y: auto;
+        font-size: 13px;
+    }
+    
+    .toc.toc-fixed .inner li {
+        margin: 4px 0;
+    }
+    
+    .toc.toc-fixed .inner a {
+        font-size: 13px;
+        padding: 2px 0;
+        display: block;
+        border-radius: 4px;
+        transition: all 0.15s ease;
     }
     
     /* 隐藏滚动条但保留功能 */
     .toc.toc-fixed .inner::-webkit-scrollbar {
-        width: 4px;
+        width: 3px;
     }
     
     .toc.toc-fixed .inner::-webkit-scrollbar-thumb {
