@@ -1,0 +1,67 @@
+{{- /* 递归渲染一个 section 节点 */ -}}
+{{- $section := .section -}}
+{{- $current := .current -}}
+{{- $level := .level -}}
+
+{{- /* 判断当前页面是否是这个 section 的后代 */ -}}
+{{- $isAncestor := false -}}
+{{- if $current.File -}}
+    {{- range $current.Ancestors -}}
+        {{- if eq .RelPermalink $section.RelPermalink -}}
+            {{- $isAncestor = true -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- /* 子 section */ -}}
+{{- $subsections := $section.Sections.ByTitle -}}
+{{- /* 当前 section 直接包含的页面（非 _index） */ -}}
+{{- $pages := $section.RegularPages.ByTitle -}}
+
+{{- /* 顶层不渲染 section 本身，直接渲染子内容 */ -}}
+{{- if eq $level 0 -}}
+    {{- range $subsections -}}
+        {{- partial "post-toc-section.html" (dict "section" . "current" $current "level" 1) -}}
+    {{- end -}}
+    {{- range $pages -}}
+        {{- $isCurrent := eq .RelPermalink $current.RelPermalink -}}
+        <li class="tree-item tree-page{{ if $isCurrent }} tree-current{{ end }}">
+            <a href="{{ .RelPermalink }}" class="tree-link" title="{{ .Title }}">{{ .Title }}</a>
+        </li>
+    {{- end -}}
+{{- else -}}
+    {{- $hasChildren := or (gt (len $subsections) 0) (gt (len $pages) 0) -}}
+    {{- $shouldExpand := or $isAncestor (le $level 1) -}}
+    <li class="tree-item tree-folder{{ if $shouldExpand }} tree-expanded{{ end }}{{ if $isAncestor }} tree-active-branch{{ end }}" data-level="{{ $level }}">
+        <div class="tree-folder-header">
+            <span class="tree-toggle">
+                {{- if $hasChildren -}}
+                <svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+                {{- else -}}
+                <span class="tree-icon-spacer"></span>
+                {{- end -}}
+            </span>
+            {{- if $section.RelPermalink -}}
+            <a href="{{ $section.RelPermalink }}" class="tree-folder-name">{{ $section.Title | default $section.Section }}</a>
+            {{- else -}}
+            <span class="tree-folder-name">{{ $section.Title | default $section.Section }}</span>
+            {{- end -}}
+        </div>
+
+        {{- if $hasChildren }}
+        <ul class="tree-list tree-children">
+            {{- range $subsections -}}
+                {{- partial "post-toc-section.html" (dict "section" . "current" $current "level" (add $level 1)) -}}
+            {{- end -}}
+            {{- range $pages -}}
+                {{- $isCurrent := eq .RelPermalink $current.RelPermalink -}}
+                <li class="tree-item tree-page{{ if $isCurrent }} tree-current{{ end }}">
+                    <a href="{{ .RelPermalink }}" class="tree-link" title="{{ .Title }}">{{ .Title }}</a>
+                </li>
+            {{- end -}}
+        </ul>
+        {{- end }}
+    </li>
+{{- end -}}

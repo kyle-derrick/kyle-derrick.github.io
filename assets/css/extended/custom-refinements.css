@@ -8,6 +8,61 @@ html {
     scroll-behavior: smooth;
 }
 
+/* === 全局 SVG 安全网 - 防止无 width/height 的 SVG 撑大 === */
+svg:not([width]):not([height]) {
+    width: 1em;
+    height: 1em;
+}
+
+/* 但允许 logo、profile 等明确设置的 svg */
+.logo svg,
+.profile_inner svg,
+.social-icons svg {
+    width: auto;
+    height: auto;
+}
+
+/* === 面包屑导航 === */
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+    color: var(--secondary);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.breadcrumbs a {
+    color: var(--secondary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+}
+
+.breadcrumbs a:hover {
+    color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.breadcrumb-sep {
+    width: 12px !important;
+    height: 12px !important;
+    color: var(--tertiary);
+    flex-shrink: 0;
+}
+
+.breadcrumbs-current {
+    color: var(--primary);
+    font-weight: 500;
+    padding: 2px 6px;
+    max-width: 240px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

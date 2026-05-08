@@ -10,7 +10,7 @@
 <meta name="description" content="这是一个纯粹的博客......">
 <meta name="author" content="Me">
 <link rel="canonical" href="https://Kyle-Derrick.github.io/zh/tags/wireguard/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.4f92607bebef9246137780e396978a59912fc49d71bcb2c506398aa8ca100b0a.css" integrity="sha256-T5Jge&#43;vvkkYTd4DjlpeKWZEvxJ1xvLLFBjmKqMoQCwo=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.97ff78b64f153b1c30cf31a87be22b8e9d2878fd95e487ff5e04b06073cd23d3.css" integrity="sha256-l/94tk8VOxwwzzGoe&#43;Irjp0oeP2V5If/XgSwYHPNI9M=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://Kyle-Derrick.github.io/img/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://Kyle-Derrick.github.io/img/favicon-16x16.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="https://Kyle-Derrick.github.io/img/favicon-32x32.ico">
@@ -225,18 +225,44 @@
         </ul>
     </nav>
 </header>
-<main class="main"> 
+<main class="main"><aside class="post-toc" id="post-toc">
+    <div class="post-toc-header">
+        <span class="post-toc-title">笔记导航</span>
+    </div>
+    <div class="post-toc-tree">
+        <ul class="tree-list tree-root"></ul>
+    </div>
+</aside>
+
+<script>
+(function() {
+    const postToc = document.getElementById('post-toc');
+    if (!postToc) return;
+
+    
+    function checkViewport() {
+        postToc.style.display = window.innerWidth < 1280 ? 'none' : 'block';
+    }
+    checkViewport();
+    window.addEventListener('resize', checkViewport);
+
+    
+    postToc.querySelectorAll('.tree-folder-header').forEach(function(header) {
+        header.addEventListener('click', function(e) {
+            
+            if (e.target.tagName === 'A') return;
+            const folder = this.closest('.tree-folder');
+            if (folder) folder.classList.toggle('tree-expanded');
+        });
+    });
+})();
+</script> 
 <header class="page-header"><nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
             <a href="/zh/">主页</a>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
-                <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
+            <svg class="breadcrumb-sep" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             <a href="/zh/tags/">Tags</a>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
-        <polyline points="9 18 15 12 9 6"></polyline>
-    </svg><span class="breadcrumbs-current" title="WireGuard">WireGuard</span>
+    <svg class="breadcrumb-sep" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    <span class="breadcrumbs-current" title="WireGuard">WireGuard</span>
 </nav>
   <h1>
     WireGuard

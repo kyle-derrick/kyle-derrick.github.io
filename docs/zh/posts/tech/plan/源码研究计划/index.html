@@ -10,7 +10,7 @@
 <meta name="description" content="以下是为您制定的完整系统能力提升方案，整合了源码精读、实践策略和工具链支持，特别针对Rust/Golang存储与高性能系统领域，分为三个阶段实施（附时间规划与难度标签）：">
 <meta name="author" content="kyle">
 <link rel="canonical" href="https://Kyle-Derrick.github.io/zh/posts/tech/plan/%E6%BA%90%E7%A0%81%E7%A0%94%E7%A9%B6%E8%AE%A1%E5%88%92/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.4f92607bebef9246137780e396978a59912fc49d71bcb2c506398aa8ca100b0a.css" integrity="sha256-T5Jge&#43;vvkkYTd4DjlpeKWZEvxJ1xvLLFBjmKqMoQCwo=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.97ff78b64f153b1c30cf31a87be22b8e9d2878fd95e487ff5e04b06073cd23d3.css" integrity="sha256-l/94tk8VOxwwzzGoe&#43;Irjp0oeP2V5If/XgSwYHPNI9M=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://Kyle-Derrick.github.io/img/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://Kyle-Derrick.github.io/img/favicon-16x16.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="https://Kyle-Derrick.github.io/img/favicon-32x32.ico">
@@ -294,31 +294,239 @@
         </ul>
     </nav>
 </header>
-<main class="main">
+<main class="main"><aside class="post-toc" id="post-toc">
+    <div class="post-toc-header">
+        <span class="post-toc-title">笔记导航</span>
+    </div>
+    <div class="post-toc-tree">
+        <ul class="tree-list tree-root"><li class="tree-item tree-folder tree-expanded tree-active-branch" data-level="1">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/" class="tree-folder-name">技术类</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-folder" data-level="2">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/c/" class="tree-folder-name">C相关</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/c/cmake%E5%9F%BA%E7%A1%80/" class="tree-link" title="CMake 基础">CMake 基础</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/c/linux_c_01_%E5%9F%BA%E7%A1%80/" class="tree-link" title="Linuc C 基础 (01)">Linuc C 基础 (01)</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/c/linux_c_02_%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E5%87%BD%E6%95%B0/" class="tree-link" title="Linuc C 基础系统函数 (02)">Linuc C 基础系统函数 (02)</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/c/linux_c_03_%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B/" class="tree-link" title="Linuc C 进程线程 (03)">Linuc C 进程线程 (03)</a>
+                </li></ul>
+    </li><li class="tree-item tree-folder" data-level="2">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/java/" class="tree-folder-name">Java相关</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/java/jna%E5%BC%95%E7%94%A8/" class="tree-link" title="JNA引用相关细节记录">JNA引用相关细节记录</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/java/maven_gradle_mirror/" class="tree-link" title="Maven、Gradle国内源配置">Maven、Gradle国内源配置</a>
+                </li></ul>
+    </li><li class="tree-item tree-folder" data-level="2">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/linux/" class="tree-folder-name">Linux相关</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/linux/centos7_nodejs%E5%AE%89%E8%A3%85/" class="tree-link" title="CentOS7 上安装 NodeJs">CentOS7 上安装 NodeJs</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/linux/centos7%E4%BD%BF%E7%94%A8%E9%AB%98%E7%89%88%E6%9C%ACgcc/" class="tree-link" title="CentOS7 使用高版本gcc">CentOS7 使用高版本gcc</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/linux/centos7%E6%9C%80%E5%B0%8F%E5%AE%89%E8%A3%85%E5%90%8E%E9%85%8D%E7%BD%AE/" class="tree-link" title="CentOS7最小安装后配置">CentOS7最小安装后配置</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/linux/esxi7%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%85%8B%E9%9A%86%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0/" class="tree-link" title="ESXi7虚拟机克隆脚本实现">ESXi7虚拟机克隆脚本实现</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/linux/ipsec_ikev2%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/" class="tree-link" title="IPsec/IKEv2服务部署">IPsec/IKEv2服务部署</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/linux/linux%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E6%8F%90%E4%BE%9B%E8%B7%AF%E7%94%B1/" class="tree-link" title="linux作为网关提供路由">linux作为网关提供路由</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/linux/smb%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/" class="tree-link" title="SMB服务部署">SMB服务部署</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/linux/ubuntu%E6%B8%85%E5%8D%8E%E6%BA%90/" class="tree-link" title="Ubuntu清华源配置">Ubuntu清华源配置</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/linux/wireguard%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/" class="tree-link" title="WireGuard服务部署">WireGuard服务部署</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/linux/%E5%8F%8C%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4%E9%97%AE%E9%A2%98/" class="tree-link" title="双系统时间问题">双系统时间问题</a>
+                </li></ul>
+    </li><li class="tree-item tree-folder" data-level="2">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/rust/" class="tree-folder-name">Rust相关</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/" class="tree-link" title="Pin和PhantomData的理解">Pin和PhantomData的理解</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/rust/%E5%9B%BD%E5%86%85%E6%BA%90%E5%AE%89%E8%A3%85/" class="tree-link" title="Rust国内源安装">Rust国内源安装</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/rust/%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8F%8A%E7%A6%BB%E7%BA%BF%E4%BE%9D%E8%B5%96/" class="tree-link" title="Rust离线环境安装及使用vendor离线编译项目">Rust离线环境安装及使用vendor离线编译项目</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/rust/%E8%AE%B0%E5%BD%95%E7%82%B9/" class="tree-link" title="Rust杂项记录点">Rust杂项记录点</a>
+                </li></ul>
+    </li><li class="tree-item tree-folder" data-level="2">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/vscode/" class="tree-folder-name">vs-code相关</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/vscode/vscode-project-config/" class="tree-link" title="vscode项目级配置">vscode项目级配置</a>
+                </li></ul>
+    </li><li class="tree-item tree-folder" data-level="2">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/open_source_favorites/" class="tree-folder-name">开源收藏夹</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/open_source_favorites/%E4%BA%92%E8%81%94barrier/" class="tree-link" title="互联Barrier安装记录">互联Barrier安装记录</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/open_source_favorites/open_source_lib/" class="tree-link" title="开源库搜寻记录">开源库搜寻记录</a>
+                </li></ul>
+    </li><li class="tree-item tree-folder" data-level="2">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/open_source_component/" class="tree-folder-name">开源组件</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-folder" data-level="3">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><span class="tree-icon-spacer"></span></span><a href="/zh/posts/tech/open_source_component/java_web_base/" class="tree-folder-name">Java Web 基本框架相关</a></div>
+    </li><li class="tree-item tree-folder" data-level="3">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/open_source_component/redis/" class="tree-folder-name">Redis相关</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/open_source_component/redis/redis_concurrency_case/" class="tree-link" title="Redis并发相关使用案例">Redis并发相关使用案例</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/open_source_component/redis/redis%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/" class="tree-link" title="Redis基本命令">Redis基本命令</a>
+                </li></ul>
+    </li></ul>
+    </li><li class="tree-item tree-folder" data-level="2">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/other_general/" class="tree-folder-name">其他通用</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-folder" data-level="3">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/other_general/hugo/" class="tree-folder-name">hugo</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/other_general/hugo/hugo_include_image/" class="tree-link" title="hugo从同级目录下插入图片（相对路径）">hugo从同级目录下插入图片（相对路径）</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/other_general/hugo/hugo_giscus_comment/" class="tree-link" title="hugo使用Giscus支持评论">hugo使用Giscus支持评论</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/other_general/hugo/hugo_and_github_pages/" class="tree-link" title="Hugo使用PaperMod主题搭建博客，并配置自动发布Github Pages">Hugo使用PaperMod主题搭建博客，并配置自动发布Github Pages</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/other_general/hugo/hugo_exp_note/" class="tree-link" title="hugo使用经验">hugo使用经验</a>
+                </li></ul>
+    </li></ul>
+    </li><li class="tree-item tree-folder" data-level="2">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/network/" class="tree-folder-name">网络相关</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-folder" data-level="3">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/network/vpn/" class="tree-folder-name">VPN相关</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-folder" data-level="4">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/network/vpn/ipsec/" class="tree-folder-name">IPsec VPN相关</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/network/vpn/ipsec/ipsec%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/" class="tree-link" title="IPsec技术原理">IPsec技术原理</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/network/vpn/ipsec/strongswan%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/" class="tree-link" title="StrongSwan安装部署（CentOS7 为例）">StrongSwan安装部署（CentOS7 为例）</a>
+                </li></ul>
+    </li></ul>
+    </li><li class="tree-item tree-folder" data-level="3">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/network/knowledge/" class="tree-folder-name">网络相关知识点</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/network/knowledge/udp%E6%89%93%E6%B4%9E%E5%8E%9F%E7%90%86%E5%8F%8A%E6%B5%81%E7%A8%8B/" class="tree-link" title="UDP打洞原理及流程">UDP打洞原理及流程</a>
+                </li></ul>
+    </li></ul>
+    </li><li class="tree-item tree-folder" data-level="2">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/system_level/" class="tree-folder-name">系统层面相关</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/system_level/ai%E6%8C%87%E4%BB%A4%E9%9B%86%E5%88%9B%E6%96%B0%E8%AE%B0%E5%BD%95/" class="tree-link" title="AI生成的指令集创新（AI回答记录）">AI生成的指令集创新（AI回答记录）</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/system_level/%E8%8A%AF%E7%89%87%E8%AE%BE%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%A1%88/" class="tree-link" title="零基础学习芯片设计(AI回答记录)">零基础学习芯片设计(AI回答记录)</a>
+                </li><li class="tree-item tree-page">
+                    <a href="/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/" class="tree-link" title="如何将内存缓冲区伪装成文件流">如何将内存缓冲区伪装成文件流</a>
+                </li></ul>
+    </li><li class="tree-item tree-folder tree-expanded tree-active-branch" data-level="2">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/tech/plan/" class="tree-folder-name">学习或研究计划</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-page tree-current">
+                    <a href="/zh/posts/tech/plan/%E6%BA%90%E7%A0%81%E7%A0%94%E7%A9%B6%E8%AE%A1%E5%88%92/" class="tree-link" title="源码研究计划（源于AI推荐）">源码研究计划（源于AI推荐）</a>
+                </li></ul>
+    </li></ul>
+    </li><li class="tree-item tree-folder tree-expanded" data-level="1">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><span class="tree-icon-spacer"></span></span><a href="/zh/posts/life/" class="tree-folder-name">生活类</a></div>
+    </li><li class="tree-item tree-folder tree-expanded" data-level="1">
+        <div class="tree-folder-header">
+            <span class="tree-toggle"><svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg></span><a href="/zh/posts/read/" class="tree-folder-name">阅读类</a></div>
+        <ul class="tree-list tree-children"><li class="tree-item tree-page">
+                    <a href="/zh/posts/read/ai%E6%97%B6%E4%BB%A3%E7%9A%84%E9%98%85%E8%AF%BB%E6%8C%87%E5%8D%97/" class="tree-link" title="AI 时代的阅读指南">AI 时代的阅读指南</a>
+                </li></ul>
+    </li></ul>
+    </div>
+</aside>
+
+<script>
+(function() {
+    const postToc = document.getElementById('post-toc');
+    if (!postToc) return;
+
+    
+    function checkViewport() {
+        postToc.style.display = window.innerWidth < 1280 ? 'none' : 'block';
+    }
+    checkViewport();
+    window.addEventListener('resize', checkViewport);
+
+    
+    postToc.querySelectorAll('.tree-folder-header').forEach(function(header) {
+        header.addEventListener('click', function(e) {
+            
+            if (e.target.tagName === 'A') return;
+            const folder = this.closest('.tree-folder');
+            if (folder) folder.classList.toggle('tree-expanded');
+        });
+    });
+})();
+</script>
 
 <article class="post-single">
   <header class="post-header">
     <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
             <a href="/zh/">主页</a>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
-                <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
+            <svg class="breadcrumb-sep" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             <a href="/zh/posts/">文章</a>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
-                <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
+            <svg class="breadcrumb-sep" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             <a href="/zh/posts/tech/">技术类</a>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
-                <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
+            <svg class="breadcrumb-sep" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             <a href="/zh/posts/tech/plan/">学习或研究计划</a>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
-        <polyline points="9 18 15 12 9 6"></polyline>
-    </svg><span class="breadcrumbs-current" title="源码研究计划（源于AI推荐）">源码研究计划（源于AI推荐）</span>
+    <svg class="breadcrumb-sep" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    <span class="breadcrumbs-current" title="源码研究计划（源于AI推荐）">源码研究计划（源于AI推荐）</span>
 </nav>
     <h1 class="post-title entry-hint-parent">
       源码研究计划（源于AI推荐）
@@ -501,7 +709,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-  <div class="post-content"><p>以下是为您制定的完整系统能力提升方案，整合了源码精读、实践策略和工具链支持，特别针对Rust/Golang存储与高性能系统领域，分为三个阶段实施（附时间规划与难度标签）：</p>
+  <div class="post-content md-content"><p>以下是为您制定的完整系统能力提升方案，整合了源码精读、实践策略和工具链支持，特别针对Rust/Golang存储与高性能系统领域，分为三个阶段实施（附时间规划与难度标签）：</p>
 <hr>
 <h1 id="初始方案">初始方案<a hidden class="anchor" aria-hidden="true" href="#初始方案">#</a></h1>
 <h3 id="一筑基阶段存储引擎核心实现1-2个月"><strong>一、筑基阶段：存储引擎核心实现（1-2个月）</strong><a hidden class="anchor" aria-hidden="true" href="#一筑基阶段存储引擎核心实现1-2个月">#</a></h3>
@@ -1326,6 +1534,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
   </div>
+
 
   <footer class="post-footer">
     <ul class="post-tags">
