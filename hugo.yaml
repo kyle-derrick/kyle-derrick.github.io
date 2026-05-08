@@ -82,7 +82,6 @@ params:
     env: production # to enable google analytics, opengraph, twitter-cards and schema.
     description: "这是一个纯粹的博客......"
     author: Shaohan Tian
-    author: "Me"
     # author: ["Me", "You"] # multiple authors
 
 

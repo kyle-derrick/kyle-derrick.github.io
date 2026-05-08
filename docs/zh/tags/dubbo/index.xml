@@ -4,7 +4,7 @@
     <title>Dubbo on Kyle&#39;s Notebook</title>
     <link>http://localhost:1313/zh/tags/dubbo/</link>
     <description>Recent content in Dubbo on Kyle&#39;s Notebook</description>
-    <generator>Hugo</generator>
+    <generator>Hugo -- 0.147.3</generator>
     <language>zh</language>
     <lastBuildDate>Sat, 26 Jul 2025 16:39:14 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/zh/tags/dubbo/index.xml" rel="self" type="application/rss+xml" />
@@ -15,7 +15,7 @@
       <guid>http://localhost:1313/zh/posts/tech/open_source_component/java_web_base/dubbo%E6%BA%90%E7%A0%81%E7%9B%B8%E5%85%B3%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/</guid>
       <description>&lt;h2 id=&#34;enabledubbo&#34;&gt;@EnableDubbo&lt;/h2&gt;
 &lt;p&gt;@EnableDubbo中包含@EnableDubboConfig和@DubboComponentScan，也是这两个注解实际上在生效
-&lt;img alt=&#34;@EnableDubbo运作原理&#34; loading=&#34;lazy&#34; src=&#34;img/dubbo%E6%BA%90%E7%A0%81%E7%9B%B8%E5%85%B3%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/image.png&#34;&gt;&lt;/p&gt;
+&lt;img alt=&#34;@EnableDubbo运作原理&#34; loading=&#34;lazy&#34; src=&#34;../img/dubbo源码相关部分记录/image.png&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;service注册&#34;&gt;Service注册：&lt;/h2&gt;
 &lt;h3 id=&#34;扫描&#34;&gt;扫描&lt;/h3&gt;
 &lt;p&gt;ServiceAnnotationPostProcessor&lt;/p&gt;</description>

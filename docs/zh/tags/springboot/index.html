@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" dir="auto" data-theme="auto">
+<html lang="zh" dir="auto">
 
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,9 +8,9 @@
 <title>SpringBoot | Kyle&#39;s Notebook</title>
 <meta name="keywords" content="">
 <meta name="description" content="这是一个纯粹的博客......">
-<meta name="author" content="Me">
+<meta name="author" content="Shaohan Tian">
 <link rel="canonical" href="http://localhost:1313/zh/tags/springboot/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.ca2848ebeeca52df8c483397ae25b87c7d12a7cbfc51fdda486977f79c35b24f.css" integrity="sha256-yihI6&#43;7KUt&#43;MSDOXriW4fH0Sp8v8Uf3aSGl395w1sk8=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.baa6702377e4a1dbd81c0185ee93a873e09c7c739e38939dc6e7aa99b28bc2e8.css" integrity="sha256-uqZwI3fkodvYHAGF7pOoc&#43;CcfHOeOJOdxueqmbKLwug=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/img/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/img/favicon-16x16.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/img/favicon-32x32.ico">
@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="http://localhost:1313/img/favicon.ico">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/zh/tags/springboot/index.xml" title="rss">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/zh/tags/springboot/index.xml">
 <link rel="alternate" hreflang="zh" href="http://localhost:1313/zh/tags/springboot/">
 <noscript>
     <style>
@@ -40,57 +40,57 @@
                 --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
-                color-scheme: dark;
             }
 
             .list {
                 background: var(--theme);
             }
 
-            .toc {
-                background: var(--entry);
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
             }
         }
 
     </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script><meta property="og:url" content="http://localhost:1313/zh/tags/springboot/">
+</noscript><meta property="og:url" content="http://localhost:1313/zh/tags/springboot/">
   <meta property="og:site_name" content="Kyle&#39;s Notebook">
   <meta property="og:title" content="SpringBoot">
   <meta property="og:description" content="这是一个纯粹的博客......">
   <meta property="og:locale" content="zh">
   <meta property="og:type" content="website">
-
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="SpringBoot">
-  <meta name="twitter:description" content="这是一个纯粹的博客......">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot">
+<meta name="twitter:description" content="这是一个纯粹的博客......">
 
 </head>
+
 <body class="list" id="top">
-    <header class="header">
-    <nav class="header-nav">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+</script>
+
+<header class="header">
+    <nav class="nav">
         <div class="logo">
             <a href="http://localhost:1313/zh/" accesskey="h" title="Kyle&#39;s Notebook (Alt + H)">Kyle&#39;s Notebook</a>
             <div class="logo-switches"><div class="theme-selector" id="theme-selector">
-    <button class="theme-toggle-btn" id="theme-toggle" aria-label="切换主题">
-        <svg class="theme-icon theme-icon-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
+    <button class="theme-toggle-btn" id="color-theme-toggle" aria-label="切换主题颜色">
+        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="3"></circle>
             <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
         </svg>
     </button>
-    <div class="theme-dropdown" id="theme-dropdown">
+    <div class="theme-dropdown" id="color-theme-dropdown">
         <div class="theme-option" data-theme="green">
             <span class="theme-dot" style="background: #10b981;"></span>
             <span class="theme-name">森林绿</span>
@@ -119,10 +119,12 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeDropdown = document.getElementById('theme-dropdown');
-    const themeOptions = document.querySelectorAll('.theme-option');
+(function() {
+    const themeToggle = document.getElementById('color-theme-toggle');
+    const themeDropdown = document.getElementById('color-theme-dropdown');
+    if (!themeToggle || !themeDropdown) return;
+    
+    const themeOptions = themeDropdown.querySelectorAll('.theme-option');
     
     
     const savedTheme = localStorage.getItem('blog-theme') || 'green';
@@ -145,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     
-    themeOptions.forEach(option => {
+    themeOptions.forEach(function(option) {
         option.addEventListener('click', function() {
             const theme = this.getAttribute('data-theme');
             document.documentElement.setAttribute('data-color-theme', theme);
@@ -156,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     function updateActiveTheme(theme) {
-        themeOptions.forEach(option => {
+        themeOptions.forEach(function(option) {
             if (option.getAttribute('data-theme') === theme) {
                 option.classList.add('active');
             } else {
@@ -164,16 +166,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-});
+})();
 </script>
 
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -189,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </button>
             </div>
         </div>
-        <ul id="menu" class="menu">
+        <ul id="menu">
             <li>
                 <a href="http://localhost:1313/zh/search" title="搜索 (Alt &#43; /)" accesskey=/>
                     <span>搜索</span>
@@ -226,15 +228,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <main class="main"> 
 <header class="page-header"><nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
             <a href="/zh/">主页</a>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
-                <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
+            <svg class="breadcrumb-sep" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             <a href="/zh/tags/">Tags</a>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
-        <polyline points="9 18 15 12 9 6"></polyline>
-    </svg><span class="breadcrumbs-current" title="SpringBoot">SpringBoot</span>
+    <svg class="breadcrumb-sep" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    <span class="breadcrumbs-current" title="SpringBoot">SpringBoot</span>
 </nav>
   <h1>
     SpringBoot
@@ -257,30 +254,21 @@ document.addEventListener('DOMContentLoaded', function() {
 其中默认用到了StandardReflectionParameterNameDiscoverer （利用反射中的参数名获取）、和LocalVariableTableParameterNameDiscoverer（利用asm解析class文件获取）
 ...</p>
   </div>
-  <footer class="entry-footer">
-
-<span title='2025-07-26 16:40:13 +0800 CST'>2025-07-26</span>&nbsp;·&nbsp;<span>4 分钟</span>&nbsp;·&nbsp;<span>kyle</span></footer>
+  <footer class="entry-footer"><span title='2025-07-26 16:40:13 +0800 CST'>2025-07-26</span>&nbsp;·&nbsp;4 分钟&nbsp;·&nbsp;kyle</footer>
   <a class="entry-link" aria-label="post link to Springboot部分源码相关记录" href="http://localhost:1313/zh/posts/tech/open_source_component/java_web_base/springboot%E9%83%A8%E5%88%86%E6%BA%90%E7%A0%81%E7%9B%B8%E5%85%B3%E8%AE%B0%E5%BD%95/"></a>
 </article>
     </main>
     
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
     </svg>
 </a>
 
 <script>
-    let menu = document.getElementById('menu');
+    let menu = document.getElementById('menu')
     if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
         menu.onscroll = function () {
             localStorage.setItem("menu-scroll-position", menu.scrollLeft);
         }
@@ -307,25 +295,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 <script>
-    var toplink = document.getElementById("top-link");
+    var mybutton = document.getElementById("top-link");
     window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
         } else {
-            toplink.classList.add("hidden");
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
         }
     };
 
 </script>
 <script>
     document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
             localStorage.setItem("pref-theme", 'light');
         } else {
-            html.dataset.theme = 'dark';
+            document.body.classList.add('dark');
             localStorage.setItem("pref-theme", 'dark');
         }
     })
