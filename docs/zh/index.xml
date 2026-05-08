@@ -2,94 +2,94 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Kyle&#39;s Notebook</title>
-    <link>https://Kyle-Derrick.github.io/zh/</link>
+    <link>http://localhost:58715/zh/</link>
     <description>Recent content on Kyle&#39;s Notebook</description>
     <generator>Hugo -- 0.147.3</generator>
     <language>zh</language>
     <lastBuildDate>Fri, 08 May 2026 10:06:32 +0800</lastBuildDate>
-    <atom:link href="https://Kyle-Derrick.github.io/zh/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:58715/zh/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>AI 时代的阅读指南</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/read/ai%E6%97%B6%E4%BB%A3%E7%9A%84%E9%98%85%E8%AF%BB%E6%8C%87%E5%8D%97/</link>
+      <link>http://localhost:58715/zh/posts/read/ai%E6%97%B6%E4%BB%A3%E7%9A%84%E9%98%85%E8%AF%BB%E6%8C%87%E5%8D%97/</link>
       <pubDate>Fri, 08 May 2026 10:06:32 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/read/ai%E6%97%B6%E4%BB%A3%E7%9A%84%E9%98%85%E8%AF%BB%E6%8C%87%E5%8D%97/</guid>
+      <guid>http://localhost:58715/zh/posts/read/ai%E6%97%B6%E4%BB%A3%E7%9A%84%E9%98%85%E8%AF%BB%E6%8C%87%E5%8D%97/</guid>
       <description>AI 负责压缩信息，人负责吸收复杂性</description>
     </item>
     <item>
       <title>Pin和PhantomData的理解</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/</link>
+      <link>http://localhost:58715/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/</link>
       <pubDate>Wed, 06 Aug 2025 09:47:24 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/rust/pin%E5%92%8Cphantomdata%E7%9A%84%E7%90%86%E8%A7%A3/</guid>
       <description>源于AI回答 的 汇总</description>
     </item>
     <item>
       <title>零基础学习芯片设计(AI回答记录)</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/system_level/%E8%8A%AF%E7%89%87%E8%AE%BE%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%A1%88/</link>
+      <link>http://localhost:58715/zh/posts/tech/system_level/%E8%8A%AF%E7%89%87%E8%AE%BE%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%A1%88/</link>
       <pubDate>Tue, 05 Aug 2025 10:39:19 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/system_level/%E8%8A%AF%E7%89%87%E8%AE%BE%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%A1%88/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/system_level/%E8%8A%AF%E7%89%87%E8%AE%BE%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%A1%88/</guid>
       <description>纯属个人突发奇想，记录一下</description>
     </item>
     <item>
       <title>AI生成的指令集创新（AI回答记录）</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/system_level/ai%E6%8C%87%E4%BB%A4%E9%9B%86%E5%88%9B%E6%96%B0%E8%AE%B0%E5%BD%95/</link>
+      <link>http://localhost:58715/zh/posts/tech/system_level/ai%E6%8C%87%E4%BB%A4%E9%9B%86%E5%88%9B%E6%96%B0%E8%AE%B0%E5%BD%95/</link>
       <pubDate>Tue, 05 Aug 2025 09:43:28 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/system_level/ai%E6%8C%87%E4%BB%A4%E9%9B%86%E5%88%9B%E6%96%B0%E8%AE%B0%E5%BD%95/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/system_level/ai%E6%8C%87%E4%BB%A4%E9%9B%86%E5%88%9B%E6%96%B0%E8%AE%B0%E5%BD%95/</guid>
       <description>纯属个人突发奇想，看起来很高级，记录一下；（PS：实际上本人基本不会相关知识）</description>
     </item>
     <item>
       <title>Redis基本命令</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/open_source_component/redis/redis%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</link>
+      <link>http://localhost:58715/zh/posts/tech/open_source_component/redis/redis%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</link>
       <pubDate>Sat, 26 Jul 2025 16:25:28 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/open_source_component/redis/redis%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/open_source_component/redis/redis%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</guid>
       <description>来源于多年前记录的笔记</description>
     </item>
     <item>
       <title>CMake 基础</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/c/cmake%E5%9F%BA%E7%A1%80/</link>
+      <link>http://localhost:58715/zh/posts/tech/c/cmake%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Sat, 26 Jul 2025 16:19:38 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/c/cmake%E5%9F%BA%E7%A1%80/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/c/cmake%E5%9F%BA%E7%A1%80/</guid>
       <description>来源于多年前记录的笔记</description>
     </item>
     <item>
       <title>Linuc C 基础 (01)</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/c/linux_c_01_%E5%9F%BA%E7%A1%80/</link>
+      <link>http://localhost:58715/zh/posts/tech/c/linux_c_01_%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Sat, 26 Jul 2025 16:19:38 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/c/linux_c_01_%E5%9F%BA%E7%A1%80/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/c/linux_c_01_%E5%9F%BA%E7%A1%80/</guid>
       <description>来源于多年前记录的笔记</description>
     </item>
     <item>
       <title>Linuc C 基础系统函数 (02)</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/c/linux_c_02_%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E5%87%BD%E6%95%B0/</link>
+      <link>http://localhost:58715/zh/posts/tech/c/linux_c_02_%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E5%87%BD%E6%95%B0/</link>
       <pubDate>Sat, 26 Jul 2025 16:19:38 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/c/linux_c_02_%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E5%87%BD%E6%95%B0/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/c/linux_c_02_%E5%9F%BA%E7%A1%80%E7%B3%BB%E7%BB%9F%E5%87%BD%E6%95%B0/</guid>
       <description>来源于多年前记录的笔记</description>
     </item>
     <item>
       <title>Linuc C 进程线程 (03)</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/c/linux_c_03_%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B/</link>
+      <link>http://localhost:58715/zh/posts/tech/c/linux_c_03_%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B/</link>
       <pubDate>Sat, 26 Jul 2025 16:19:38 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/c/linux_c_03_%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/c/linux_c_03_%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B/</guid>
       <description>来源于多年前记录的笔记</description>
     </item>
     <item>
       <title>JNA引用相关细节记录</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/java/jna%E5%BC%95%E7%94%A8/</link>
+      <link>http://localhost:58715/zh/posts/tech/java/jna%E5%BC%95%E7%94%A8/</link>
       <pubDate>Wed, 23 Jul 2025 14:25:55 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/java/jna%E5%BC%95%E7%94%A8/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/java/jna%E5%BC%95%E7%94%A8/</guid>
       <description>记录来源于AI回答</description>
     </item>
     <item>
       <title>UDP打洞原理及流程</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/network/knowledge/udp%E6%89%93%E6%B4%9E%E5%8E%9F%E7%90%86%E5%8F%8A%E6%B5%81%E7%A8%8B/</link>
+      <link>http://localhost:58715/zh/posts/tech/network/knowledge/udp%E6%89%93%E6%B4%9E%E5%8E%9F%E7%90%86%E5%8F%8A%E6%B5%81%E7%A8%8B/</link>
       <pubDate>Tue, 22 Jul 2025 23:19:37 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/network/knowledge/udp%E6%89%93%E6%B4%9E%E5%8E%9F%E7%90%86%E5%8F%8A%E6%B5%81%E7%A8%8B/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/network/knowledge/udp%E6%89%93%E6%B4%9E%E5%8E%9F%E7%90%86%E5%8F%8A%E6%B5%81%E7%A8%8B/</guid>
       <description>&lt;p&gt;UDP打洞（UDP Hole Punching）是一种常用于穿越NAT（Network Address Translation，网络地址转换）设备的技术，使位于不同内网的两个设备能够建立直接的UDP通信通道。UDP打洞常应用于P2P网络和需要低延迟通信的应用中，如视频通话和实时游戏。下面是UDP打洞的基本原理和完整流程。&lt;/p&gt;</description>
     </item>
     <item>
       <title>互联Barrier安装记录</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/%E4%BA%92%E8%81%94barrier/</link>
+      <link>http://localhost:58715/zh/posts/tech/open_source_favorites/%E4%BA%92%E8%81%94barrier/</link>
       <pubDate>Tue, 22 Jul 2025 23:17:36 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/%E4%BA%92%E8%81%94barrier/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/open_source_favorites/%E4%BA%92%E8%81%94barrier/</guid>
       <description>&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
 &lt;h3 id=&#34;windows--macos&#34;&gt;Windows &amp;amp; MacOS&lt;/h3&gt;
 &lt;p&gt;直接去 Github 上下载&lt;a href=&#34;https://github.com/debauchee/barrier/releases&#34;&gt;安装包&lt;/a&gt;&lt;/p&gt;
@@ -119,9 +119,9 @@
     </item>
     <item>
       <title>开源库搜寻记录</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/</link>
+      <link>http://localhost:58715/zh/posts/tech/open_source_favorites/open_source_lib/</link>
       <pubDate>Tue, 22 Jul 2025 23:11:48 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/open_source_favorites/open_source_lib/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;主要用于寻找第三方库后做备忘的零散记录，常用库此处不记录&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h1 id=&#34;rust&#34;&gt;Rust&lt;/h1&gt;
@@ -131,9 +131,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>ESXi7虚拟机克隆脚本实现</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/linux/esxi7%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%85%8B%E9%9A%86%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0/</link>
+      <link>http://localhost:58715/zh/posts/tech/linux/esxi7%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%85%8B%E9%9A%86%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0/</link>
       <pubDate>Tue, 22 Jul 2025 23:08:01 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/linux/esxi7%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%85%8B%E9%9A%86%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/linux/esxi7%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%85%8B%E9%9A%86%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0/</guid>
       <description>&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -228,9 +228,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>Ubuntu清华源配置</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/linux/ubuntu%E6%B8%85%E5%8D%8E%E6%BA%90/</link>
+      <link>http://localhost:58715/zh/posts/tech/linux/ubuntu%E6%B8%85%E5%8D%8E%E6%BA%90/</link>
       <pubDate>Tue, 22 Jul 2025 23:05:18 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/linux/ubuntu%E6%B8%85%E5%8D%8E%E6%BA%90/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/linux/ubuntu%E6%B8%85%E5%8D%8E%E6%BA%90/</guid>
       <description>&lt;h2 id=&#34;修改说明地址&#34;&gt;修改说明地址&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/&#34;&gt;https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;mirror&#34;&gt;mirror&lt;/h2&gt;
@@ -238,9 +238,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>双系统时间问题</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/linux/%E5%8F%8C%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4%E9%97%AE%E9%A2%98/</link>
+      <link>http://localhost:58715/zh/posts/tech/linux/%E5%8F%8C%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4%E9%97%AE%E9%A2%98/</link>
       <pubDate>Tue, 22 Jul 2025 23:04:29 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/linux/%E5%8F%8C%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4%E9%97%AE%E9%A2%98/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/linux/%E5%8F%8C%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4%E9%97%AE%E9%A2%98/</guid>
       <description>&lt;h2 id=&#34;ubuntu-win-双系统-时间&#34;&gt;Ubuntu win 双系统 时间&lt;/h2&gt;
 &lt;p&gt;要解决 Ubuntu 与 Windows 双系统时间不同步，可以按照以下步骤操作：&lt;/p&gt;
 &lt;ol&gt;
@@ -253,9 +253,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>linux作为网关提供路由</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/linux/linux%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E6%8F%90%E4%BE%9B%E8%B7%AF%E7%94%B1/</link>
+      <link>http://localhost:58715/zh/posts/tech/linux/linux%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E6%8F%90%E4%BE%9B%E8%B7%AF%E7%94%B1/</link>
       <pubDate>Tue, 22 Jul 2025 23:02:49 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/linux/linux%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E6%8F%90%E4%BE%9B%E8%B7%AF%E7%94%B1/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/linux/linux%E4%BD%9C%E4%B8%BA%E7%BD%91%E5%85%B3%E6%8F%90%E4%BE%9B%E8%B7%AF%E7%94%B1/</guid>
       <description>&lt;h2 id=&#34;1-配置网卡&#34;&gt;1. 配置网卡&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -445,9 +445,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>IPsec/IKEv2服务部署</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/linux/ipsec_ikev2%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</link>
+      <link>http://localhost:58715/zh/posts/tech/linux/ipsec_ikev2%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</link>
       <pubDate>Tue, 22 Jul 2025 23:00:17 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/linux/ipsec_ikev2%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/linux/ipsec_ikev2%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.cnblogs.com/aresxin/p/17864829.html&#34;&gt;https://www.cnblogs.com/aresxin/p/17864829.html&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;开启内核转发&#34;&gt;开启内核转发&lt;/h2&gt;
@@ -606,9 +606,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>WireGuard服务部署</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/linux/wireguard%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</link>
+      <link>http://localhost:58715/zh/posts/tech/linux/wireguard%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</link>
       <pubDate>Tue, 22 Jul 2025 22:58:51 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/linux/wireguard%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/linux/wireguard%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</guid>
       <description>&lt;h3 id=&#34;一虚拟机aubuntu-20配置&#34;&gt;&lt;strong&gt;一、虚拟机A（Ubuntu 20）配置&lt;/strong&gt;&lt;/h3&gt;
 &lt;h4 id=&#34;1-安装wireguard&#34;&gt;&lt;strong&gt;1. 安装WireGuard&lt;/strong&gt;&lt;/h4&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -639,9 +639,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>SMB服务部署</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/linux/smb%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</link>
+      <link>http://localhost:58715/zh/posts/tech/linux/smb%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</link>
       <pubDate>Tue, 22 Jul 2025 22:56:40 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/linux/smb%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/linux/smb%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2/</guid>
       <description>&lt;h3 id=&#34;一安装samba服务&#34;&gt;&lt;strong&gt;一、安装Samba服务&lt;/strong&gt;&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -659,9 +659,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>CentOS7最小安装后配置</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/linux/centos7%E6%9C%80%E5%B0%8F%E5%AE%89%E8%A3%85%E5%90%8E%E9%85%8D%E7%BD%AE/</link>
+      <link>http://localhost:58715/zh/posts/tech/linux/centos7%E6%9C%80%E5%B0%8F%E5%AE%89%E8%A3%85%E5%90%8E%E9%85%8D%E7%BD%AE/</link>
       <pubDate>Tue, 22 Jul 2025 22:48:13 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/linux/centos7%E6%9C%80%E5%B0%8F%E5%AE%89%E8%A3%85%E5%90%8E%E9%85%8D%E7%BD%AE/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/linux/centos7%E6%9C%80%E5%B0%8F%E5%AE%89%E8%A3%85%E5%90%8E%E9%85%8D%E7%BD%AE/</guid>
       <description>&lt;h1 id=&#34;linux笔记&#34;&gt;Linux笔记&lt;/h1&gt;
 &lt;h2 id=&#34;-centos被弃用后yum无法正常使用&#34;&gt;* centos被弃用后yum无法正常使用&lt;/h2&gt;
 &lt;p&gt;下载CentOS 7的repo文件&lt;/p&gt;
@@ -860,9 +860,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>CentOS7 使用高版本gcc</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/linux/centos7%E4%BD%BF%E7%94%A8%E9%AB%98%E7%89%88%E6%9C%ACgcc/</link>
+      <link>http://localhost:58715/zh/posts/tech/linux/centos7%E4%BD%BF%E7%94%A8%E9%AB%98%E7%89%88%E6%9C%ACgcc/</link>
       <pubDate>Tue, 22 Jul 2025 22:47:31 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/linux/centos7%E4%BD%BF%E7%94%A8%E9%AB%98%E7%89%88%E6%9C%ACgcc/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/linux/centos7%E4%BD%BF%E7%94%A8%E9%AB%98%E7%89%88%E6%9C%ACgcc/</guid>
       <description>&lt;p&gt;直接安装 比如：devtoolset-8-gcc-g++ , 或其他版本&lt;/p&gt;
 &lt;p&gt;然后通过 如下命令启用并进入对应版本环境：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -892,9 +892,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>如何将内存缓冲区伪装成文件流</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/</link>
+      <link>http://localhost:58715/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/</link>
       <pubDate>Tue, 22 Jul 2025 22:40:49 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/</guid>
       <description>&lt;h2 id=&#34;1-fmemopenlinux-posix-标准&#34;&gt;1. fmemopen（Linux POSIX 标准）&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;功能&lt;/strong&gt;：将内存缓冲区伪装成文件流（FILE*），支持标准文件 I/O 操作（如 fprintf、fscanf）&lt;/li&gt;
@@ -974,9 +974,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>CentOS7 上安装 NodeJs</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/linux/centos7_nodejs%E5%AE%89%E8%A3%85/</link>
+      <link>http://localhost:58715/zh/posts/tech/linux/centos7_nodejs%E5%AE%89%E8%A3%85/</link>
       <pubDate>Tue, 22 Jul 2025 22:32:31 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/linux/centos7_nodejs%E5%AE%89%E8%A3%85/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/linux/centos7_nodejs%E5%AE%89%E8%A3%85/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;由于 CentOS7 为glibc 2.17，故而无法安装高版本&lt;/p&gt;
 &lt;p&gt;但可以获取非官方编译包&lt;/p&gt;&lt;/blockquote&gt;
@@ -1000,25 +1000,25 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>StrongSwan安装部署（CentOS7 为例）</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/network/vpn/ipsec/strongswan%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/</link>
+      <link>http://localhost:58715/zh/posts/tech/network/vpn/ipsec/strongswan%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/</link>
       <pubDate>Tue, 22 Jul 2025 22:29:33 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/network/vpn/ipsec/strongswan%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/network/vpn/ipsec/strongswan%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/</guid>
       <description></description>
     </item>
     <item>
       <title>IPsec技术原理</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/network/vpn/ipsec/ipsec%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/</link>
+      <link>http://localhost:58715/zh/posts/tech/network/vpn/ipsec/ipsec%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/</link>
       <pubDate>Tue, 22 Jul 2025 22:14:22 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/network/vpn/ipsec/ipsec%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/network/vpn/ipsec/ipsec%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/</guid>
       <description>&lt;p&gt;&lt;strong&gt;什么是IPSec&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;IPSec（Internet Protocol Security）是IETF（Internet Engineering Task Force）制定的一组开放的&lt;a href=&#34;https://cloud.tencent.com/product/ns?from_column=20065&amp;amp;from=20065&#34;&gt;网络安全&lt;/a&gt;协议。它并不是一个单独的协议，而是一系列为IP网络提供安全性的协议和服务的集合。&lt;/p&gt;
 &lt;p&gt;IPSec用来解决IP层安全性问题的技术。IPSec被设计为同时支持IPv4和IPv6网络。主要通过加密与验证等方式，为IP数据包提供安全服务。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Rust杂项记录点</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/rust/%E8%AE%B0%E5%BD%95%E7%82%B9/</link>
+      <link>http://localhost:58715/zh/posts/tech/rust/%E8%AE%B0%E5%BD%95%E7%82%B9/</link>
       <pubDate>Tue, 22 Jul 2025 21:51:45 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/rust/%E8%AE%B0%E5%BD%95%E7%82%B9/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/rust/%E8%AE%B0%E5%BD%95%E7%82%B9/</guid>
       <description>&lt;h2 id=&#34;foreach需注意的细节&#34;&gt;foreach需注意的细节&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1072,16 +1072,16 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>源码研究计划（源于AI推荐）</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/plan/%E6%BA%90%E7%A0%81%E7%A0%94%E7%A9%B6%E8%AE%A1%E5%88%92/</link>
+      <link>http://localhost:58715/zh/posts/tech/plan/%E6%BA%90%E7%A0%81%E7%A0%94%E7%A9%B6%E8%AE%A1%E5%88%92/</link>
       <pubDate>Tue, 22 Jul 2025 14:38:34 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/plan/%E6%BA%90%E7%A0%81%E7%A0%94%E7%A9%B6%E8%AE%A1%E5%88%92/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/plan/%E6%BA%90%E7%A0%81%E7%A0%94%E7%A9%B6%E8%AE%A1%E5%88%92/</guid>
       <description>&lt;p&gt;以下是为您制定的完整系统能力提升方案，整合了源码精读、实践策略和工具链支持，特别针对Rust/Golang存储与高性能系统领域，分为三个阶段实施（附时间规划与难度标签）：&lt;/p&gt;</description>
     </item>
     <item>
       <title>Rust国内源安装</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/rust/%E5%9B%BD%E5%86%85%E6%BA%90%E5%AE%89%E8%A3%85/</link>
+      <link>http://localhost:58715/zh/posts/tech/rust/%E5%9B%BD%E5%86%85%E6%BA%90%E5%AE%89%E8%A3%85/</link>
       <pubDate>Mon, 21 Jul 2025 22:53:34 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/rust/%E5%9B%BD%E5%86%85%E6%BA%90%E5%AE%89%E8%A3%85/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/rust/%E5%9B%BD%E5%86%85%E6%BA%90%E5%AE%89%E8%A3%85/</guid>
       <description>&lt;ol&gt;
 &lt;li&gt;Rustup 镜像， 修改配置 ~/.zshrc or ~/.bashrc，windows直接配置环境变量&lt;/li&gt;
 &lt;/ol&gt;
@@ -1173,9 +1173,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>Rust离线环境安装及使用vendor离线编译项目</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/rust/%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8F%8A%E7%A6%BB%E7%BA%BF%E4%BE%9D%E8%B5%96/</link>
+      <link>http://localhost:58715/zh/posts/tech/rust/%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8F%8A%E7%A6%BB%E7%BA%BF%E4%BE%9D%E8%B5%96/</link>
       <pubDate>Mon, 21 Jul 2025 22:50:40 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/rust/%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8F%8A%E7%A6%BB%E7%BA%BF%E4%BE%9D%E8%B5%96/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/rust/%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8F%8A%E7%A6%BB%E7%BA%BF%E4%BE%9D%E8%B5%96/</guid>
       <description>&lt;h1 id=&#34;1-离线安装&#34;&gt;1. 离线安装&lt;/h1&gt;
 &lt;ol&gt;
 &lt;li&gt;下载rust安装包: &lt;a href=&#34;https://forge.rust-lang.org/infra/archive-stable-version-installers.html&#34;&gt;链接&lt;/a&gt; 比如 x86_64-unknown-linux-gnu  |  x86_64-pc-windows-msvc&lt;/li&gt;
@@ -1189,9 +1189,9 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>Redis并发相关使用案例</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/open_source_component/redis/redis_concurrency_case/</link>
+      <link>http://localhost:58715/zh/posts/tech/open_source_component/redis/redis_concurrency_case/</link>
       <pubDate>Mon, 21 Jul 2025 22:42:37 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/open_source_component/redis/redis_concurrency_case/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/open_source_component/redis/redis_concurrency_case/</guid>
       <description>&lt;h1 id=&#34;减库存案例&#34;&gt;减库存案例&lt;/h1&gt;
 &lt;h2 id=&#34;1-同步锁&#34;&gt;1. 同步锁&lt;/h2&gt;
 &lt;p&gt;优点： 简单，能解决问题
@@ -1209,53 +1209,53 @@ egui、Tauri、Iced: GUI框架：https://rustcc.cn/article?id=8f6c816e-790e-44ff
     </item>
     <item>
       <title>Maven、Gradle国内源配置</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/java/maven_gradle_mirror/</link>
+      <link>http://localhost:58715/zh/posts/tech/java/maven_gradle_mirror/</link>
       <pubDate>Mon, 21 Jul 2025 22:30:46 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/java/maven_gradle_mirror/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/java/maven_gradle_mirror/</guid>
       <description>&lt;h1 id=&#34;maven国内源配置&#34;&gt;Maven国内源配置&lt;/h1&gt;
 &lt;h2 id=&#34;修改maven中的配置文件&#34;&gt;修改Maven中的配置文件。&lt;/h2&gt;
 &lt;p&gt;进入Mavne的安装路径也就是解压路径，例如&lt;code&gt;D:\apache-maven-3.5.4\conf&lt;/code&gt;。修改&lt;code&gt;D:\apache-maven-3.5.4\conf&lt;/code&gt;下的&lt;code&gt;settings.xml&lt;/code&gt;文件&lt;/p&gt;</description>
     </item>
     <item>
       <title>hugo从同级目录下插入图片（相对路径）</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/other_general/hugo/hugo_include_image/</link>
+      <link>http://localhost:58715/zh/posts/tech/other_general/hugo/hugo_include_image/</link>
       <pubDate>Mon, 21 Jul 2025 19:40:14 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/other_general/hugo/hugo_include_image/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/other_general/hugo/hugo_include_image/</guid>
       <description>通过修改 render_image.html 调整 img 生成逻辑以达到从相对路径插入图片的目的</description>
     </item>
     <item>
       <title>hugo使用经验</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/other_general/hugo/hugo_exp_note/</link>
+      <link>http://localhost:58715/zh/posts/tech/other_general/hugo/hugo_exp_note/</link>
       <pubDate>Mon, 21 Jul 2025 15:42:35 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/other_general/hugo/hugo_exp_note/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/other_general/hugo/hugo_exp_note/</guid>
       <description>hugo使用过程中的一些经验记录</description>
     </item>
     <item>
       <title>hugo使用Giscus支持评论</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/other_general/hugo/hugo_giscus_comment/</link>
+      <link>http://localhost:58715/zh/posts/tech/other_general/hugo/hugo_giscus_comment/</link>
       <pubDate>Mon, 21 Jul 2025 15:29:04 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/other_general/hugo/hugo_giscus_comment/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/other_general/hugo/hugo_giscus_comment/</guid>
       <description>hugo通过引入并配置Giscus以支持评论功能</description>
     </item>
     <item>
       <title>vscode项目级配置</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/vscode/vscode-project-config/</link>
+      <link>http://localhost:58715/zh/posts/tech/vscode/vscode-project-config/</link>
       <pubDate>Mon, 21 Jul 2025 14:44:55 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/vscode/vscode-project-config/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/vscode/vscode-project-config/</guid>
       <description>[此文为随笔随记]通过对项目下的 .vscode 目录添加配置达到项目级配置的目的，这样就不用每个环境都修改配置了</description>
     </item>
     <item>
       <title>Hugo使用PaperMod主题搭建博客，并配置自动发布Github Pages</title>
-      <link>https://Kyle-Derrick.github.io/zh/posts/tech/other_general/hugo/hugo_and_github_pages/</link>
+      <link>http://localhost:58715/zh/posts/tech/other_general/hugo/hugo_and_github_pages/</link>
       <pubDate>Thu, 15 May 2025 17:41:53 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/other_general/hugo/hugo_and_github_pages/</guid>
+      <guid>http://localhost:58715/zh/posts/tech/other_general/hugo/hugo_and_github_pages/</guid>
       <description>Hugo使用PaperMod主题搭建博客，并配置自动发布Github Pages</description>
     </item>
     <item>
       <title>关于我</title>
-      <link>https://Kyle-Derrick.github.io/zh/about/</link>
+      <link>http://localhost:58715/zh/about/</link>
       <pubDate>Wed, 14 May 2025 23:44:48 +0800</pubDate>
-      <guid>https://Kyle-Derrick.github.io/zh/about/</guid>
+      <guid>http://localhost:58715/zh/about/</guid>
       <description>关于 Kyle&amp;rsquo;s Notebook</description>
     </item>
   </channel>

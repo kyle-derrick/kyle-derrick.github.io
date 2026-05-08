@@ -1,15 +1,12 @@
 {{- /* 左侧笔记导航树 - 基于 Hugo Sections 递归 */ -}}
 {{- $currentPage := . -}}
 
-{{- /* 找到顶层 section，例如 posts */ -}}
-{{- $topSection := "" -}}
-{{- if $currentPage.IsHome -}}
-    {{- $topSection = "posts" -}}
-{{- else -}}
-    {{- $topSection = $currentPage.Section -}}
+{{- /* 仅在 posts 相关页面显示笔记导航 */ -}}
+{{- $topSection := $currentPage.Section -}}
+{{- $rootSection := "" -}}
+{{- if eq $topSection "posts" -}}
+    {{- $rootSection = site.GetPage "/posts" -}}
 {{- end -}}
-
-{{- $rootSection := site.GetPage (printf "/%s" $topSection) -}}
 
 {{- /* 当前页面的祖先路径 - 用于自动展开 */ -}}
 {{- $currentAncestors := slice -}}

@@ -128,27 +128,16 @@
         font-weight: 600;
     }
     
-    /* 子目录 */
+    /* 子目录 - 默认隐藏，父 folder 展开时显示 */
     .tree-children {
         display: none;
-        padding-left: 12px;
+        padding-left: 10px;
         border-left: 1px solid var(--border);
-        margin-left: 14px;
-    }
-    
-    .tree-children.tree-expanded {
-        display: block;
-    }
-    
-    /* 页面列表 */
-    .tree-pages {
-        display: none;
+        margin-left: 10px;
         list-style: none;
-        padding-left: 22px;
-        margin: 2px 0;
     }
     
-    .tree-folder.tree-expanded > .tree-pages {
+    .tree-folder.tree-expanded > .tree-children {
         display: block;
     }
     
@@ -181,17 +170,9 @@
         background: var(--accent-soft);
     }
     
-    /* 层级缩进 */
-    .tree-item[data-level="1"] {
-        margin-left: 6px;
-    }
-    
-    .tree-item[data-level="2"] {
-        margin-left: 12px;
-    }
-    
-    .tree-item[data-level="3"] {
-        margin-left: 18px;
+    /* 顶级目录无左侧边框 */
+    .tree-root > .tree-folder > .tree-children {
+        margin-left: 4px;
     }
     
     /* 隐藏滚动条但保留功能 */
