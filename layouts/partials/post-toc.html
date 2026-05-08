@@ -1,49 +1,120 @@
-{{- /* 左侧文章树 - 支持全部文章 */ -}}
+{{- /* 左侧目录树 - 基于文件路径层级 */ -}}
 {{- $currentPage := . -}}
-{{- $section := $currentPage.Section -}}
-{{- if eq $section "" -}}
-    {{- $section = "posts" -}}
+{{- $currentSection := $currentPage.Section -}}
+{{- if eq $currentSection "" -}}
+    {{- $currentSection = "posts" -}}
 {{- end -}}
 
-{{- /* 获取当前 section 下的所有页面 */ -}}
-{{- $pages := where (where site.RegularPages "Section" $section) "Params.hidden" "ne" true -}}
-{{- if eq (len $pages) 0 -}}
-    {{- $pages = where site.RegularPages "Params.hidden" "ne" true -}}
+{{- /* 获取当前 section 下的所有内容 */ -}}
+{{- $allPages := where site.RegularPages "Section" $currentSection -}}
+{{- $allPages = where $allPages "Params.hidden" "ne" true -}}
+{{- $sections := where site.Sections "Section" $currentSection -}}
+
+{{- /* 构建树形结构 */ -}}
+{{- $tree := dict -}}
+{{- range $allPages -}}
+    {{- $path := trim .File.Dir "/" -}}
+    {{- $parts := split $path "/" -}}
+    {{- $current := $tree -}}
+    {{- range $i, $part := $parts -}}
+        {{- if ne $part "" -}}
+            {{- if not (index $current $part) -}}
+                {{- $current = merge $current (dict $part (dict "_pages" slice "_children" dict)) -}}
+            {{- end -}}
+            {{- $node := index $current $part -}}
+            {{- if eq (add $i 1) (len $parts) -}}
+                {{- $pages := $node._pages | default slice -}}
+                {{- $pages = $pages | append . -}}
+                {{- $node = merge $node (dict "_pages" $pages) -}}
+            {{- end -}}
+            {{- $current = $node._children -}}
+        {{- end -}}
+    {{- end -}}
 {{- end -}}
 
-{{- if gt (len $pages) 0 -}}
-<div class="post-toc" id="post-toc">
-    <div class="post-toc-header">
-        <span class="post-toc-title">{{- i18n "articles" | default "文章" -}}</span>
-    </div>
-    <div class="post-toc-tree">
-        <ul class="post-toc-list">
-            {{- range $pages -}}
-            {{- $isCurrent := eq .RelPermalink $currentPage.RelPermalink -}}
-            <li class="post-toc-item{{ if $isCurrent }} post-toc-current{{ end }}">
-                <a href="{{ .RelPermalink }}" class="post-toc-link" title="{{ .Title }}">
-                    {{- .Title -}}
-                </a>
-                {{- if $isCurrent -}}
-                {{- /* 当前文章显示子目录 */ -}}
-                {{- $headers := findRE "<h[1-6].*?>(.|\n])+?</h[1-6]>" .Content -}}
-                {{- if gt (len $headers) 0 -}}
-                <ul class="post-toc-sublist">
-                    {{- range $headers -}}
-                    {{- $id := index (findRE "(id=\"(.*?)\")" . 9) 0 -}}
-                    {{- $cleanedID := replace (replace $id "id=\"" "") "\"" "" -}}
-                    {{- $header := replaceRE "<h[1-6].*?>((.|\n])+?)</h[1-6]>" "$1" . -}}
-                    <li class="post-toc-subitem">
-                        <a href="#{{ $cleanedID }}" class="post-toc-sublink" title="{{ $header | plainify }}">
-                            {{- $header | plainify | safeHTML -}}
+{{- /* 递归渲染树的函数 */ -}}
+{{- define "render-tree" -}}
+    {{- $tree := .tree -}}
+    {{- $currentPage := .page -}}
+    {{- $level := .level | default 0 -}}
+    {{- $expandedSections := .expanded | default slice -}}
+    
+    {{- range $name, $node := $tree -}}
+        {{- if and (ne $name "_pages") (ne $name "_children") -}}
+            {{- $isExpanded := false -}}
+            {{- range $expandedSections -}}
+                {{- if eq . $name -}}
+                    {{- $isExpanded = true -}}
+                {{- end -}}
+            {{- end -}}
+            
+            {{- $hasActive := false -}}
+            {{- range $node._pages -}}
+                {{- if eq .RelPermalink $currentPage.RelPermalink -}}
+                    {{- $hasActive = true -}}
+                {{- end -}}
+            {{- end -}}
+            
+            <li class="tree-item tree-folder{{ if $isExpanded }} tree-expanded{{ end }}{{ if $hasActive }} tree-active-branch{{ end }}" data-level="{{ $level }}">
+                <div class="tree-folder-header">
+                    <span class="tree-toggle">
+                        {{- if gt (len $node._children) 0 -}}
+                        <svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                        {{- else -}}
+                        <span class="tree-icon-spacer"></span>
+                        {{- end -}}
+                    </span>
+                    <span class="tree-folder-name">{{ $name }}</span>
+                </div>
+                
+                {{- /* 子页面 */ -}}
+                {{- if gt (len $node._pages) 0 -}}
+                <ul class="tree-list tree-pages">
+                    {{- range $node._pages -}}
+                    {{- $isCurrent := eq .RelPermalink $currentPage.RelPermalink -}}
+                    <li class="tree-item tree-page{{ if $isCurrent }} tree-current{{ end }}">
+                        <a href="{{ .RelPermalink }}" class="tree-link" title="{{ .Title }}">
+                            {{- .Title -}}
                         </a>
                     </li>
                     {{- end -}}
                 </ul>
                 {{- end -}}
+                
+                {{- /* 递归子目录 */ -}}
+                {{- if gt (len $node._children) 0 -}}
+                <ul class="tree-list tree-children{{ if $isExpanded }} tree-expanded{{ end }}">
+                    {{- template "render-tree" (dict "tree" $node._children "page" $currentPage "level" (add $level 1) "expanded" $expandedSections) -}}
+                </ul>
                 {{- end -}}
             </li>
-            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- /* 检测当前路径中需要展开的目录 */ -}}
+{{- $expandedPaths := slice -}}
+{{- if $currentPage.File -}}
+    {{- $currentPath := trim $currentPage.File.Dir "/" -}}
+    {{- $parts := split $currentPath "/" -}}
+    {{- range $parts -}}
+        {{- if ne . "" -}}
+            {{- $expandedPaths = $expandedPaths | append . -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- /* 只显示有内容的树 */ -}}
+{{- if gt (len $tree) 0 -}}
+<div class="post-toc" id="post-toc">
+    <div class="post-toc-header">
+        <span class="post-toc-title">{{- i18n "contents" | default "目录" -}}</span>
+    </div>
+    <div class="post-toc-tree">
+        <ul class="tree-list tree-root">
+            {{- template "render-tree" (dict "tree" $tree "page" $currentPage "level" 0 "expanded" $expandedPaths) -}}
         </ul>
     </div>
 </div>
@@ -61,9 +132,32 @@ document.addEventListener('DOMContentLoaded', function() {
             postToc.style.display = 'block';
         }
     }
-
     checkViewport();
     window.addEventListener('resize', checkViewport);
+
+    // 文件夹展开/折叠
+    const folderHeaders = postToc.querySelectorAll('.tree-folder-header');
+    folderHeaders.forEach(header => {
+        header.addEventListener('click', function(e) {
+            const item = this.closest('.tree-folder');
+            const children = item.querySelector(':scope > .tree-children');
+            const pages = item.querySelector(':scope > .tree-pages');
+            
+            if (children) {
+                children.classList.toggle('tree-expanded');
+                item.classList.toggle('tree-expanded');
+            }
+            if (pages) {
+                pages.classList.toggle('tree-expanded');
+            }
+            
+            // 旋转图标
+            const icon = this.querySelector('.tree-icon');
+            if (icon) {
+                icon.classList.toggle('tree-icon-rotated');
+            }
+        });
+    });
 });
 </script>
 {{- end -}}

@@ -1,0 +1,85 @@
+{{- /* 主题选择器 */ -}}
+<div class="theme-selector" id="theme-selector">
+    <button class="theme-toggle-btn" id="theme-toggle" aria-label="切换主题">
+        <svg class="theme-icon theme-icon-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+        </svg>
+    </button>
+    <div class="theme-dropdown" id="theme-dropdown">
+        <div class="theme-option" data-theme="green">
+            <span class="theme-dot" style="background: #10b981;"></span>
+            <span class="theme-name">森林绿</span>
+        </div>
+        <div class="theme-option" data-theme="blue">
+            <span class="theme-dot" style="background: #2563eb;"></span>
+            <span class="theme-name">海洋蓝</span>
+        </div>
+        <div class="theme-option" data-theme="purple">
+            <span class="theme-dot" style="background: #7c3aed;"></span>
+            <span class="theme-name">紫罗兰</span>
+        </div>
+        <div class="theme-option" data-theme="orange">
+            <span class="theme-dot" style="background: #f59e0b;"></span>
+            <span class="theme-name">暖阳橙</span>
+        </div>
+        <div class="theme-option" data-theme="pink">
+            <span class="theme-dot" style="background: #ec4899;"></span>
+            <span class="theme-name">樱花粉</span>
+        </div>
+        <div class="theme-option" data-theme="teal">
+            <span class="theme-dot" style="background: #14b8a6;"></span>
+            <span class="theme-name">青柠绿</span>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeDropdown = document.getElementById('theme-dropdown');
+    const themeOptions = document.querySelectorAll('.theme-option');
+    
+    // 从 localStorage 读取主题设置
+    const savedTheme = localStorage.getItem('blog-theme') || 'green';
+    document.documentElement.setAttribute('data-color-theme', savedTheme);
+    updateActiveTheme(savedTheme);
+    
+    // 切换下拉菜单
+    themeToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        themeDropdown.classList.toggle('show');
+    });
+    
+    // 点击外部关闭
+    document.addEventListener('click', function() {
+        themeDropdown.classList.remove('show');
+    });
+    
+    themeDropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+    
+    // 选择主题
+    themeOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const theme = this.getAttribute('data-theme');
+            document.documentElement.setAttribute('data-color-theme', theme);
+            localStorage.setItem('blog-theme', theme);
+            updateActiveTheme(theme);
+            themeDropdown.classList.remove('show');
+        });
+    });
+    
+    function updateActiveTheme(theme) {
+        themeOptions.forEach(option => {
+            if (option.getAttribute('data-theme') === theme) {
+                option.classList.add('active');
+            } else {
+                option.classList.remove('active');
+            }
+        });
+    }
+});
+</script>

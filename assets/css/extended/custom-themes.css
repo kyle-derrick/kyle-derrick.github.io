@@ -1,0 +1,206 @@
+/* 多主题色彩系统 - 默认绿色主题 */
+
+/* 基础变量 - 绿色主题（默认） */
+:root,
+:root[data-color-theme="green"] {
+    --accent: #10b981;
+    --accent-light: #34d399;
+    --accent-hover: #059669;
+    --accent-rgb: 16, 185, 129;
+    --accent-soft: rgba(16, 185, 129, 0.1);
+    --accent-medium: rgba(16, 185, 129, 0.2);
+    --accent-strong: rgba(16, 185, 129, 0.3);
+}
+
+/* 蓝色主题 */
+:root[data-color-theme="blue"] {
+    --accent: #2563eb;
+    --accent-light: #3b82f6;
+    --accent-hover: #1d4ed8;
+    --accent-rgb: 37, 99, 235;
+    --accent-soft: rgba(37, 99, 235, 0.1);
+    --accent-medium: rgba(37, 99, 235, 0.2);
+    --accent-strong: rgba(37, 99, 235, 0.3);
+}
+
+/* 紫色主题 */
+:root[data-color-theme="purple"] {
+    --accent: #7c3aed;
+    --accent-light: #8b5cf6;
+    --accent-hover: #6d28d9;
+    --accent-rgb: 124, 58, 237;
+    --accent-soft: rgba(124, 58, 237, 0.1);
+    --accent-medium: rgba(124, 58, 237, 0.2);
+    --accent-strong: rgba(124, 58, 237, 0.3);
+}
+
+/* 橙色主题 */
+:root[data-color-theme="orange"] {
+    --accent: #f59e0b;
+    --accent-light: #fbbf24;
+    --accent-hover: #d97706;
+    --accent-rgb: 245, 158, 11;
+    --accent-soft: rgba(245, 158, 11, 0.1);
+    --accent-medium: rgba(245, 158, 11, 0.2);
+    --accent-strong: rgba(245, 158, 11, 0.3);
+}
+
+/* 粉色主题 */
+:root[data-color-theme="pink"] {
+    --accent: #ec4899;
+    --accent-light: #f472b6;
+    --accent-hover: #db2777;
+    --accent-rgb: 236, 72, 153;
+    --accent-soft: rgba(236, 72, 153, 0.1);
+    --accent-medium: rgba(236, 72, 153, 0.2);
+    --accent-strong: rgba(236, 72, 153, 0.3);
+}
+
+/* 青柠绿主题 */
+:root[data-color-theme="teal"] {
+    --accent: #14b8a6;
+    --accent-light: #2dd4bf;
+    --accent-hover: #0d9488;
+    --accent-rgb: 20, 184, 166;
+    --accent-soft: rgba(20, 184, 166, 0.1);
+    --accent-medium: rgba(20, 184, 166, 0.2);
+    --accent-strong: rgba(20, 184, 166, 0.3);
+}
+
+/* 深色模式下的主题适配 */
+[data-theme="dark"][data-color-theme="green"],
+.dark[data-color-theme="green"] {
+    --accent: #34d399;
+    --accent-light: #6ee7b7;
+    --accent-hover: #10b981;
+    --accent-rgb: 52, 211, 153;
+}
+
+[data-theme="dark"][data-color-theme="blue"],
+.dark[data-color-theme="blue"] {
+    --accent: #60a5fa;
+    --accent-light: #93c5fd;
+    --accent-hover: #3b82f6;
+    --accent-rgb: 96, 165, 250;
+}
+
+[data-theme="dark"][data-color-theme="purple"],
+.dark[data-color-theme="purple"] {
+    --accent: #a78bfa;
+    --accent-light: #c4b5fd;
+    --accent-hover: #8b5cf6;
+    --accent-rgb: 167, 139, 250;
+}
+
+[data-theme="dark"][data-color-theme="orange"],
+.dark[data-color-theme="orange"] {
+    --accent: #fbbf24;
+    --accent-light: #fcd34d;
+    --accent-hover: #f59e0b;
+    --accent-rgb: 251, 191, 36;
+}
+
+[data-theme="dark"][data-color-theme="pink"],
+.dark[data-color-theme="pink"] {
+    --accent: #f472b6;
+    --accent-light: #f9a8d4;
+    --accent-hover: #ec4899;
+    --accent-rgb: 244, 114, 182;
+}
+
+[data-theme="dark"][data-color-theme="teal"],
+.dark[data-color-theme="teal"] {
+    --accent: #2dd4bf;
+    --accent-light: #5eead4;
+    --accent-hover: #14b8a6;
+    --accent-rgb: 45, 212, 191;
+}
+
+/* 主题选择器样式 */
+.theme-selector {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.theme-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--secondary);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: all var(--transition-fast);
+}
+
+.theme-toggle-btn:hover {
+    color: var(--accent);
+    background: var(--code-bg);
+}
+
+.theme-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.theme-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 160px;
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: 8px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all var(--transition-fast);
+    z-index: 1000;
+}
+
+.theme-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.theme-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.theme-option:hover {
+    background: var(--code-bg);
+}
+
+.theme-option.active {
+    background: var(--accent-soft);
+}
+
+.theme-option.active .theme-name {
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.theme-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.theme-name {
+    font-size: 14px;
+    color: var(--primary);
+}

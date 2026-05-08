@@ -1,9 +1,15 @@
 /* 扩展 CSS 变量 - 与官方 PaperMod 兼容 */
+/* 默认绿色主题 - 由 custom-themes.css 定义具体颜色 */
 :root {
-    /* 扩展颜色变量 */
-    --accent: #2563eb;
-    --accent-light: #3b82f6;
-    --accent-hover: #1d4ed8;
+    /* 扩展颜色变量 - 默认绿色 */
+    --accent: #10b981;
+    --accent-light: #34d399;
+    --accent-hover: #059669;
+    --accent-rgb: 16, 185, 129;
+    --accent-soft: rgba(16, 185, 129, 0.1);
+    --accent-medium: rgba(16, 185, 129, 0.2);
+    --accent-strong: rgba(16, 185, 129, 0.3);
+    
     --content-secondary: var(--secondary);
     
     /* 边框扩展 */
@@ -42,9 +48,10 @@
 
 /* 深色模式适配 - 使用官方 PaperMod 的 data-theme="dark" */
 :root[data-theme="dark"] {
-    --accent: #60a5fa;
-    --accent-light: #93c5fd;
-    --accent-hover: #3b82f6;
+    --accent: #34d399;
+    --accent-light: #6ee7b7;
+    --accent-hover: #10b981;
+    --accent-rgb: 52, 211, 153;
     --divider: rgba(255, 255, 255, 0.06);
     
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -58,9 +65,10 @@
 
 /* 兼容旧的 .dark 类 */
 .dark {
-    --accent: #60a5fa;
-    --accent-light: #93c5fd;
-    --accent-hover: #3b82f6;
+    --accent: #34d399;
+    --accent-light: #6ee7b7;
+    --accent-hover: #10b981;
+    --accent-rgb: 52, 211, 153;
     --divider: rgba(255, 255, 255, 0.06);
     
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);

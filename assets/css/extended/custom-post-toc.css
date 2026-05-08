@@ -1,4 +1,4 @@
-/* 左侧文章树样式 */
+/* 左侧目录树样式 */
 
 .post-toc {
     display: none; /* 默认隐藏，小屏幕时保持隐藏 */
@@ -11,9 +11,9 @@
         position: fixed;
         top: calc(var(--header-height) + 40px);
         left: 20px;
-        width: 280px;
+        width: 300px;
         max-width: calc((100% - (var(--main-width) + var(--gap) * 2)) / 2 - 40px);
-        min-width: 240px;
+        min-width: 260px;
         max-height: calc(100vh - var(--header-height) - 80px);
         z-index: 98;
         
@@ -49,63 +49,116 @@
         color: var(--secondary);
     }
     
-    /* 列表 */
-    .post-toc-list {
+    /* 树形列表 */
+    .tree-list {
         list-style: none;
         margin: 0;
         padding: 0;
     }
     
-    .post-toc-item {
-        margin: 4px 0;
+    .tree-root {
+        padding-left: 0;
     }
     
-    .post-toc-link {
-        display: block;
-        padding: 6px 10px;
-        font-size: 14px;
-        color: var(--secondary);
-        text-decoration: none;
+    .tree-item {
+        margin: 2px 0;
+    }
+    
+    /* 文件夹 */
+    .tree-folder {
+        border-radius: var(--radius);
+    }
+    
+    .tree-folder-header {
+        display: flex;
+        align-items: center;
+        padding: 6px 8px;
+        cursor: pointer;
         border-radius: var(--radius);
         transition: all var(--transition-fast);
+        user-select: none;
+    }
+    
+    .tree-folder-header:hover {
+        background: var(--code-bg);
+    }
+    
+    .tree-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        margin-right: 6px;
+        flex-shrink: 0;
+    }
+    
+    .tree-icon {
+        width: 16px;
+        height: 16px;
+        transition: transform var(--transition-fast);
+        color: var(--secondary);
+    }
+    
+    .tree-folder.tree-expanded > .tree-folder-header .tree-icon {
+        transform: rotate(90deg);
+    }
+    
+    .tree-icon-spacer {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .tree-folder-name {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--primary);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
     
-    .post-toc-link:hover {
-        color: var(--accent);
-        background: var(--code-bg);
+    /* 当前路径高亮 */
+    .tree-folder.tree-active-branch > .tree-folder-header {
+        background: rgba(var(--accent-rgb, 37, 99, 235), 0.08);
     }
     
-    /* 当前文章高亮 */
-    .post-toc-current > .post-toc-link {
+    .tree-folder.tree-active-branch > .tree-folder-header .tree-folder-name {
         color: var(--accent);
-        font-weight: 500;
-        background: rgba(37, 99, 235, 0.08);
-    }
-    
-    [data-theme="dark"] .post-toc-current > .post-toc-link,
-    .dark .post-toc-current > .post-toc-link {
-        background: rgba(96, 165, 250, 0.12);
+        font-weight: 600;
     }
     
     /* 子目录 */
-    .post-toc-sublist {
-        list-style: none;
-        margin: 4px 0 4px 12px;
-        padding: 0;
-        padding-left: 12px;
+    .tree-children {
+        display: none;
+        padding-left: 16px;
         border-left: 1px solid var(--border);
+        margin-left: 18px;
     }
     
-    .post-toc-subitem {
+    .tree-children.tree-expanded {
+        display: block;
+    }
+    
+    /* 页面列表 */
+    .tree-pages {
+        display: none;
+        list-style: none;
+        padding-left: 26px;
+        margin: 4px 0;
+    }
+    
+    .tree-folder.tree-expanded > .tree-pages {
+        display: block;
+    }
+    
+    .tree-page {
         margin: 2px 0;
     }
     
-    .post-toc-sublink {
+    .tree-link {
         display: block;
-        padding: 4px 8px;
+        padding: 4px 10px;
         font-size: 13px;
         color: var(--secondary);
         text-decoration: none;
@@ -116,9 +169,40 @@
         text-overflow: ellipsis;
     }
     
-    .post-toc-sublink:hover {
+    .tree-link:hover {
         color: var(--accent);
         background: var(--code-bg);
+    }
+    
+    /* 当前页面高亮 */
+    .tree-current > .tree-link {
+        color: var(--accent);
+        font-weight: 500;
+        background: rgba(var(--accent-rgb, 37, 99, 235), 0.1);
+    }
+    
+    /* 层级缩进 */
+    .tree-item[data-level="1"] {
+        margin-left: 8px;
+    }
+    
+    .tree-item[data-level="2"] {
+        margin-left: 16px;
+    }
+    
+    .tree-item[data-level="3"] {
+        margin-left: 24px;
+    }
+    
+    /* 深色模式适配 */
+    [data-theme="dark"] .tree-current > .tree-link,
+    .dark .tree-current > .tree-link {
+        background: rgba(var(--accent-rgb, 96, 165, 250), 0.15);
+    }
+    
+    [data-theme="dark"] .tree-folder.tree-active-branch > .tree-folder-header,
+    .dark .tree-folder.tree-active-branch > .tree-folder-header {
+        background: rgba(var(--accent-rgb, 96, 165, 250), 0.12);
     }
     
     /* 隐藏滚动条但保留功能 */
