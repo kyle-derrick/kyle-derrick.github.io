@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" dir="auto" data-theme="auto">
+<html lang="zh" dir="auto">
 
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,7 +35,7 @@ ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc
 ">
 <meta name="author" content="kyle">
 <link rel="canonical" href="https://Kyle-Derrick.github.io/zh/posts/tech/linux/centos7%E4%BD%BF%E7%94%A8%E9%AB%98%E7%89%88%E6%9C%ACgcc/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.bec1a25820e3b93d5b857316bc0a413e000c90b1c61d0daca92ec1b06f98af99.css" integrity="sha256-vsGiWCDjuT1bhXMWvApBPgAMkLHGHQ2sqS7BsG&#43;Yr5k=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4f92607bebef9246137780e396978a59912fc49d71bcb2c506398aa8ca100b0a.css" integrity="sha256-T5Jge&#43;vvkkYTd4DjlpeKWZEvxJ1xvLLFBjmKqMoQCwo=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://Kyle-Derrick.github.io/img/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://Kyle-Derrick.github.io/img/favicon-16x16.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="https://Kyle-Derrick.github.io/img/favicon-32x32.ico">
@@ -64,38 +64,29 @@ ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc
                 --code-block-bg: rgb(46, 46, 51);
                 --code-bg: rgb(55, 56, 62);
                 --border: rgb(51, 51, 51);
-                color-scheme: dark;
             }
 
             .list {
                 background: var(--theme);
             }
 
-            .toc {
-                background: var(--entry);
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
             }
         }
 
     </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script><meta property="og:url" content="https://Kyle-Derrick.github.io/zh/posts/tech/linux/centos7%E4%BD%BF%E7%94%A8%E9%AB%98%E7%89%88%E6%9C%ACgcc/">
+</noscript><meta property="og:url" content="https://Kyle-Derrick.github.io/zh/posts/tech/linux/centos7%E4%BD%BF%E7%94%A8%E9%AB%98%E7%89%88%E6%9C%ACgcc/">
   <meta property="og:site_name" content="Kyle&#39;s Notebook">
   <meta property="og:title" content="CentOS7 使用高版本gcc">
   <meta property="og:description" content="直接安装 比如：devtoolset-8-gcc-g&#43;&#43; , 或其他版本
 然后通过 如下命令启用并进入对应版本环境：
 1 2 3 scl enable devtoolset-8 bash #或 source /opt/rh/devtoolset-8/enable 如需直接替换：
-1 2 ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc #其他类似">
+1 2 ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc #其他类似 ">
   <meta property="og:locale" content="zh">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -103,13 +94,34 @@ ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc
     <meta property="article:modified_time" content="2025-07-22T22:47:31+08:00">
     <meta property="article:tag" content="Linux">
     <meta property="article:tag" content="CentOS">
-
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="CentOS7 使用高版本gcc">
-  <meta name="twitter:description" content="直接安装 比如：devtoolset-8-gcc-g&#43;&#43; , 或其他版本
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS7 使用高版本gcc">
+<meta name="twitter:description" content="直接安装 比如：devtoolset-8-gcc-g&#43;&#43; , 或其他版本
 然后通过 如下命令启用并进入对应版本环境：
-1 2 3 scl enable devtoolset-8 bash #或 source /opt/rh/devtoolset-8/enable 如需直接替换：
-1 2 ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc #其他类似">
+
+
+1
+2
+3
+
+
+scl enable devtoolset-8 bash
+#或
+source /opt/rh/devtoolset-8/enable
+
+
+如需直接替换：
+
+
+1
+2
+
+
+ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc
+#其他类似
+
+
+">
 
 
 <script type="application/ld+json">
@@ -178,9 +190,20 @@ ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc
 }
 </script>
 </head>
-<body id="top">
-    <header class="header">
-    <nav class="header-nav">
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+</script>
+
+<header class="header">
+    <nav class="nav">
         <div class="logo">
             <a href="https://Kyle-Derrick.github.io/zh/" accesskey="h" title="Kyle&#39;s Notebook (Alt + H)">Kyle&#39;s Notebook</a>
             <div class="logo-switches"><div class="theme-selector" id="theme-selector">
@@ -269,13 +292,13 @@ ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc
 })();
 </script>
 
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -291,7 +314,7 @@ ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc
                 </button>
             </div>
         </div>
-        <ul id="menu" class="menu">
+        <ul id="menu">
             <li>
                 <a href="https://Kyle-Derrick.github.io/zh/search" title="搜索 (Alt &#43; /)" accesskey=/>
                     <span>搜索</span>
@@ -354,14 +377,12 @@ ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc
     <h1 class="post-title entry-hint-parent">
       CentOS7 使用高版本gcc
     </h1>
-    <div class="post-meta">
-
-<span title='2025-07-22 22:47:31 +0800 CST'>2025-07-22</span>&nbsp;·&nbsp;<span>1 分钟</span>&nbsp;·&nbsp;<span>kyle</span>
+    <div class="post-meta"><span title='2025-07-22 22:47:31 +0800 CST'>2025-07-22</span>&nbsp;·&nbsp;1 分钟&nbsp;·&nbsp;kyle
 
 </div>
   </header> 
 
-  <div class="post-content md-content"><p>直接安装 比如：devtoolset-8-gcc-g++ , 或其他版本</p>
+  <div class="post-content"><p>直接安装 比如：devtoolset-8-gcc-g++ , 或其他版本</p>
 <p>然后通过 如下命令启用并进入对应版本环境：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -398,10 +419,12 @@ ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc
 <nav class="paginav">
   <a class="prev" href="https://Kyle-Derrick.github.io/zh/posts/tech/linux/centos7%E6%9C%80%E5%B0%8F%E5%AE%89%E8%A3%85%E5%90%8E%E9%85%8D%E7%BD%AE/">
     <span class="title">« 上一页</span>
+    <br>
     <span>CentOS7最小安装后配置</span>
   </a>
   <a class="next" href="https://Kyle-Derrick.github.io/zh/posts/tech/system_level/%E5%86%85%E5%AD%98%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BC%AA%E8%A3%85%E6%96%87%E4%BB%B6%E6%B5%81/">
     <span class="title">下一页 »</span>
+    <br>
     <span>如何将内存缓冲区伪装成文件流</span>
   </a>
 </nav>
@@ -424,23 +447,16 @@ ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc
 </article>
     </main>
     
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
     </svg>
 </a>
 
 <script>
-    let menu = document.getElementById('menu');
+    let menu = document.getElementById('menu')
     if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
         menu.onscroll = function () {
             localStorage.setItem("menu-scroll-position", menu.scrollLeft);
         }
@@ -467,25 +483,25 @@ ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc
 
 </script>
 <script>
-    var toplink = document.getElementById("top-link");
+    var mybutton = document.getElementById("top-link");
     window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
         } else {
-            toplink.classList.add("hidden");
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
         }
     };
 
 </script>
 <script>
     document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
             localStorage.setItem("pref-theme", 'light');
         } else {
-            html.dataset.theme = 'dark';
+            document.body.classList.add('dark');
             localStorage.setItem("pref-theme", 'dark');
         }
     })
