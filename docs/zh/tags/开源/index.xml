@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>开源 on Kyle&#39;s Notebook</title>
-    <link>http://localhost:58715/zh/tags/%E5%BC%80%E6%BA%90/</link>
+    <link>https://Kyle-Derrick.github.io/zh/tags/%E5%BC%80%E6%BA%90/</link>
     <description>Recent content in 开源 on Kyle&#39;s Notebook</description>
     <generator>Hugo -- 0.147.3</generator>
     <language>zh</language>
     <lastBuildDate>Tue, 22 Jul 2025 23:11:48 +0800</lastBuildDate>
-    <atom:link href="http://localhost:58715/zh/tags/%E5%BC%80%E6%BA%90/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://Kyle-Derrick.github.io/zh/tags/%E5%BC%80%E6%BA%90/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>开源库搜寻记录</title>
-      <link>http://localhost:58715/zh/posts/tech/open_source_favorites/open_source_lib/</link>
+      <link>https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/</link>
       <pubDate>Tue, 22 Jul 2025 23:11:48 +0800</pubDate>
-      <guid>http://localhost:58715/zh/posts/tech/open_source_favorites/open_source_lib/</guid>
+      <guid>https://Kyle-Derrick.github.io/zh/posts/tech/open_source_favorites/open_source_lib/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;主要用于寻找第三方库后做备忘的零散记录，常用库此处不记录&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h1 id=&#34;rust&#34;&gt;Rust&lt;/h1&gt;
